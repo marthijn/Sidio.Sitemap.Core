@@ -1,6 +1,16 @@
-name: dotnet package
+name: build
 
-on: [push]
+on:
+  workflow_dispatch:
+  push:
+      branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+env:
+  DOTNET_NOLOGO: true
 
 jobs:
   build:
@@ -20,9 +30,9 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build
+        run: dotnet build --configuration Release
       - name: Test with dotnet
-        run: dotnet test --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+        run: dotnet test --configuration Release --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
