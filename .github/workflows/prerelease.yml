@@ -23,12 +23,12 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Set VERSION variable from tag
-        run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >>
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
       - name: Install dependencies
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration Release /p:Version=${VERSION}
-      - name: Test with dotnet
+      - name: Test
         run: dotnet test --configuration Release /p:Version=${VERSION} --no-build
       - name: Pack
         run: dotnet pack --configuration Release /p:Version=${VERSION} --output ${{ env.NuGetDirectory }}
