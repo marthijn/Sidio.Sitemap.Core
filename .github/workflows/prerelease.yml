@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "v[0-9]+.[0-9]+.[0-9]+-preview"
+      - "[0-9]+.[0-9]+.[0-9]+-preview"
 
 env:
   DOTNET_NOLOGO: true
@@ -28,7 +28,6 @@ jobs:
       - name: Print release version
         run: |
           echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
       - name: Install dependencies
         run: dotnet restore
       - name: Build
