@@ -7,6 +7,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Authors>Marthijn van den Heuvel</Authors>
     <PackageId>Sitemap.Core</PackageId>
+    <RepositoryUrl>https://github.com/marthijn/Sitemap.Core/</RepositoryUrl>
     <Description>Sitemap.Core is a lightweight .NET library for generating sitemaps. It supports sitemap index files and can be used in any .NET application.</Description>
   </PropertyGroup>
 
