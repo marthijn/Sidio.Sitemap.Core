@@ -11,7 +11,7 @@ public sealed class UrlValidatorTests
         var action = () => new UrlValidator(new InvalidBaseUrlProvider());
 
         // assert
-        action.Should().ThrowExactly<UriFormatException>();
+        action.Should().ThrowExactly<InvalidUrlException>();
     }
 
     [Fact]
@@ -67,29 +67,18 @@ public sealed class UrlValidatorTests
         action.Should().ThrowExactly<InvalidUrlException>();
     }
 
-    [Fact]
-    public void Test()
-    {
-        var absoluteUri = new Uri("https://example.com");
-        var relativeUri = new Uri("/page.html", UriKind.Relative);
-
-        var uri = new Uri(absoluteUri, relativeUri);
-
-        uri.ToString().Should().Be("https://example.com/page.html");
-    }
-
     private sealed class TestBaseUrlProvider : IBaseUrlProvider
     {
-        public Uri BaseUrl => new ("https://example.com");
+        public Uri BaseUrl => new ("https://example.com", UriKind.Absolute);
     }
 
     private sealed class InvalidBaseUrlProvider : IBaseUrlProvider
     {
-        public Uri BaseUrl => new("/example");
+        public Uri BaseUrl => new("/example", UriKind.Relative);
     }
 
     private sealed class InvalidSchemeBaseUrlProvider : IBaseUrlProvider
     {
-        public Uri BaseUrl => new("ftp://example.com");
+        public Uri BaseUrl => new("ftp://example.com", UriKind.Absolute);
     }
 }

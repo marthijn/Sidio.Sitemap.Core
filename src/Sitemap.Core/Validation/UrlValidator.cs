@@ -51,6 +51,6 @@ internal sealed class UrlValidator
             throw new InvalidUrlException(uri, _baseUri, "The base URL cannot be null because the given URL is relative.");
         }
 
-        return new Uri(_baseUri, uri);
+        return new Uri(_baseUri, new Uri(uri.ToString(), UriKind.Relative));
     }
 }
