@@ -67,6 +67,19 @@ public sealed class UrlValidatorTests
         action.Should().ThrowExactly<InvalidUrlException>();
     }
 
+    [Fact]
+    public void Test()
+    {
+        var url = "/page.html";
+        var relativeUri = new Uri(url, UriKind.Relative);
+
+        var baseUrl = new Uri("https://example.com", UriKind.Absolute);
+
+        var result = new Uri(baseUrl, relativeUri);
+
+        result.ToString().Should().Be("https://example.com/page.html");
+    }
+
     private sealed class TestBaseUrlProvider : IBaseUrlProvider
     {
         public Uri BaseUrl => new ("https://example.com", UriKind.Absolute);
