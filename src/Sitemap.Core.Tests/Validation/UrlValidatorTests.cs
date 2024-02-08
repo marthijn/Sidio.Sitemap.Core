@@ -53,6 +53,21 @@ public sealed class UrlValidatorTests
         result.ToString().Should().Be("https://example.com/sitemap.xml");
     }
 
+    [Theory]
+    [InlineData("/")]
+    [InlineData("")]
+    public void Validate_WithEmptyRelativeUrl_ReturnsUri(string url)
+    {
+        // arrange
+        var validator = new UrlValidator(new TestBaseUrlProvider());
+
+        // act
+        var result = validator.Validate(url);
+
+        // assert
+        result.ToString().Should().Be("https://example.com/");
+    }
+
     [Fact]
     public void Validate_WithRelativeUrlAndEmptyBaseUrl_ThrowException()
     {

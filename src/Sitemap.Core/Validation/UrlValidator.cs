@@ -29,11 +29,11 @@ internal sealed class UrlValidator
     /// <returns></returns>
     /// <exception cref="ArgumentException">Thrown when an argument is invalid.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the URL is relative but the base URL is empty.</exception>
-    public Uri Validate(string url)
+    public Uri Validate(string? url)
     {
-        if (string.IsNullOrWhiteSpace(url))
+        if (url == null)
         {
-            throw new ArgumentException("The URL cannot be null or empty.", nameof(url));
+            throw new ArgumentException("The URL cannot be null.", nameof(url));
         }
 
         var tmpUrl = EnsureRelativeUrl(url);
