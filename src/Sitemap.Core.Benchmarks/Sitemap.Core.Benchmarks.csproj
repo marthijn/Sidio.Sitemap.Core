@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Sitemap.Core\Sitemap.Core.csproj" />
+      <ProjectReference Include="..\Sitemap.Core\Sitemap.Core.csproj" />
     </ItemGroup>
 
 </Project>

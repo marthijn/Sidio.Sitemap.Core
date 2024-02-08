@@ -5,9 +5,9 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitemap.Core", "src\Sitemap.Core\Sitemap.Core.csproj", "{1829E4C1-FDE8-4A79-BD3E-E38F347CDE9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitemap.Core.Tests", "tests\Sitemap.Core.Tests\Sitemap.Core.Tests.csproj", "{52C32096-862F-4E38-A1F6-48619D230E81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitemap.Core.Tests", "src\Sitemap.Core.Tests\Sitemap.Core.Tests.csproj", "{52C32096-862F-4E38-A1F6-48619D230E81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitemap.Core.Benchmarks", "benchmarks\Sitemap.Core.Benchmarks\Sitemap.Core.Benchmarks.csproj", "{D39668B4-D826-4BA6-B318-88A8F9868BD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitemap.Core.Benchmarks", "src\Sitemap.Core.Benchmarks\Sitemap.Core.Benchmarks.csproj", "{D39668B4-D826-4BA6-B318-88A8F9868BD8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{C0BA8CBE-7403-42A3-9FEF-AA5529328B92}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,7 +25,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{7B4F48E2-780A-45FF-8FB2-80E8D13F2C02}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yml = .github\workflows\build.yml
-		.github\workflows\prerelease.yml = .github\workflows\prerelease.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
