@@ -36,12 +36,13 @@ internal sealed class UrlValidator
             throw new ArgumentException("The URL cannot be null or empty.", nameof(url));
         }
 
-        if (Uri.TryCreate(url, UriKind.Absolute, out var absoluteUri))
+        var tmpUrl = EnsureRelativeUrl(url);
+        if (Uri.TryCreate(tmpUrl, UriKind.Absolute, out var absoluteUri))
         {
             return absoluteUri;
         }
 
-        if (!Uri.TryCreate(url, UriKind.Relative, out var uri))
+        if (!Uri.TryCreate(tmpUrl, UriKind.Relative, out var uri))
         {
             throw new InvalidUrlException(uri, _baseUri, "The URL is not a valid absolute or relative URL.");
         }
@@ -52,5 +53,21 @@ internal sealed class UrlValidator
         }
 
         return new Uri(_baseUri, new Uri(uri.ToString(), UriKind.Relative));
+    }
+
+    private static string? EnsureRelativeUrl(string? url)
+    {
+        // fix for this issue on Ubuntu: https://github.com/dotnet/runtime/issues/22718
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return url;
+        }
+
+        if (url.StartsWith("/", StringComparison.Ordinal))
+        {
+            return url.Length > 1 ? url[1..] : string.Empty;
+        }
+
+        return url;
     }
 }

@@ -67,21 +67,6 @@ public sealed class UrlValidatorTests
         action.Should().ThrowExactly<InvalidUrlException>();
     }
 
-    [Fact]
-    public void Test()
-    {
-        var url = "/sitemap.xml";
-        Uri.TryCreate(url, UriKind.Relative, out var relativeUri).Should().BeTrue();
-
-        Uri.TryCreate(url, UriKind.Absolute, out var absoluteUri).Should().BeFalse();
-
-        var baseUrl = new Uri("https://example.com", UriKind.Absolute);
-
-        var result = new Uri(baseUrl, relativeUri);
-
-        result.ToString().Should().Be("https://example.com/sitemap.xml");
-    }
-
     private sealed class TestBaseUrlProvider : IBaseUrlProvider
     {
         public Uri BaseUrl => new ("https://example.com", UriKind.Absolute);
