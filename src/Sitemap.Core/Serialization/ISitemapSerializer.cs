@@ -1,5 +1,8 @@
 ﻿namespace Sitemap.Core.Serialization;
 
+/// <summary>
+/// The site map serializer interface.
+/// </summary>
 public interface ISitemapSerializer
 {
     /// <summary>
