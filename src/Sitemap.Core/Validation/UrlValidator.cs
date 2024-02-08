@@ -2,27 +2,23 @@
 
 internal sealed class UrlValidator
 {
-    private readonly IBaseUrlProvider? _baseUrlProvider;
-
     private readonly Uri? _baseUri;
 
     public UrlValidator(IBaseUrlProvider? baseUrlProvider = null)
     {
-        _baseUrlProvider = baseUrlProvider;
-
-        if (_baseUrlProvider is not null)
+        if (baseUrlProvider is not null)
         {
-            if (!_baseUrlProvider.BaseUrl.IsAbsoluteUri)
+            if (!baseUrlProvider.BaseUrl.IsAbsoluteUri)
             {
-                throw new InvalidUrlException(null, _baseUrlProvider.BaseUrl, "The base URL is not a valid absolute URL.");
+                throw new InvalidUrlException(null, baseUrlProvider.BaseUrl, "The base URL is not a valid absolute URL.");
             }
 
-            if (_baseUrlProvider.BaseUrl.Scheme != Uri.UriSchemeHttp && _baseUrlProvider.BaseUrl.Scheme != Uri.UriSchemeHttps)
+            if (baseUrlProvider.BaseUrl.Scheme != Uri.UriSchemeHttp && baseUrlProvider.BaseUrl.Scheme != Uri.UriSchemeHttps)
             {
-                throw new InvalidUrlException(null, _baseUrlProvider.BaseUrl, "The base URL scheme must be HTTP or HTTPS.");
+                throw new InvalidUrlException(null, baseUrlProvider.BaseUrl, "The base URL scheme must be HTTP or HTTPS.");
             }
 
-            _baseUri = _baseUrlProvider.BaseUrl;
+            _baseUri = baseUrlProvider.BaseUrl;
         }
     }
 
@@ -47,12 +43,12 @@ internal sealed class UrlValidator
 
         if (!Uri.TryCreate(url, UriKind.Relative, out var uri))
         {
-            throw new InvalidUrlException(uri, _baseUrlProvider?.BaseUrl, "The URL is not a valid absolute or relative URL.");
+            throw new InvalidUrlException(uri, _baseUri, "The URL is not a valid absolute or relative URL.");
         }
 
-        if (_baseUrlProvider is null || _baseUri is null)
+        if ( _baseUri is null)
         {
-            throw new InvalidUrlException(uri, _baseUrlProvider?.BaseUrl, "The base URL provider cannot be null because the given URL is relative.");
+            throw new InvalidUrlException(uri, _baseUri, "The base URL cannot be null because the given URL is relative.");
         }
 
         return new Uri(_baseUri, uri);
