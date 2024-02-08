@@ -8,5 +8,5 @@ public interface IBaseUrlProvider
     /// <summary>
     /// Gets the base URL.
     /// </summary>
-    string BaseUrl { get; }
+    Uri BaseUrl { get; }
 }

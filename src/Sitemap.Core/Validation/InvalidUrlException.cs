@@ -11,7 +11,7 @@ public class InvalidUrlException : Exception
     /// <param name="url">The URL.</param>
     /// <param name="baseUrl">The base URL.</param>
     /// <param name="message">The exception message.</param>
-    public InvalidUrlException(Uri? url, string? baseUrl, string? message)
+    public InvalidUrlException(Uri? url, Uri? baseUrl, string? message)
         : base(message)
     {
         Url = url;
@@ -26,5 +26,5 @@ public class InvalidUrlException : Exception
     /// <summary>
     /// Gets the base URL.
     /// </summary>
-    public string? BaseUrl { get; }
+    public Uri? BaseUrl { get; }
 }

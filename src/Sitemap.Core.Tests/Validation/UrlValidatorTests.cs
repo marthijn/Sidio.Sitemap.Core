@@ -11,7 +11,7 @@ public sealed class UrlValidatorTests
         var action = () => new UrlValidator(new InvalidBaseUrlProvider());
 
         // assert
-        action.Should().ThrowExactly<InvalidUrlException>();
+        action.Should().ThrowExactly<UriFormatException>();
     }
 
     [Fact]
@@ -69,16 +69,16 @@ public sealed class UrlValidatorTests
 
     private sealed class TestBaseUrlProvider : IBaseUrlProvider
     {
-        public string BaseUrl => "https://example.com";
+        public Uri BaseUrl => new ("https://example.com");
     }
 
     private sealed class InvalidBaseUrlProvider : IBaseUrlProvider
     {
-        public string BaseUrl => "/example";
+        public Uri BaseUrl => new("/example");
     }
 
     private sealed class InvalidSchemeBaseUrlProvider : IBaseUrlProvider
     {
-        public string BaseUrl => "ftp://example.com";
+        public Uri BaseUrl => new("ftp://example.com");
     }
 }
