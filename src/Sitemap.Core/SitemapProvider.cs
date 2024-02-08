@@ -5,7 +5,7 @@ namespace Sitemap.Core;
 /// <summary>
 /// The sitemap provider.
 /// </summary>
-public sealed class SitemapProvider
+public class SitemapProvider : ISitemapSerializableAsync
 {
     private readonly ISitemapSerializer _serializer;
 
@@ -14,8 +14,9 @@ public sealed class SitemapProvider
     /// The default serializer is <see cref="XmlSerializer"/>.
     /// </summary>
     /// <param name="sitemap">The sitemap.</param>
-    public SitemapProvider(Sitemap sitemap)
-        : this(sitemap, new XmlSerializer())
+    /// <param name="baseUrlProvider">The base URL provider. When no provider is given, al the URLs in the sitemap must be absolute.</param>
+    public SitemapProvider(Sitemap sitemap, IBaseUrlProvider? baseUrlProvider = null)
+        : this(sitemap, new XmlSerializer(baseUrlProvider))
     {
     }
 
@@ -35,20 +36,13 @@ public sealed class SitemapProvider
     /// </summary>
     public Sitemap Sitemap { get; }
 
-    /// <summary>
-    /// Serializes the sitemap to a string.
-    /// </summary>
-    /// <returns>A <see cref="string"/> representing the sitemap.</returns>
+    /// <inheritdoc />
     public string Serialize()
     {
         return _serializer.Serialize(Sitemap);
     }
 
-    /// <summary>
-    /// Serializes the sitemap to a string asynchronously.
-    /// </summary>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A <see cref="string"/> representing the sitemap.</returns>
+    /// <inheritdoc />
     public Task<string> SerializeAsync(CancellationToken cancellationToken = default)
     {
         return _serializer.SerializeAsync(Sitemap, cancellationToken);

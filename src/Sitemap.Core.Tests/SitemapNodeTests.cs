@@ -38,19 +38,6 @@ public sealed class SitemapNodeTests
         sitemapNodeAction.Should().ThrowExactly<ArgumentNullException>();
     }
 
-    [Theory]
-    [InlineData("//example.com")]
-    [InlineData("ttp://example.com")]
-    [InlineData("htt://example.com")]
-    public void Construct_UrlDoesNotStartWithHttp_ThrowException(string url)
-    {
-        // act
-        var sitemapNodeAction = () => new SitemapNode(url);
-
-        // assert
-        sitemapNodeAction.Should().ThrowExactly<ArgumentException>();
-    }
-
     [Fact]
     public void Construct_MaximumUrlLength_DoesNotThrowException()
     {

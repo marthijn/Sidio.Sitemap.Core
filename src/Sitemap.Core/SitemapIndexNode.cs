@@ -10,8 +10,13 @@ public sealed record SitemapIndexNode
     /// </summary>
     /// <param name="url">The location of the sitemap.</param>
     /// <param name="lastModified">Identifies the time that the corresponding Sitemap file was modified.</param>
-    public SitemapIndexNode(string url, DateTime? lastModified = null)
+    public SitemapIndexNode(string? url, DateTime? lastModified = null)
     {
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            throw new ArgumentNullException(nameof(url));
+        }
+
         Url = url;
         LastModified = lastModified;
     }

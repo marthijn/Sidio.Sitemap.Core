@@ -5,7 +5,7 @@ namespace Sitemap.Core;
 /// <summary>
 /// The sitemap index provider.
 /// </summary>
-public sealed class SitemapIndexProvider
+public class SitemapIndexProvider : ISitemapSerializable
 {
     private readonly ISitemapSerializer _serializer;
 
@@ -13,8 +13,9 @@ public sealed class SitemapIndexProvider
     /// Initializes a new instance of the <see cref="SitemapIndexProvider"/> class.
     /// </summary>
     /// <param name="sitemapIndex">The sitemap index.</param>
-    public SitemapIndexProvider(SitemapIndex sitemapIndex)
-        : this(sitemapIndex, new XmlSerializer())
+    /// <param name="baseUrlProvider">The base URL provider. When no provider is given, al the URLs in the sitemap index must be absolute.</param>
+    public SitemapIndexProvider(SitemapIndex sitemapIndex, IBaseUrlProvider? baseUrlProvider = null)
+        : this(sitemapIndex, new XmlSerializer(baseUrlProvider))
     {
     }
 
@@ -34,10 +35,7 @@ public sealed class SitemapIndexProvider
     /// </summary>
     public SitemapIndex SitemapIndex { get; }
 
-    /// <summary>
-    /// Serializes the sitemap index to a string.
-    /// </summary>
-    /// <returns>A <see cref="string"/> representing the sitemap index.</returns>
+    /// <inheritdoc />
     public string Serialize()
     {
         return _serializer.Serialize(SitemapIndex);

@@ -6,6 +6,7 @@ Sitemap.Core is a lightweight .NET library for generating [sitemaps](https://www
 ![NuGet Version](https://img.shields.io/nuget/v/Sitemap.Core)
 
 # Installation
+Add [the package](https://www.nuget.org/packages/Sitemap.Core/) to your project.
 
 # Usage
 
