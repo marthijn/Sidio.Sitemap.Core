@@ -73,6 +73,8 @@ public sealed class UrlValidatorTests
         var url = "/sitemap.xml";
         Uri.TryCreate(url, UriKind.Relative, out var relativeUri).Should().BeTrue();
 
+        Uri.TryCreate(url, UriKind.Absolute, out var absoluteUri).Should().BeFalse();
+
         var baseUrl = new Uri("https://example.com", UriKind.Absolute);
 
         var result = new Uri(baseUrl, relativeUri);
