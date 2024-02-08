@@ -1,5 +1,8 @@
 ﻿namespace Sitemap.Core;
 
+/// <summary>
+/// The sitemap index.
+/// </summary>
 public sealed class SitemapIndex
 {
     private readonly List<SitemapIndexNode> _nodes = new ();
