@@ -53,14 +53,6 @@ public sealed class XmlSerializer : ISitemapSerializer
     }
 
     /// <inheritdoc />
-    public void Serialize(Sitemap sitemap, Stream output)
-    {
-        using var xmlWriter = XmlWriter.Create(output, Settings);
-        SerializeSitemap(xmlWriter, sitemap);
-        xmlWriter.Close();
-    }
-
-    /// <inheritdoc />
     public string Serialize(SitemapIndex sitemapIndex)
     {
         using var stringWriter = new Utf8StringWriter();

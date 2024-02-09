@@ -21,13 +21,6 @@ public interface ISitemapSerializer
     Task<string> SerializeAsync(Sitemap sitemap, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Serializes the specified sitemap to a stream.
-    /// </summary>
-    /// <param name="sitemap">The sitemap.</param>
-    /// <param name="output">The output stream.</param>
-    void Serialize(Sitemap sitemap, Stream output);
-
-    /// <summary>
     /// Serializes the specified sitemap index.
     /// </summary>
     /// <param name="sitemapIndex"></param>
