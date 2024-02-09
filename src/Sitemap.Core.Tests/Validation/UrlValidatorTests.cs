@@ -82,6 +82,50 @@ public sealed class UrlValidatorTests
         action.Should().ThrowExactly<InvalidUrlException>();
     }
 
+    [Fact]
+    public void Construct_MaximumUrlLength_DoesNotThrowException()
+    {
+        // arrange
+        var url = "https://example.com/";
+        url += string.Join(string.Empty, Enumerable.Range(0, UrlValidator.UrlMaxLength - url.Length).Select(_ => 'a'));
+        var validator = new UrlValidator();
+
+        // act
+        var action = () => validator.Validate(url);
+
+        // assert
+        action.Should().NotThrow();
+    }
+
+    [Fact]
+    public void Construct_UrlTooLong_ThrowException()
+    {
+        // arrange
+        var url = "https://example.com/";
+        url += string.Join(string.Empty, Enumerable.Range(0, UrlValidator.UrlMaxLength - url.Length + 1).Select(_ => 'a'));
+        var validator = new UrlValidator();
+
+        // act
+        var action = () => validator.Validate(url);
+
+        // assert
+        action.Should().ThrowExactly<InvalidUrlException>().WithMessage($"*{UrlValidator.UrlMaxLength}*");
+    }
+
+    [Fact]
+    public void Construct_WithBaseUrlProviderUrlTooLong_ThrowException()
+    {
+        // arrange
+        var url = string.Join(string.Empty, Enumerable.Range(0, UrlValidator.UrlMaxLength).Select(_ => 'a'));
+        var validator = new UrlValidator(new TestBaseUrlProvider());
+
+        // act
+        var action = () => validator.Validate(url);
+
+        // assert
+        action.Should().ThrowExactly<InvalidUrlException>().WithMessage($"*{UrlValidator.UrlMaxLength}*");
+    }
+
     private sealed class TestBaseUrlProvider : IBaseUrlProvider
     {
         public Uri BaseUrl => new ("https://example.com", UriKind.Absolute);

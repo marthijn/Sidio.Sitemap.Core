@@ -2,6 +2,11 @@
 
 internal sealed class UrlValidator
 {
+    /// <summary>
+    /// The URL value must be less than 2,048 characters.
+    /// </summary>
+    internal const int UrlMaxLength = 2047;
+
     private readonly Uri? _baseUri;
 
     public UrlValidator(IBaseUrlProvider? baseUrlProvider = null)
@@ -23,7 +28,7 @@ internal sealed class UrlValidator
     }
 
     /// <summary>
-    /// Validates a URL.
+    /// Validates a URL, and returns an absolute URI.
     /// </summary>
     /// <param name="url">The url.</param>
     /// <returns></returns>
@@ -39,6 +44,11 @@ internal sealed class UrlValidator
         var tmpUrl = EnsureRelativeUrl(url);
         if (Uri.TryCreate(tmpUrl, UriKind.Absolute, out var absoluteUri))
         {
+            if (absoluteUri.ToString().Length > UrlMaxLength)
+            {
+                throw new InvalidUrlException(absoluteUri, _baseUri, $"{nameof(url)} exceeds the maximum length of {UrlMaxLength} characters.");
+            }
+
             return absoluteUri;
         }
 
@@ -52,7 +62,14 @@ internal sealed class UrlValidator
             throw new InvalidUrlException(uri, _baseUri, "The base URL cannot be null because the given URL is relative.");
         }
 
-        return new Uri(_baseUri, new Uri(uri.ToString(), UriKind.Relative));
+        var result = new Uri(_baseUri, new Uri(uri.ToString(), UriKind.Relative));
+
+        if (result.ToString().Length > UrlMaxLength)
+        {
+            throw new InvalidUrlException(absoluteUri, _baseUri, $"{nameof(url)} exceeds the maximum length of {UrlMaxLength} characters.");
+        }
+
+        return result;
     }
 
     private static string? EnsureRelativeUrl(string? url)

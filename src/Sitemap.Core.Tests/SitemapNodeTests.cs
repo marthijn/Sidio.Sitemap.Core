@@ -38,34 +38,6 @@ public sealed class SitemapNodeTests
         sitemapNodeAction.Should().ThrowExactly<ArgumentNullException>();
     }
 
-    [Fact]
-    public void Construct_MaximumUrlLength_DoesNotThrowException()
-    {
-        // arrange
-        var url = "https://";
-        url += string.Join(string.Empty, Enumerable.Range(0, SitemapNode.UrlMaxLength - url.Length).Select(_ => 'a'));
-
-        // act
-        var sitemapNodeAction = () => new SitemapNode(url);
-
-        // assert
-        sitemapNodeAction.Should().NotThrow();
-    }
-
-    [Fact]
-    public void Construct_UrlTooLong_ThrowException()
-    {
-        // arrange
-        var url = "https://";
-        url += string.Join(string.Empty, Enumerable.Range(0, SitemapNode.UrlMaxLength - url.Length + 1).Select(_ => 'a'));
-
-        // act
-        var sitemapNodeAction = () => new SitemapNode(url);
-
-        // assert
-        sitemapNodeAction.Should().ThrowExactly<ArgumentException>().WithMessage($"*{SitemapNode.UrlMaxLength}*");
-    }
-
     [Theory]
     [InlineData(-0.001)]
     [InlineData(1.001)]

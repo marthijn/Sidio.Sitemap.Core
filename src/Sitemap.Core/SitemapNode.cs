@@ -5,11 +5,6 @@
 /// </summary>
 public sealed record SitemapNode
 {
-    /// <summary>
-    /// The URL value must be less than 2,048 characters.
-    /// </summary>
-    internal const int UrlMaxLength = 2047;
-
     private decimal? _priority;
 
     /// <summary>
@@ -26,11 +21,6 @@ public sealed record SitemapNode
         if (string.IsNullOrWhiteSpace(url))
         {
             throw new ArgumentNullException(nameof(url));
-        }
-
-        if (url.Length > UrlMaxLength)
-        {
-            throw new ArgumentException($"{nameof(url)} exceeds the maximum length of {UrlMaxLength} characters.", nameof(url));
         }
 
         Url = url;
