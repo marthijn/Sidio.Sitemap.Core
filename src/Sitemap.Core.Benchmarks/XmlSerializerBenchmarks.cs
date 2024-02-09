@@ -1,8 +1,10 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using BenchmarkDotNet.Attributes;
 using Sitemap.Core.Serialization;
 
 namespace Sitemap.Core.Benchmarks;
 
+[ExcludeFromCodeCoverage]
 public class XmlSerializerBenchmarks
 {
     [Params(10, 100, 40000)]

@@ -9,6 +9,57 @@ Sitemap.Core is a lightweight .NET library for generating [sitemaps](https://www
 Add [the package](https://www.nuget.org/packages/Sitemap.Core/) to your project.
 
 # Usage
+## Sitemap
+```csharp
+var nodes = new List<SitemapNode> { new ("https://example.com/page.html") };
+var sitemap = new Sitemap(nodes);
+var service = new SitemapService(new XmlSerializer());
+var xmlResult = service.Serialize();
+```
+
+## Sitemap index
+```csharp
+var sitemapIndexNodes = new List<SitemapIndexNode> { new("https://example.com/sitemap-1.xml") };
+var sitemapIndex = new SitemapIndex(sitemapIndexNodes);
+var service = new SitemapIndexService(new XmlSerializer());
+var xmlResult = service.Serialize();
+```
+
+## Dependency injection
+```csharp
+// DI setup
+services.AddDefaultSitemapServices();
+
+// implementation
+public class MyClass()
+{
+    public MyClass(ISitemapService service)
+    {
+        var nodes = new List<SitemapNode> { new ("https://example.com/page.html") };
+        var sitemap = new Sitemap(nodes);
+        var xmlResult = service.Serialize();
+    }
+}    
+```
+
+## Working with relative URLs
+```csharp
+public class MyBaseUrlProvider : IBaseUrlProvider
+{
+    public Uri BaseUrl => new ("https://example.com", UriKind.Absolute);
+}
+
+// DI setup
+services.AddBaseUrlProvider<MyBaseUrlProvider>();
+services.AddDefaultSitemapServices();
+
+// regular setup
+var serializer = new XmlSerializer(new MyBaseUrlProvider());
+var service = new SitemapService(serializer);
+
+// nodes, relative urls
+var nodes = new List<SitemapNode> { new ("page.html") };
+```
 
 # Benchmarks XmlSerializer sync/async
 ```
@@ -21,16 +72,14 @@ AMD Ryzen 7 5800H with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
 
 
 ```
-| Method         | NumberOfNodes | Mean         | Error      | StdDev     | Median       |
-|--------------- |-------------- |-------------:|-----------:|-----------:|-------------:|
-| **Serialize**      | **10**            |     **2.116 μs** |  **0.0423 μs** |  **0.1186 μs** |     **2.069 μs** |
-| SerializeAsync | 10            |     3.084 μs |  0.0617 μs |  0.1478 μs |     3.005 μs |
-| **Serialize**      | **100**           |    **14.535 μs** |  **0.2853 μs** |  **0.2669 μs** |    **14.539 μs** |
-| SerializeAsync | 100           |    23.972 μs |  0.4581 μs |  0.4704 μs |    23.928 μs |
-| **Serialize**      | **40000**         | **6,638.247 μs** | **81.9893 μs** | **72.6814 μs** | **6,621.218 μs** |
-| SerializeAsync | 40000         | 6,786.160 μs | 41.9065 μs | 37.1491 μs | 6,788.726 μs |
-
-
+| Method         | NumberOfNodes | Mean          | Error       | StdDev      |
+|--------------- |-------------- |--------------:|------------:|------------:|
+| **Serialize**      | **10**            |      **4.316 μs** |   **0.0825 μs** |   **0.0772 μs** |
+| SerializeAsync | 10            |      5.367 μs |   0.0769 μs |   0.0681 μs |
+| **Serialize**      | **100**           |     **33.616 μs** |   **0.1583 μs** |   **0.1480 μs** |
+| SerializeAsync | 100           |     41.328 μs |   0.3361 μs |   0.3144 μs |
+| **Serialize**      | **40000**         | **19,396.188 μs** | **380.0968 μs** | **568.9109 μs** |
+| SerializeAsync | 40000         | 20,183.385 μs | 399.3607 μs | 644.8931 μs |
 
 # References
 - [Sitemap protocol](https://www.sitemaps.org/protocol.html)
