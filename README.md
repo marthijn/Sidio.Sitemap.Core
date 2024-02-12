@@ -9,6 +9,7 @@ Sitemap.Core is a lightweight .NET library for generating [sitemaps](https://www
 Add [the package](https://www.nuget.org/packages/Sitemap.Core/) to your project.
 
 # Usage
+_Looking for ASP.NET Core integration, see [Sitemap.AspNetCore](https://github.com/marthijn/Sitemap.AspNetCore)._
 ## Sitemap
 ```csharp
 var nodes = new List<SitemapNode> { new ("https://example.com/page.html") };
