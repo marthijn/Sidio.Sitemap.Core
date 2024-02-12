@@ -20,6 +20,7 @@ public sealed class SitemapIndex
     /// <param name="nodes">The index nodes.</param>
     public SitemapIndex(IEnumerable<SitemapIndexNode> nodes)
     {
+        ArgumentNullException.ThrowIfNull(nodes);
         _nodes.AddRange(nodes);
     }
 
@@ -34,6 +35,7 @@ public sealed class SitemapIndex
     /// <param name="nodes">The nodes.</param>
     public void Add(params SitemapIndexNode[] nodes)
     {
+        ArgumentNullException.ThrowIfNull(nodes);
         Add(nodes.AsEnumerable());
     }
 
@@ -43,6 +45,7 @@ public sealed class SitemapIndex
     /// <param name="nodes">The nodes.</param>
     public void Add(IEnumerable<SitemapIndexNode> nodes)
     {
+        ArgumentNullException.ThrowIfNull(nodes);
         _nodes.AddRange(nodes);
     }
 }

@@ -23,6 +23,7 @@ public sealed class Sitemap
     /// <exception cref="InvalidOperationException">Thrown when the number of nodes exceeds the maximum number of nodes.</exception>
     public Sitemap(IEnumerable<SitemapNode> nodes)
     {
+        ArgumentNullException.ThrowIfNull(nodes);
         _nodes.AddRange(nodes);
         ValidateNumberOfNodes();
     }
@@ -39,6 +40,7 @@ public sealed class Sitemap
     /// <exception cref="InvalidOperationException">Thrown when the number of nodes exceeds the maximum number of nodes.</exception>
     public void Add(params SitemapNode[] nodes)
     {
+        ArgumentNullException.ThrowIfNull(nodes);
         Add(nodes.AsEnumerable());
     }
 
@@ -49,6 +51,7 @@ public sealed class Sitemap
     /// <exception cref="InvalidOperationException">Thrown when the number of nodes exceeds the maximum number of nodes.</exception>
     public void Add(IEnumerable<SitemapNode> nodes)
     {
+        ArgumentNullException.ThrowIfNull(nodes);
         _nodes.AddRange(nodes);
         ValidateNumberOfNodes();
     }
