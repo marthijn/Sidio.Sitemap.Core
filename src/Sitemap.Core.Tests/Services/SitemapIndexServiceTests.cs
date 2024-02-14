@@ -18,4 +18,18 @@ public sealed class SitemapIndexServiceTests
         // assert
         result.Should().NotBeNullOrEmpty();
     }
+
+    [Fact]
+    public async Task SerializeAsync_ReturnsSerializedSitemapIndex()
+    {
+        // arrange
+        var sitemap = new SitemapIndex();
+        var sitemapProvider = new SitemapIndexService(new XmlSerializer());
+
+        // act
+        var result = await sitemapProvider.SerializeAsync(sitemap);
+
+        // assert
+        result.Should().NotBeNullOrEmpty();
+    }
 }

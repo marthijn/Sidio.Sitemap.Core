@@ -86,4 +86,25 @@ public sealed class XmlSerializerTests
         result.Should().Be(
             $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><sitemap><loc>https://example.com/sitemap1.xml</loc><lastmod>{now:yyyy-MM-dd}</lastmod></sitemap><sitemap><loc>https://example.com/sitemap2.xml</loc><lastmod>{now:yyyy-MM-dd}</lastmod></sitemap></sitemapindex>");
     }
+
+    [Fact]
+    public async Task SerializeAsync_WithSitemapIndex_ReturnsXml()
+    {
+        // arrange
+        var now = DateTime.UtcNow;
+        var siteMapIndex = new SitemapIndex(new List<SitemapIndexNode>
+                                                {
+                                                    new("https://example.com/sitemap1.xml", now),
+                                                    new("https://example.com/sitemap2.xml", now),
+                                                });
+        var serializer = new XmlSerializer();
+
+        // act
+        var result = await serializer.SerializeAsync(siteMapIndex);
+
+        // assert
+        result.Should().NotBeNull();
+        result.Should().Be(
+            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><sitemap><loc>https://example.com/sitemap1.xml</loc><lastmod>{now:yyyy-MM-dd}</lastmod></sitemap><sitemap><loc>https://example.com/sitemap2.xml</loc><lastmod>{now:yyyy-MM-dd}</lastmod></sitemap></sitemapindex>");
+    }
 }

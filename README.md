@@ -62,7 +62,7 @@ var service = new SitemapService(serializer);
 var nodes = new List<SitemapNode> { new ("page.html") };
 ```
 
-# Benchmarks XmlSerializer sync/async
+# Benchmarks XmlSerializer sync/async (Sitemap)
 ```
 
 BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)

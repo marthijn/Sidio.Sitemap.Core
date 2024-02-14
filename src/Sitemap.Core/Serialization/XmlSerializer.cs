@@ -64,6 +64,12 @@ public sealed class XmlSerializer : ISitemapSerializer
         return result;
     }
 
+    /// <inheritdoc />
+    public Task<string> SerializeAsync(SitemapIndex sitemapIndex, CancellationToken cancellationToken = default)
+    {
+        return Task.Run(() => Serialize(sitemapIndex), cancellationToken);
+    }
+
     private static XmlWriterSettings Settings =>
         new ()
             {

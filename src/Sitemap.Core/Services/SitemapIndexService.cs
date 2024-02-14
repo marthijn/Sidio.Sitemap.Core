@@ -25,4 +25,11 @@ public sealed class SitemapIndexService : ISitemapIndexService
         ArgumentNullException.ThrowIfNull(sitemapIndex);
         return _serializer.Serialize(sitemapIndex);
     }
+
+    /// <inheritdoc />
+    public Task<string> SerializeAsync(SitemapIndex sitemapIndex, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(sitemapIndex);
+        return _serializer.SerializeAsync(sitemapIndex, cancellationToken);
+    }
 }
