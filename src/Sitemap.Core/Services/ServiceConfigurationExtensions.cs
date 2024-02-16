@@ -22,6 +22,22 @@ public static class ServiceConfigurationExtensions
     }
 
     /// <summary>
+    /// Adds the sitemap services to the service collection with the default <see cref="XmlSerializer"/>, and an <see cref="IBaseUrlProvider"/> type.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <typeparam name="T">The base URL provider type.</typeparam>
+    /// <returns>The <see cref="IServiceCollection"/>.</returns>
+    public static IServiceCollection AddDefaultSitemapServices<T>(this IServiceCollection services)
+        where T : class, IBaseUrlProvider
+    {
+        services.AddBaseUrlProvider<T>();
+        services.AddScoped<ISitemapSerializer, XmlSerializer>(s => new XmlSerializer(s.GetService<IBaseUrlProvider>()));
+        services.AddScoped<ISitemapService, SitemapService>();
+        services.AddScoped<ISitemapIndexService, SitemapIndexService>();
+        return services;
+    }
+
+    /// <summary>
     /// Adds the sitemap services to the service collection without any implementation of <see cref="ISitemapSerializer"/>.
     /// Call <see cref="AddSitemapSerializer{T}(IServiceCollection)"/> to add a serializer.
     /// </summary>

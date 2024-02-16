@@ -53,6 +53,8 @@ public class MyBaseUrlProvider : IBaseUrlProvider
 // DI setup
 services.AddBaseUrlProvider<MyBaseUrlProvider>();
 services.AddDefaultSitemapServices();
+// or in one function:
+services.AddDefaultSitemapServices<MyBaseUrlProvider>();
 
 // regular setup
 var serializer = new XmlSerializer(new MyBaseUrlProvider());

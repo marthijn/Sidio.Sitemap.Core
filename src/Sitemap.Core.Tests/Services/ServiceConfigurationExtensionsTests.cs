@@ -22,6 +22,22 @@ public sealed class ServiceConfigurationExtensionsTests
     }
 
     [Fact]
+    public void AddDefaultSitemapServices_WithBaseUrlProvider_ServicesAdded()
+    {
+        // arrange
+        var services = new ServiceCollection();
+
+        // act
+        var result = services.AddDefaultSitemapServices<MyBaseUrlProvider>();
+
+        // assert
+        result.Should().ContainSingle(x => x.ServiceType == typeof(ISitemapSerializer) && x.ImplementationFactory != null);
+        result.Should().ContainSingle(x => x.ServiceType == typeof(ISitemapService) && x.ImplementationType == typeof(SitemapService));
+        result.Should().ContainSingle(x => x.ServiceType == typeof(ISitemapIndexService) && x.ImplementationType == typeof(SitemapIndexService));
+        result.Should().ContainSingle(x => x.ServiceType == typeof(IBaseUrlProvider) && x.ImplementationType == typeof(MyBaseUrlProvider));
+    }
+
+    [Fact]
     public void AddSitemapServices_ServicesAdded()
     {
         // arrange
