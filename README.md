@@ -64,6 +64,13 @@ var service = new SitemapService(serializer);
 var nodes = new List<SitemapNode> { new ("page.html") };
 ```
 
+## Extensions
+### Image sitemaps
+```csharp
+var sitemap = new Sitemap();
+sitemap.Add(new SitemapImageNode("https://example.com/page.html", new SitemapImageLocation("https://example.com/image.png")));
+```
+
 # Benchmarks XmlSerializer sync/async (Sitemap)
 ```
 
