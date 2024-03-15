@@ -14,7 +14,7 @@ public sealed record SitemapImageNode : ISitemapNode
     /// <param name="imageLocations">One or more image locations.</param>
     /// <exception cref="ArgumentNullException">Thrown when a required argument is null or empty.</exception>
     /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
-    public SitemapImageNode(string url, IEnumerable<SitemapImageLocation> imageLocations)
+    public SitemapImageNode(string url, IEnumerable<ImageLocation> imageLocations)
     {
         if (string.IsNullOrWhiteSpace(url))
         {
@@ -40,7 +40,7 @@ public sealed record SitemapImageNode : ISitemapNode
     /// <param name="imageLocation">An image locations.</param>
     /// <exception cref="ArgumentNullException">Thrown when a required argument is null or empty.</exception>
     /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
-    public SitemapImageNode(string url, SitemapImageLocation imageLocation)
+    public SitemapImageNode(string url, ImageLocation imageLocation)
         : this(url, new[] { imageLocation })
     {
     }
@@ -51,5 +51,5 @@ public sealed record SitemapImageNode : ISitemapNode
     /// <summary>
     /// Gets the image locations.
     /// </summary>
-    public IReadOnlyCollection<SitemapImageLocation> Images { get; }
+    public IReadOnlyCollection<ImageLocation> Images { get; }
 }

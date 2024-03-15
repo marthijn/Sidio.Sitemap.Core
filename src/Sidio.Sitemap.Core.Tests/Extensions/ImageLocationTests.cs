@@ -2,16 +2,16 @@
 
 namespace Sidio.Sitemap.Core.Tests.Extensions;
 
-public sealed class SitemapImageLocationTests
+public sealed class ImageLocationTests
 {
     [Fact]
-    public void Construct_WithValidArguments_SitemapImageLocationConstructed()
+    public void Construct_WithValidArguments_ImageLocationConstructed()
     {
         // arrange
         const string Url = "http://www.example.com";
 
         // act
-        var sitemapNode = new SitemapImageLocation(Url);
+        var sitemapNode = new ImageLocation(Url);
 
         // assert
         sitemapNode.Url.Should().Be(Url);
@@ -24,7 +24,7 @@ public sealed class SitemapImageLocationTests
     public void Construct_WithEmptyUrl_ThrowException(string? url)
     {
         // act
-        var sitemapNodeAction = () => new SitemapImageLocation(url!);
+        var sitemapNodeAction = () => new ImageLocation(url!);
 
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentNullException>();

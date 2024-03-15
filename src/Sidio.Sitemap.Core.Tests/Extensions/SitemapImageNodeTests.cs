@@ -11,7 +11,7 @@ public sealed class SitemapImageNodeTests
     {
         // arrange
         const string Url = "http://www.example.com";
-        var imageLocation = new SitemapImageLocation(Url);
+        var imageLocation = new ImageLocation(Url);
 
         // act
         var sitemapNode = new SitemapImageNode(Url, imageLocation);
@@ -27,7 +27,7 @@ public sealed class SitemapImageNodeTests
     {
         // arrange
         const string Url = "http://www.example.com";
-        var imageLocations = _fixture.CreateMany<SitemapImageLocation>().ToList();
+        var imageLocations = _fixture.CreateMany<ImageLocation>().ToList();
 
         // act
         var sitemapNode = new SitemapImageNode(Url, imageLocations);
@@ -45,7 +45,7 @@ public sealed class SitemapImageNodeTests
     public void Construct_WithEmptyUrl_ThrowException(string? url)
     {
         // act
-        var sitemapNodeAction = () => new SitemapImageNode(url!, new SitemapImageLocation("http://www.example.com"));
+        var sitemapNodeAction = () => new SitemapImageNode(url!, new ImageLocation("http://www.example.com"));
 
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentNullException>();
@@ -65,7 +65,7 @@ public sealed class SitemapImageNodeTests
     public void Construct_WithoutTooManyImages_ThrowException()
     {
         // act
-        var sitemapNodeAction = () => new SitemapImageNode("http://www.example.com", new List<SitemapImageLocation>(1001).ToArray());
+        var sitemapNodeAction = () => new SitemapImageNode("http://www.example.com", new List<ImageLocation>(1001).ToArray());
 
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentException>();

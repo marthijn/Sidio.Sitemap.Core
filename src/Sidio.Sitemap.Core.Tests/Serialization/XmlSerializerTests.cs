@@ -38,7 +38,7 @@ public sealed class XmlSerializerTests
         var now = DateTime.UtcNow;
         var changeFrequency = _fixture.Create<ChangeFrequency>();
         sitemap.Add(new SitemapNode(Url, now, changeFrequency, 0.32m));
-        sitemap.Add(new SitemapImageNode(Url, new SitemapImageLocation(Url)));
+        sitemap.Add(new SitemapImageNode(Url, new ImageLocation(Url)));
         var serializer = new XmlSerializer();
 
         var expectedUrl = Url.Replace("&", "&amp;").Replace(">", "&gt;").Replace("<", "&lt;").Replace("'", "&apos;").Replace("\"", "&quot;");
