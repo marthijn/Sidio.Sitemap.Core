@@ -7,7 +7,7 @@ public sealed class Sitemap
 {
     internal const int MaxNodes = 50000;
 
-    private readonly List<SitemapNode> _nodes = new ();
+    private readonly List<ISitemapNode> _nodes = new ();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Sitemap"/> class.
@@ -21,7 +21,7 @@ public sealed class Sitemap
     /// </summary>
     /// <param name="nodes">The sitemap nodes.</param>
     /// <exception cref="InvalidOperationException">Thrown when the number of nodes exceeds the maximum number of nodes.</exception>
-    public Sitemap(IEnumerable<SitemapNode> nodes)
+    public Sitemap(IEnumerable<ISitemapNode> nodes)
     {
         ArgumentNullException.ThrowIfNull(nodes);
         _nodes.AddRange(nodes);
@@ -31,14 +31,14 @@ public sealed class Sitemap
     /// <summary>
     /// Gets the sitemap nodes.
     /// </summary>
-    public IReadOnlyList<SitemapNode> Nodes => _nodes;
+    public IReadOnlyList<ISitemapNode> Nodes => _nodes;
 
     /// <summary>
     /// Adds the specified nodes to the sitemap.
     /// </summary>
     /// <param name="nodes">The nodes.</param>
     /// <exception cref="InvalidOperationException">Thrown when the number of nodes exceeds the maximum number of nodes.</exception>
-    public void Add(params SitemapNode[] nodes)
+    public void Add(params ISitemapNode[] nodes)
     {
         ArgumentNullException.ThrowIfNull(nodes);
         Add(nodes.AsEnumerable());
@@ -49,7 +49,7 @@ public sealed class Sitemap
     /// </summary>
     /// <param name="nodes">The nodes.</param>
     /// <exception cref="InvalidOperationException">Thrown when the number of nodes exceeds the maximum number of nodes.</exception>
-    public void Add(IEnumerable<SitemapNode> nodes)
+    public void Add(IEnumerable<ISitemapNode> nodes)
     {
         ArgumentNullException.ThrowIfNull(nodes);
         _nodes.AddRange(nodes);

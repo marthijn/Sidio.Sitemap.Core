@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a node in a sitemap.
 /// </summary>
-public sealed record SitemapNode
+public sealed record SitemapNode : ISitemapNode
 {
     private decimal? _priority;
 
@@ -29,9 +29,7 @@ public sealed record SitemapNode
         LastModified = lastModified;
     }
 
-    /// <summary>
-    /// Gets the URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.
-    /// </summary>
+    /// <inheritdoc />
     public string Url { get; }
 
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 using System.Xml;
+using Sidio.Sitemap.Core.Extensions;
 using Sidio.Sitemap.Core.Validation;
 
 namespace Sidio.Sitemap.Core.Serialization;
@@ -76,14 +77,33 @@ public sealed class XmlSerializer : ISitemapSerializer
                 Encoding = new UTF8Encoding(true), Indent = false, OmitXmlDeclaration = false, NewLineHandling = NewLineHandling.None,
             };
 
+    private static void WriteNamespaces(XmlWriter writer, Sitemap sitemap)
+    {
+        if (sitemap.HasImageNodes())
+        {
+            writer.WriteAttributeString("xmlns", "image", null, "http://www.google.com/schemas/sitemap-image/1.1");
+        }
+    }
+
     private void SerializeSitemap(XmlWriter writer, Sitemap sitemap)
     {
         writer.WriteStartDocument(false);
         writer.WriteStartElement(null, "urlset", SitemapNamespace);
+        WriteNamespaces(writer, sitemap);
 
         foreach (var n in sitemap.Nodes)
         {
-            SerializeNode(writer, n);
+            switch (n)
+            {
+                case SitemapNode regularNode:
+                    SerializeNode(writer, regularNode);
+                    break;
+                case SitemapImageNode imageNode:
+                    SerializeNode(writer, imageNode);
+                    break;
+                default:
+                    throw new NotSupportedException($"The node type {n.GetType()} is not supported.");
+            }
         }
 
         writer.WriteEndElement();
@@ -108,6 +128,23 @@ public sealed class XmlSerializer : ISitemapSerializer
         if (node.Priority.HasValue)
         {
             writer.WriteElementString("priority", node.Priority.Value.ToString("F1", new CultureInfo("en-US")));
+        }
+
+        writer.WriteEndElement();
+    }
+
+    private void SerializeNode(XmlWriter writer, SitemapImageNode node)
+    {
+        var url = _urlValidator.Validate(node.Url);
+        writer.WriteStartElement("url");
+        writer.WriteElementString("loc", url.ToString());
+
+        foreach(var imageLocationNode in node.Images)
+        {
+            var imageUrl = _urlValidator.Validate(imageLocationNode.Url);
+            writer.WriteStartElement("image", "image", null);
+            writer.WriteElementString("image", "loc", null, imageUrl.ToString());
+            writer.WriteEndElement();
         }
 
         writer.WriteEndElement();
