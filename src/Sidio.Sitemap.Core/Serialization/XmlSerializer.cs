@@ -83,6 +83,11 @@ public sealed class XmlSerializer : ISitemapSerializer
         {
             writer.WriteAttributeString("xmlns", "image", null, "http://www.google.com/schemas/sitemap-image/1.1");
         }
+
+        if (sitemap.HasNewsNodes())
+        {
+            writer.WriteAttributeString("xmlns", "news", null, "http://www.google.com/schemas/sitemap-news/0.9");
+        }
     }
 
     private void SerializeSitemap(XmlWriter writer, Sitemap sitemap)
@@ -100,6 +105,9 @@ public sealed class XmlSerializer : ISitemapSerializer
                     break;
                 case SitemapImageNode imageNode:
                     SerializeNode(writer, imageNode);
+                    break;
+                case SitemapNewsNode newsNode:
+                    SerializeNode(writer, newsNode);
                     break;
                 default:
                     throw new NotSupportedException($"The node type {n.GetType()} is not supported.");
@@ -146,6 +154,27 @@ public sealed class XmlSerializer : ISitemapSerializer
             writer.WriteElementString("image", "loc", null, imageUrl.ToString());
             writer.WriteEndElement();
         }
+
+        writer.WriteEndElement();
+    }
+
+    private void SerializeNode(XmlWriter writer, SitemapNewsNode node)
+    {
+        var url = _urlValidator.Validate(node.Url);
+        writer.WriteStartElement("url");
+        writer.WriteElementString("loc", url.ToString());
+
+        writer.WriteStartElement("news", "news", null);
+
+        writer.WriteStartElement("news", "publication", null);
+        writer.WriteElementString("news", "name", null, node.Publication.Name);
+        writer.WriteElementString("news", "language", null, node.Publication.Language);
+        writer.WriteEndElement();
+
+        writer.WriteElementString("news", "publication_date", null, node.PublicationDate.ToString("yyyy-MM-ddTHH:mm:ssK"));
+        writer.WriteElementString("news", "title", null, node.Title);
+
+        writer.WriteEndElement();
 
         writer.WriteEndElement();
     }

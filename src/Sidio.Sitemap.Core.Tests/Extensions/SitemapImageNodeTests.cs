@@ -7,7 +7,7 @@ public sealed class SitemapImageNodeTests
     private readonly Fixture _fixture = new ();
 
     [Fact]
-    public void Construct_WithValidArguments_SitemapImageLocationConstructed()
+    public void Construct_WithValidArguments_SitemapImageNodeConstructed()
     {
         // arrange
         const string Url = "http://www.example.com";
@@ -23,7 +23,7 @@ public sealed class SitemapImageNodeTests
     }
 
     [Fact]
-    public void Construct_WithValidArguments_MultipleImages_SitemapImageLocationConstructed()
+    public void Construct_WithValidArguments_MultipleImages_SitemapImageNodeConstructed()
     {
         // arrange
         const string Url = "http://www.example.com";
@@ -55,7 +55,7 @@ public sealed class SitemapImageNodeTests
     public void Construct_WithoutImages_ThrowException()
     {
         // act
-        var sitemapNodeAction = () => new SitemapImageNode("http://www.example.com", []);
+        var sitemapNodeAction = () => new SitemapImageNode("http://www.example.com");
 
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentException>();

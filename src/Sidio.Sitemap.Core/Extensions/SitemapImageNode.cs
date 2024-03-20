@@ -45,6 +45,18 @@ public sealed record SitemapImageNode : ISitemapNode
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SitemapImageNode"/> class.
+    /// </summary>
+    /// <param name="url">The URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.</param>
+    /// <param name="imageLocations">One or more image location urls.</param>
+    /// <exception cref="ArgumentNullException">Thrown when a required argument is null or empty.</exception>
+    /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
+    public SitemapImageNode(string url, params string[] imageLocations)
+        : this(url, imageLocations.Select(x => new ImageLocation(x)))
+    {
+    }
+
     /// <inheritdoc />
     public string Url { get; }
 

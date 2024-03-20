@@ -9,7 +9,7 @@ Sidio.Sitemap.Core is a lightweight .NET library for generating [sitemaps](https
 Add [the package](https://www.nuget.org/packages/Sidio.Sitemap.Core/) to your project.
 
 # Usage
-_Looking for ASP.NET Core integration, see [Sitemap.AspNetCore](https://github.com/marthijn/Sidio.Sitemap.AspNetCore)._
+_Looking for ASP.NET Core integration, see [Sidio.Sitemap.AspNetCore](https://github.com/marthijn/Sidio.Sitemap.AspNetCore)._
 ## Sitemap
 ```csharp
 var nodes = new List<SitemapNode> { new ("https://example.com/page.html") };
@@ -69,6 +69,12 @@ var nodes = new List<SitemapNode> { new ("page.html") };
 ```csharp
 var sitemap = new Sitemap();
 sitemap.Add(new SitemapImageNode("https://example.com/page.html", new ImageLocation("https://example.com/image.png")));
+```
+
+### News sitemaps
+```csharp
+var sitemap = new Sitemap();
+sitemap.Add(new SitemapNewsNode("https://example.com/page.html", "title", "name", "EN", DateTimeOffset.UtcNow));
 ```
 
 # Benchmarks XmlSerializer sync/async (Sitemap)
