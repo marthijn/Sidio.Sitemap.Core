@@ -9,7 +9,7 @@ namespace Sidio.Sitemap.Core.Serialization;
 /// <summary>
 /// The XML sitemap serializer.
 /// </summary>
-public sealed class XmlSerializer : ISitemapSerializer
+public sealed partial class XmlSerializer : ISitemapSerializer
 {
     private readonly UrlValidator _urlValidator;
 
@@ -88,6 +88,11 @@ public sealed class XmlSerializer : ISitemapSerializer
         {
             writer.WriteAttributeString("xmlns", "news", null, "http://www.google.com/schemas/sitemap-news/0.9");
         }
+
+        if (sitemap.HasVideoNodes())
+        {
+            writer.WriteAttributeString("xmlns", "video", null, "http://www.google.com/schemas/sitemap-video/1.1");
+        }
     }
 
     private void SerializeSitemap(XmlWriter writer, Sitemap sitemap)
@@ -108,6 +113,9 @@ public sealed class XmlSerializer : ISitemapSerializer
                     break;
                 case SitemapNewsNode newsNode:
                     SerializeNode(writer, newsNode);
+                    break;
+                case SitemapVideoNode videoNode:
+                    SerializeNode(writer, videoNode);
                     break;
                 default:
                     throw new NotSupportedException($"The node type {n.GetType()} is not supported.");
@@ -137,44 +145,6 @@ public sealed class XmlSerializer : ISitemapSerializer
         {
             writer.WriteElementString("priority", node.Priority.Value.ToString("F1", new CultureInfo("en-US")));
         }
-
-        writer.WriteEndElement();
-    }
-
-    private void SerializeNode(XmlWriter writer, SitemapImageNode node)
-    {
-        var url = _urlValidator.Validate(node.Url);
-        writer.WriteStartElement("url");
-        writer.WriteElementString("loc", url.ToString());
-
-        foreach(var imageLocationNode in node.Images)
-        {
-            var imageUrl = _urlValidator.Validate(imageLocationNode.Url);
-            writer.WriteStartElement("image", "image", null);
-            writer.WriteElementString("image", "loc", null, imageUrl.ToString());
-            writer.WriteEndElement();
-        }
-
-        writer.WriteEndElement();
-    }
-
-    private void SerializeNode(XmlWriter writer, SitemapNewsNode node)
-    {
-        var url = _urlValidator.Validate(node.Url);
-        writer.WriteStartElement("url");
-        writer.WriteElementString("loc", url.ToString());
-
-        writer.WriteStartElement("news", "news", null);
-
-        writer.WriteStartElement("news", "publication", null);
-        writer.WriteElementString("news", "name", null, node.Publication.Name);
-        writer.WriteElementString("news", "language", null, node.Publication.Language);
-        writer.WriteEndElement();
-
-        writer.WriteElementString("news", "publication_date", null, node.PublicationDate.ToString("yyyy-MM-ddTHH:mm:ssK"));
-        writer.WriteElementString("news", "title", null, node.Title);
-
-        writer.WriteEndElement();
 
         writer.WriteEndElement();
     }

@@ -54,7 +54,7 @@ public sealed class SitemapTests
         var sitemap = new Sitemap();
 
         // act
-        var sitemapNodeAction = () => sitemap.Add(nodes.ToArray());
+        var sitemapNodeAction = () => sitemap.Add(nodes.Cast<ISitemapNode>().ToArray());
 
         // assert
         sitemapNodeAction.Should().ThrowExactly<InvalidOperationException>().WithMessage($"*{Sitemap.MaxNodes}*");

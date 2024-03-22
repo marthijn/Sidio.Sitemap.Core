@@ -77,6 +77,13 @@ var sitemap = new Sitemap();
 sitemap.Add(new SitemapNewsNode("https://example.com/page.html", "title", "name", "EN", DateTimeOffset.UtcNow));
 ```
 
+### Video sitemaps
+```csharp
+var video = new VideoContent("https://example.com/thumbnail.png", "title", "description", "https://example.com/video.mp4", null);
+var sitemap = new Sitemap();
+sitemap.Add(new SitemapVideoNode("https://example.com/page.html", video));
+```
+
 # Benchmarks XmlSerializer sync/async (Sitemap)
 ```
 
