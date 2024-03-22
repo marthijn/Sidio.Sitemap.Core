@@ -27,6 +27,6 @@ public sealed class ImageLocationTests
         var sitemapNodeAction = () => new ImageLocation(url!);
 
         // assert
-        sitemapNodeAction.Should().ThrowExactly<ArgumentNullException>();
+        sitemapNodeAction.Should().ThrowExactly<ArgumentException>();
     }
 }

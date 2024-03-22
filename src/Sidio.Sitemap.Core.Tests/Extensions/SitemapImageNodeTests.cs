@@ -48,7 +48,7 @@ public sealed class SitemapImageNodeTests
         var sitemapNodeAction = () => new SitemapImageNode(url!, new ImageLocation("http://www.example.com"));
 
         // assert
-        sitemapNodeAction.Should().ThrowExactly<ArgumentNullException>();
+        sitemapNodeAction.Should().ThrowExactly<ArgumentException>().WithMessage("*url*");
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public sealed class SitemapImageNodeTests
         var sitemapNodeAction = () => new SitemapImageNode("http://www.example.com");
 
         // assert
-        sitemapNodeAction.Should().ThrowExactly<ArgumentException>();
+        sitemapNodeAction.Should().ThrowExactly<ArgumentException>().WithMessage("*image*");
     }
 
     [Fact]
@@ -68,6 +68,6 @@ public sealed class SitemapImageNodeTests
         var sitemapNodeAction = () => new SitemapImageNode("http://www.example.com", new List<ImageLocation>(1001).ToArray());
 
         // assert
-        sitemapNodeAction.Should().ThrowExactly<ArgumentException>();
+        sitemapNodeAction.Should().ThrowExactly<ArgumentException>().WithMessage("*image*");
     }
 }
