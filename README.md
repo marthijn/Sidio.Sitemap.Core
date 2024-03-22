@@ -70,12 +70,14 @@ var nodes = new List<SitemapNode> { new ("page.html") };
 var sitemap = new Sitemap();
 sitemap.Add(new SitemapImageNode("https://example.com/page.html", new ImageLocation("https://example.com/image.png")));
 ```
+[Extension documentation on Google Search Central](https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps)
 
 ### News sitemaps
 ```csharp
 var sitemap = new Sitemap();
 sitemap.Add(new SitemapNewsNode("https://example.com/page.html", "title", "name", "EN", DateTimeOffset.UtcNow));
 ```
+[Extension documentation on Google Search Central](https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap)
 
 ### Video sitemaps
 ```csharp
@@ -83,6 +85,7 @@ var video = new VideoContent("https://example.com/thumbnail.png", "title", "desc
 var sitemap = new Sitemap();
 sitemap.Add(new SitemapVideoNode("https://example.com/page.html", video));
 ```
+[Extension documentation on Google Search Central](https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps)
 
 # Benchmarks XmlSerializer sync/async (Sitemap)
 ```
