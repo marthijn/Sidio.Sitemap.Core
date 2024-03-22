@@ -12,13 +12,12 @@ public sealed record SitemapImageNode : ISitemapNode
     /// </summary>
     /// <param name="url">The URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.</param>
     /// <param name="imageLocations">One or more image locations.</param>
-    /// <exception cref="ArgumentNullException">Thrown when a required argument is null or empty.</exception>
     /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
-    public SitemapImageNode(string url, IEnumerable<ImageLocation> imageLocations)
+    public SitemapImageNode(string? url, IEnumerable<ImageLocation> imageLocations)
     {
         if (string.IsNullOrWhiteSpace(url))
         {
-            throw new ArgumentNullException(nameof(url));
+            throw new ArgumentException($"{nameof(url)} cannot be null or empty.", nameof(url));
         }
 
         Url = url;

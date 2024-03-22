@@ -12,7 +12,7 @@ public sealed record SitemapNewsNode : ISitemapNode
     /// <param name="title">The title.</param>
     /// <param name="publication">The publication details</param>
     /// <param name="publicationDate">The publication date.</param>
-    public SitemapNewsNode(string url, string title, Publication publication, DateTimeOffset publicationDate)
+    public SitemapNewsNode(string? url, string title, Publication publication, DateTimeOffset publicationDate)
     {
         if (string.IsNullOrWhiteSpace(url))
         {

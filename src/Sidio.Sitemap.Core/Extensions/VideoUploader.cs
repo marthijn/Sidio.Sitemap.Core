@@ -12,7 +12,7 @@ public sealed record VideoUploader
     /// </summary>
     /// <param name="name">The video uploader's name. The string value can be a maximum of 255 characters.</param>
     /// <param name="info">An optional value indicating the URL of a web page with additional information about this uploader</param>
-    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
     public VideoUploader(string name, string? info = null)
     {
         if (string.IsNullOrWhiteSpace(name))
