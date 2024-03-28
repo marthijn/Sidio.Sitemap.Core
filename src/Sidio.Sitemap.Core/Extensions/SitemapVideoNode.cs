@@ -18,6 +18,8 @@ public sealed record SitemapVideoNode : ISitemapNode
             throw new ArgumentException($"{nameof(url)} cannot be null or empty.", nameof(url));
         }
 
+        ArgumentNullException.ThrowIfNull(videos);
+
         Url = url;
         Videos = videos.ToList();
 
@@ -36,6 +38,7 @@ public sealed record SitemapVideoNode : ISitemapNode
     public SitemapVideoNode(string url, VideoContent videoContent)
         : this(url, new[] { videoContent })
     {
+        ArgumentNullException.ThrowIfNull(videoContent);
     }
 
     /// <inheritdoc />

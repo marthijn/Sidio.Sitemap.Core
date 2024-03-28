@@ -11,20 +11,22 @@ internal sealed class UrlValidator
 
     public UrlValidator(IBaseUrlProvider? baseUrlProvider = null)
     {
-        if (baseUrlProvider is not null)
+        if (baseUrlProvider is null)
         {
-            if (!baseUrlProvider.BaseUrl.IsAbsoluteUri)
-            {
-                throw new InvalidUrlException(null, baseUrlProvider.BaseUrl, "The base URL is not a valid absolute URL.");
-            }
-
-            if (baseUrlProvider.BaseUrl.Scheme != Uri.UriSchemeHttp && baseUrlProvider.BaseUrl.Scheme != Uri.UriSchemeHttps)
-            {
-                throw new InvalidUrlException(null, baseUrlProvider.BaseUrl, "The base URL scheme must be HTTP or HTTPS.");
-            }
-
-            _baseUri = baseUrlProvider.BaseUrl;
+            return;
         }
+
+        if (!baseUrlProvider.BaseUrl.IsAbsoluteUri)
+        {
+            throw new InvalidUrlException(null, baseUrlProvider.BaseUrl, "The base URL is not a valid absolute URL.");
+        }
+
+        if (baseUrlProvider.BaseUrl.Scheme != Uri.UriSchemeHttp && baseUrlProvider.BaseUrl.Scheme != Uri.UriSchemeHttps)
+        {
+            throw new InvalidUrlException(null, baseUrlProvider.BaseUrl, "The base URL scheme must be HTTP or HTTPS.");
+        }
+
+        _baseUri = baseUrlProvider.BaseUrl;
     }
 
     /// <summary>

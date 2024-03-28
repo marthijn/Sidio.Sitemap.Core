@@ -7,6 +7,8 @@ namespace Sidio.Sitemap.Core.Serialization;
 
 public sealed partial class XmlSerializer
 {
+    private const string ExtensionsDateFormat = "yyyy-MM-ddTHH:mm:ssK";
+
     private static string? BoolToSitemapValue(bool? value)
     {
         if (value == null)
@@ -78,7 +80,7 @@ public sealed partial class XmlSerializer
         writer.WriteElementString("news", "language", null, node.Publication.Language);
         writer.WriteEndElement();
 
-        writer.WriteElementString("news", "publication_date", null, node.PublicationDate.ToString("yyyy-MM-ddTHH:mm:ssK"));
+        writer.WriteElementString("news", "publication_date", null, node.PublicationDate.ToString(ExtensionsDateFormat));
         writer.WriteElementString("news", "title", null, node.Title);
 
         writer.WriteEndElement();
@@ -119,7 +121,7 @@ public sealed partial class XmlSerializer
         }
 
         writer.WriteElementStringIfNotNull(VideoPrefix, "duration", node.Duration);
-        writer.WriteElementStringIfNotNull(VideoPrefix, "expiration_date", node.ExpirationDate?.ToString("yyyy-MM-ddTHH:mm:ssK"));
+        writer.WriteElementStringIfNotNull(VideoPrefix, "expiration_date", node.ExpirationDate?.ToString(ExtensionsDateFormat));
         writer.WriteElementStringIfNotNull(VideoPrefix, "rating", node.Rating?.ToString("0.0", new CultureInfo("en-US")));
         writer.WriteElementStringIfNotNull(VideoPrefix, "view_count", node.ViewCount);
 
@@ -131,7 +133,7 @@ public sealed partial class XmlSerializer
             writer.WriteEndElement();
         }
 
-        writer.WriteElementStringIfNotNull(VideoPrefix, "publication_date", node.PublicationDate?.ToString("yyyy-MM-ddTHH:mm:ssK"));
+        writer.WriteElementStringIfNotNull(VideoPrefix, "publication_date", node.PublicationDate?.ToString(ExtensionsDateFormat));
         writer.WriteElementStringIfNotNull(VideoPrefix, "family_friendly", BoolToSitemapValue(node.FamilyFriendly));
 
         if (node.Platform != null)

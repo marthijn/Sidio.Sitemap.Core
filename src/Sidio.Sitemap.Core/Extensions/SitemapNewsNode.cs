@@ -24,6 +24,9 @@ public sealed record SitemapNewsNode : ISitemapNode
             throw new ArgumentException($"{nameof(title)} cannot be null or empty.", nameof(title));
         }
 
+        ArgumentNullException.ThrowIfNull(publication);
+        ArgumentNullException.ThrowIfNull(publicationDate);
+
         Url = url;
         Title = title;
         Publication = publication;
