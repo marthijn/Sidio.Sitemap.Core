@@ -54,13 +54,13 @@ public sealed partial class XmlSerializer
     {
         var url = _urlValidator.Validate(node.Url);
         writer.WriteStartElement("url");
-        writer.WriteElementString("loc", url.ToString());
+        writer.WriteElementStringEscaped("loc", url.ToString());
 
         foreach(var imageLocationNode in node.Images)
         {
             var imageUrl = _urlValidator.Validate(imageLocationNode.Url);
             writer.WriteStartElement("image", "image", null);
-            writer.WriteElementString("image", "loc", null, imageUrl.ToString());
+            writer.WriteElementStringEscaped("image", "loc", imageUrl.ToString());
             writer.WriteEndElement();
         }
 
@@ -71,17 +71,17 @@ public sealed partial class XmlSerializer
     {
         var url = _urlValidator.Validate(node.Url);
         writer.WriteStartElement("url");
-        writer.WriteElementString("loc", url.ToString());
+        writer.WriteElementStringEscaped("loc", url.ToString());
 
         writer.WriteStartElement("news", "news", null);
 
         writer.WriteStartElement("news", "publication", null);
-        writer.WriteElementString("news", "name", null, node.Publication.Name);
-        writer.WriteElementString("news", "language", null, node.Publication.Language);
+        writer.WriteElementStringEscaped("news", "name", node.Publication.Name);
+        writer.WriteElementStringEscaped("news", "language", node.Publication.Language);
         writer.WriteEndElement();
 
-        writer.WriteElementString("news", "publication_date", null, node.PublicationDate.ToString(ExtensionsDateFormat));
-        writer.WriteElementString("news", "title", null, node.Title);
+        writer.WriteElementStringEscaped("news", "publication_date", node.PublicationDate.ToString(ExtensionsDateFormat));
+        writer.WriteElementStringEscaped("news", "title", node.Title);
 
         writer.WriteEndElement();
 
@@ -92,7 +92,7 @@ public sealed partial class XmlSerializer
     {
         var url = _urlValidator.Validate(node.Url);
         writer.WriteStartElement("url");
-        writer.WriteElementString("loc", url.ToString());
+        writer.WriteElementStringEscaped("loc", url.ToString());
 
         foreach (var n in node.Videos)
         {
@@ -106,18 +106,18 @@ public sealed partial class XmlSerializer
     {
         const string VideoPrefix = "video";
         writer.WriteStartElement(VideoPrefix, "video", null);
-        writer.WriteElementString(VideoPrefix, "thumbnail_loc", null, _urlValidator.Validate(node.ThumbnailUrl).ToString());
-        writer.WriteElementString(VideoPrefix, "title", null, node.Title);
-        writer.WriteElementString(VideoPrefix, "description", null, node.Description);
+        writer.WriteElementStringEscaped(VideoPrefix, "thumbnail_loc", _urlValidator.Validate(node.ThumbnailUrl).ToString());
+        writer.WriteElementStringEscaped(VideoPrefix, "title", node.Title);
+        writer.WriteElementStringEscaped(VideoPrefix, "description", node.Description);
 
         if (!string.IsNullOrEmpty(node.ContentUrl))
         {
-            writer.WriteElementString(VideoPrefix, "content_loc", null, _urlValidator.Validate(node.ContentUrl).ToString());
+            writer.WriteElementStringEscaped(VideoPrefix, "content_loc", _urlValidator.Validate(node.ContentUrl).ToString());
         }
 
         if (!string.IsNullOrEmpty(node.PlayerUrl))
         {
-            writer.WriteElementString(VideoPrefix, "player_loc", null, _urlValidator.Validate(node.PlayerUrl).ToString());
+            writer.WriteElementStringEscaped(VideoPrefix, "player_loc", _urlValidator.Validate(node.PlayerUrl).ToString());
         }
 
         writer.WriteElementStringIfNotNull(VideoPrefix, "duration", node.Duration);
@@ -146,23 +146,22 @@ public sealed partial class XmlSerializer
 
         writer.WriteElementStringIfNotNull(VideoPrefix, "requires_subscription", BoolToSitemapValue(node.RequiresSubscription));
 
-        if (node.Uploader != null)
+        if (node.Uploader != null && !string.IsNullOrWhiteSpace(node.Uploader.Name))
         {
-            writer.WriteStartElement(VideoPrefix, "uploader", null);
+            var infoAttribute = string.Empty;
             if (!string.IsNullOrEmpty(node.Uploader.Info))
             {
-                writer.WriteAttributeString("info", _urlValidator.Validate(node.Uploader.Info).ToString());
+                infoAttribute = $" info=\"{XmlWriterExtensions.EscapeValue(_urlValidator.Validate(node.Uploader.Info).ToString())}\"";
             }
 
-            writer.WriteValue(node.Uploader.Name);
-            writer.WriteEndElement();
+            writer.WriteRaw($"<{VideoPrefix}:uploader{infoAttribute}>{XmlWriterExtensions.EscapeValue(node.Uploader.Name)}</{VideoPrefix}:uploader>");
         }
 
         writer.WriteElementStringIfNotNull(VideoPrefix, "live", BoolToSitemapValue(node.Live));
 
         foreach (var t in node.Tags)
         {
-            writer.WriteElementString(VideoPrefix, "tag", null, t);
+            writer.WriteElementStringEscaped(VideoPrefix, "tag", t);
         }
 
         writer.WriteEndElement();

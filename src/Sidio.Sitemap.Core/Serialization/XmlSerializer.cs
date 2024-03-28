@@ -130,20 +130,20 @@ public sealed partial class XmlSerializer : ISitemapSerializer
     {
         var url = _urlValidator.Validate(node.Url);
         writer.WriteStartElement("url");
-        writer.WriteElementString("loc", url.ToString());
+        writer.WriteElementStringEscaped("loc", url.ToString());
         if (node.LastModified.HasValue)
         {
-            writer.WriteElementString("lastmod", node.LastModified.Value.ToString(SitemapDateFormat));
+            writer.WriteElementStringEscaped("lastmod", node.LastModified.Value.ToString(SitemapDateFormat));
         }
 
         if (node.ChangeFrequency.HasValue)
         {
-            writer.WriteElementString("changefreq", node.ChangeFrequency.Value.ToString().ToLower());
+            writer.WriteElementStringEscaped("changefreq", node.ChangeFrequency.Value.ToString().ToLower());
         }
 
         if (node.Priority.HasValue)
         {
-            writer.WriteElementString("priority", node.Priority.Value.ToString("F1", new CultureInfo("en-US")));
+            writer.WriteElementStringEscaped("priority", node.Priority.Value.ToString("F1", new CultureInfo("en-US")));
         }
 
         writer.WriteEndElement();
@@ -167,17 +167,12 @@ public sealed partial class XmlSerializer : ISitemapSerializer
     {
         var url = _urlValidator.Validate(node.Url);
         writer.WriteStartElement("sitemap");
-        writer.WriteElementString("loc", url.ToString());
+        writer.WriteElementStringEscaped("loc", url.ToString());
         if (node.LastModified.HasValue)
         {
             writer.WriteElementString("lastmod", node.LastModified.Value.ToString(SitemapDateFormat));
         }
 
         writer.WriteEndElement();
-    }
-
-    private static string EscapeUrl(string value)
-    {
-        return string.IsNullOrEmpty(value) ? value : value.Replace("'", "\\&apos;").Replace("\"", "\\&quot;");
     }
 }

@@ -10,7 +10,7 @@ public sealed partial class XmlSerializerTests
     public void Serialize_WithSitemap_ReturnsXml()
     {
         // arrange
-        const string Url = "https://example.com/?id=1&name=example&gt=>&lt=<&quotes=";
+        const string Url = "https://example.com/?id=1&name=example&gt=>&lt=<&quotes='\"";
         var sitemap = new Sitemap();
         var now = DateTime.UtcNow;
         var changeFrequency = _fixture.Create<ChangeFrequency>();
