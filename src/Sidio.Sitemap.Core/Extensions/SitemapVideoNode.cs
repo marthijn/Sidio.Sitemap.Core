@@ -35,7 +35,7 @@ public sealed record SitemapVideoNode : ISitemapNode
     /// <param name="url">The URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.</param>
     /// <param name="videoContent">A video.</param>
     /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
-    public SitemapVideoNode(string url, VideoContent videoContent)
+    public SitemapVideoNode(string? url, VideoContent videoContent)
         : this(url, new[] { videoContent })
     {
         ArgumentNullException.ThrowIfNull(videoContent);

@@ -41,7 +41,7 @@ public sealed record SitemapNewsNode : ISitemapNode
     /// <param name="name">The name of the news publication.</param>
     /// <param name="language">The language.</param>
     /// <param name="publicationDate">The publication date.</param>
-    public SitemapNewsNode(string url, string title, string name, string language, DateTimeOffset publicationDate)
+    public SitemapNewsNode(string? url, string title, string name, string language, DateTimeOffset publicationDate)
         : this(url, title, new Publication(name, language), publicationDate)
     {
     }

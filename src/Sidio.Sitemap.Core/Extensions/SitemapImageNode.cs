@@ -41,7 +41,7 @@ public sealed record SitemapImageNode : ISitemapNode
     /// <param name="imageLocation">An image locations.</param>
     /// <exception cref="ArgumentNullException">Thrown when a required argument is null or empty.</exception>
     /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
-    public SitemapImageNode(string url, ImageLocation imageLocation)
+    public SitemapImageNode(string? url, ImageLocation imageLocation)
         : this(url, new[] { imageLocation })
     {
     }
