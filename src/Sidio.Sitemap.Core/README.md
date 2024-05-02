@@ -1,1 +1,0 @@
-Sitemap.Core is a lightweight .NET library for generating sitemaps. It supports sitemap index files and can be used in any .NET application.
