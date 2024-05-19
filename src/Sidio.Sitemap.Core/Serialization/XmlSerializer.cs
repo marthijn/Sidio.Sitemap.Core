@@ -17,7 +17,15 @@ public sealed partial class XmlSerializer : ISitemapSerializer
 
     private const string SitemapNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
 
+    private const string SitemapNamespaceImage = "http://www.google.com/schemas/sitemap-image/1.1";
+
+    private const string SitemapNamespaceNews = "http://www.google.com/schemas/sitemap-news/0.9";
+
+    private const string SitemapNamespaceVideo = "http://www.google.com/schemas/sitemap-video/1.1";
+
     private const string SitemapDateFormat = "yyyy-MM-dd";
+
+    private static readonly CultureInfo SitemapCulture = new ("en-US");
 
     /// <summary>
     /// Initializes a new instance of the <see cref="XmlSerializer"/> class.
@@ -81,17 +89,17 @@ public sealed partial class XmlSerializer : ISitemapSerializer
     {
         if (sitemap.HasImageNodes())
         {
-            writer.WriteAttributeString("xmlns", "image", null, "http://www.google.com/schemas/sitemap-image/1.1");
+            writer.WriteAttributeString("xmlns", "image", null, SitemapNamespaceImage);
         }
 
         if (sitemap.HasNewsNodes())
         {
-            writer.WriteAttributeString("xmlns", "news", null, "http://www.google.com/schemas/sitemap-news/0.9");
+            writer.WriteAttributeString("xmlns", "news", null, SitemapNamespaceNews);
         }
 
         if (sitemap.HasVideoNodes())
         {
-            writer.WriteAttributeString("xmlns", "video", null, "http://www.google.com/schemas/sitemap-video/1.1");
+            writer.WriteAttributeString("xmlns", "video", null, SitemapNamespaceVideo);
         }
     }
 
@@ -143,7 +151,7 @@ public sealed partial class XmlSerializer : ISitemapSerializer
 
         if (node.Priority.HasValue)
         {
-            writer.WriteElementStringEscaped("priority", node.Priority.Value.ToString("F1", new CultureInfo("en-US")));
+            writer.WriteElementStringEscaped("priority", node.Priority.Value.ToString("F1", SitemapCulture));
         }
 
         writer.WriteEndElement();
