@@ -41,11 +41,20 @@ internal static class XmlWriterExtensions
 
     internal static string? EscapeValue(string? value)
     {
-        return value == null || string.IsNullOrEmpty(value) ? value : value
-                   .Replace("&", "&amp;")
-                   .Replace("<", "&lt;")
-                   .Replace(">", "&gt;")
-                   .Replace("'", "&apos;")
-                   .Replace("\"", "&quot;");
+#if NETSTANDARD2_0
+        if (value == null || string.IsNullOrWhiteSpace(value))
+#else
+        if (string.IsNullOrWhiteSpace(value))
+#endif
+        {
+            return value;
+        }
+
+        return value
+               .Replace("&", "&amp;")
+               .Replace("<", "&lt;")
+               .Replace(">", "&gt;")
+               .Replace("'", "&apos;")
+               .Replace("\"", "&quot;");
     }
 }

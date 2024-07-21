@@ -5,6 +5,7 @@ namespace Sidio.Sitemap.Core.Serialization;
 /// <summary>
 /// The exception that is thrown when an error occurs during sitemap XML deserialization.
 /// </summary>
+[Serializable]
 public sealed class SitemapXmlDeserializationException : Exception
 {
     /// <summary>

@@ -32,7 +32,7 @@ public sealed partial class XmlSerializer
             var images = element.Elements(imageNs + "image").Select(
                 x => new ImageLocation(
                     x.Element(imageNs + "loc")?.Value ??
-                    throw new SitemapXmlDeserializationException("loc cannot be empty", x))).ToList();
+                    throw new SitemapXmlDeserializationException("Location cannot be empty.", x))).ToList();
 
             // news extensions
             var news = element.Element(newsNs + "news");
@@ -42,15 +42,15 @@ public sealed partial class XmlSerializer
 
             if (images.Count != 0)
             {
-                sitemap.Add(new SitemapImageNode(loc ?? throw new SitemapXmlDeserializationException("loc cannot be empty", element), images));
+                sitemap.Add(new SitemapImageNode(loc ?? throw new SitemapXmlDeserializationException("Location cannot be empty.", element), images));
             }
             else if (news != null)
             {
-                sitemap.Add(ParseNewsNode(news, loc ?? throw new SitemapXmlDeserializationException("loc cannot be empty", element), newsNs));
+                sitemap.Add(ParseNewsNode(news, loc ?? throw new SitemapXmlDeserializationException("Location cannot be empty.", element), newsNs));
             }
             else if (videos.Count != 0)
             {
-                sitemap.Add(ParseVideoNode(videos, loc ?? throw new SitemapXmlDeserializationException("loc cannot be empty", element), videoNs));
+                sitemap.Add(ParseVideoNode(videos, loc ?? throw new SitemapXmlDeserializationException("Location cannot be empty.", element), videoNs));
             }
             else
             {
@@ -91,7 +91,7 @@ public sealed partial class XmlSerializer
 
             sitemapIndex.Add(
                 new SitemapIndexNode(
-                    loc ??  throw new SitemapXmlDeserializationException("loc cannot be empty", element),
+                    loc ??  throw new SitemapXmlDeserializationException("location cannot be empty.", element),
                     lastmod != null ? DateTime.Parse(lastmod) : null));
         }
 

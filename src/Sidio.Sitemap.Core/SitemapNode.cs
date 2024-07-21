@@ -5,7 +5,7 @@
 /// </summary>
 public sealed record SitemapNode : ISitemapNode
 {
-    private decimal? _priority;
+    private readonly decimal? _priority;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapNode"/> class.
@@ -49,7 +49,7 @@ public sealed record SitemapNode : ISitemapNode
     public decimal? Priority
     {
         get => _priority;
-        set
+        init
         {
             if (value is < 0 or > 1)
             {
