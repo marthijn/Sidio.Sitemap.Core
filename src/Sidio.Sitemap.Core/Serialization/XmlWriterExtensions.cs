@@ -14,22 +14,34 @@ internal static class XmlWriterExtensions
 
     public static void WriteElementStringEscaped(this XmlWriter writer, string localName, string? value)
     {
-        ArgumentNullException.ThrowIfNull(localName);
+        if (string.IsNullOrEmpty(localName))
+        {
+            throw new ArgumentException("Value cannot be null or empty.", nameof(localName));
+        }
+
         var escapedValue = EscapeValue(value);
         writer.WriteRaw($"<{localName}>{escapedValue}</{localName}>");
     }
 
     public static void WriteElementStringEscaped(this XmlWriter writer, string prefix, string localName, string? value)
     {
-        ArgumentNullException.ThrowIfNull(prefix);
-        ArgumentNullException.ThrowIfNull(localName);
+        if (string.IsNullOrEmpty(prefix))
+        {
+            throw new ArgumentException("Value cannot be null or empty.", nameof(prefix));
+        }
+
+        if (string.IsNullOrEmpty(localName))
+        {
+            throw new ArgumentException("Value cannot be null or empty.", nameof(localName));
+        }
+
         var escapedValue = EscapeValue(value);
         writer.WriteRaw($"<{prefix}:{localName}>{escapedValue}</{prefix}:{localName}>");
     }
 
     internal static string? EscapeValue(string? value)
     {
-        return string.IsNullOrEmpty(value) ? value : value
+        return string.IsNullOrEmpty(value) ? value : value!
                    .Replace("&", "&amp;")
                    .Replace("<", "&lt;")
                    .Replace(">", "&gt;")

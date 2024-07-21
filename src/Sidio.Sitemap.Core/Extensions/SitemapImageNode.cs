@@ -20,9 +20,12 @@ public sealed record SitemapImageNode : ISitemapNode
             throw new ArgumentException($"{nameof(url)} cannot be null or empty.", nameof(url));
         }
 
-        ArgumentNullException.ThrowIfNull(imageLocations);
+        if (imageLocations == null)
+        {
+            throw new ArgumentNullException(nameof(imageLocations));
+        }
 
-        Url = url;
+        Url = url!;
         Images = imageLocations.ToList();
 
         switch (Images.Count)

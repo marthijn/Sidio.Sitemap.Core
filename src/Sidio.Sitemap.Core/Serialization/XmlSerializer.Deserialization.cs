@@ -55,7 +55,7 @@ public sealed partial class XmlSerializer
                     new SitemapNode(
                         loc ?? throw new SitemapXmlDeserializationException("URL is required for sitemap node.", element),
                         lastmod != null ? DateTime.Parse(lastmod) : null,
-                        changefreq != null ? Enum.Parse<ChangeFrequency>(changefreq, true) : null,
+                        changefreq != null ? Enum.Parse(typeof(ChangeFrequency), changefreq, true) as ChangeFrequency? : null,
                         priority != null ? decimal.Parse(priority, SitemapCulture) : null));
             }
         }
@@ -155,7 +155,7 @@ public sealed partial class XmlSerializer
             Restriction = restriction != null
                 ? new VideoRestriction(
                     restriction,
-                    Enum.Parse<Relationship>(
+                    (Relationship)Enum.Parse(typeof(Relationship),
                         restrictionRelationship ?? throw new SitemapXmlDeserializationException(
                             "Relationship is required when a restriction is provided.",
                             node),
@@ -165,8 +165,8 @@ public sealed partial class XmlSerializer
             ViewCount = viewCount != null ? int.Parse(viewCount) : null,
             Platform = platform != null
                 ? new VideoPlatform(
-                    Enum.Parse<VideoPlatformType>(platform, true),
-                    Enum.Parse<Relationship>(
+                    (VideoPlatformType)Enum.Parse(typeof (VideoPlatformType), platform, true),
+                    (Relationship)Enum.Parse(typeof(Relationship),
                         platformRelationship ?? throw new SitemapXmlDeserializationException(
                             "Relationship is required when a platform is provided.",
                             node),

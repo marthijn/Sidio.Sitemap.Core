@@ -59,7 +59,7 @@ public sealed record VideoContent
             throw new ArgumentException($"Either a {nameof(contentUrl)} or a {nameof(playerUrl)} is required.");
         }
 
-        ThumbnailUrl = thumbnailUrl;
+        ThumbnailUrl = thumbnailUrl!;
         Title = title;
         Description = description;
         ContentUrl = contentUrl;

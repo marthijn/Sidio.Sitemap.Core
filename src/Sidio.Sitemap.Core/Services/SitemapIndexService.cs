@@ -15,21 +15,28 @@ public sealed class SitemapIndexService : ISitemapIndexService
     /// <param name="serializer">The serializer.</param>
     public SitemapIndexService(ISitemapSerializer serializer)
     {
-        ArgumentNullException.ThrowIfNull(serializer);
-        _serializer = serializer;
+        _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
     }
 
     /// <inheritdoc />
     public string Serialize(SitemapIndex sitemapIndex)
     {
-        ArgumentNullException.ThrowIfNull(sitemapIndex);
+        if (sitemapIndex == null)
+        {
+            throw new ArgumentNullException(nameof(sitemapIndex));
+        }
+
         return _serializer.Serialize(sitemapIndex);
     }
 
     /// <inheritdoc />
     public Task<string> SerializeAsync(SitemapIndex sitemapIndex, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(sitemapIndex);
+        if (sitemapIndex == null)
+        {
+            throw new ArgumentNullException(nameof(sitemapIndex));
+        }
+
         return _serializer.SerializeAsync(sitemapIndex, cancellationToken);
     }
 }

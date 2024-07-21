@@ -82,9 +82,9 @@ internal sealed class UrlValidator
             return url;
         }
 
-        if (url.StartsWith("/", StringComparison.Ordinal))
+        if (url!.StartsWith("/", StringComparison.Ordinal))
         {
-            return url.Length > 1 ? url[1..] : string.Empty;
+            return url.Length > 1 ? url.Substring(1) : string.Empty;
         }
 
         return url;
