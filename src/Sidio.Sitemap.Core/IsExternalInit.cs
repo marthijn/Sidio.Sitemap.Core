@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
+﻿#if NETSTANDARD2_0
+using System.ComponentModel;
 
-#if NETSTANDARD2_0
 // ReSharper disable once CheckNamespace
 namespace System.Runtime.CompilerServices
 {

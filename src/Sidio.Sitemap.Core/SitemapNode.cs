@@ -16,7 +16,7 @@ public sealed record SitemapNode : ISitemapNode
     /// <param name="priority">The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.</param>
     /// <exception cref="ArgumentNullException">Thrown when a required argument is null or empty.</exception>
     /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
-    public SitemapNode(string? url, DateTime? lastModified = null, ChangeFrequency? changeFrequency = null, decimal? priority = null)
+    public SitemapNode(string url, DateTime? lastModified = null, ChangeFrequency? changeFrequency = null, decimal? priority = null)
     {
         if (string.IsNullOrWhiteSpace(url))
         {

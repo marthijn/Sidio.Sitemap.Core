@@ -29,7 +29,10 @@ public sealed partial class XmlSerializer
             var priority = element.Element(ns + "priority")?.Value;
 
             // image extensions
-            var images = element.Elements(imageNs + "image").Select(x => new ImageLocation(x.Element(imageNs + "loc")?.Value)).ToList();
+            var images = element.Elements(imageNs + "image").Select(
+                x => new ImageLocation(
+                    x.Element(imageNs + "loc")?.Value ??
+                    throw new SitemapXmlDeserializationException("loc cannot be empty", x))).ToList();
 
             // news extensions
             var news = element.Element(newsNs + "news");
@@ -39,15 +42,15 @@ public sealed partial class XmlSerializer
 
             if (images.Count != 0)
             {
-                sitemap.Add(new SitemapImageNode(loc, images));
+                sitemap.Add(new SitemapImageNode(loc ?? throw new SitemapXmlDeserializationException("loc cannot be empty", element), images));
             }
             else if (news != null)
             {
-                sitemap.Add(ParseNewsNode(news, loc, newsNs));
+                sitemap.Add(ParseNewsNode(news, loc ?? throw new SitemapXmlDeserializationException("loc cannot be empty", element), newsNs));
             }
             else if (videos.Count != 0)
             {
-                sitemap.Add(ParseVideoNode(videos, loc, videoNs));
+                sitemap.Add(ParseVideoNode(videos, loc ?? throw new SitemapXmlDeserializationException("loc cannot be empty", element), videoNs));
             }
             else
             {
@@ -88,7 +91,7 @@ public sealed partial class XmlSerializer
 
             sitemapIndex.Add(
                 new SitemapIndexNode(
-                    loc,
+                    loc ??  throw new SitemapXmlDeserializationException("loc cannot be empty", element),
                     lastmod != null ? DateTime.Parse(lastmod) : null));
         }
 
@@ -101,7 +104,7 @@ public sealed partial class XmlSerializer
         return Task.Run(() => DeserializeIndex(xml), cancellationToken);
     }
 
-    private static SitemapVideoNode ParseVideoNode(IEnumerable<XElement> nodes, string? url, XNamespace ns)
+    private static SitemapVideoNode ParseVideoNode(IEnumerable<XElement> nodes, string url, XNamespace ns)
     {
         var parsedNodes = nodes.Select(x => ParseVideoContent(x, ns));
         return new SitemapVideoNode(url, parsedNodes);
@@ -175,7 +178,7 @@ public sealed partial class XmlSerializer
         };
     }
 
-    private static SitemapNewsNode ParseNewsNode(XElement node, string? url, XNamespace ns)
+    private static SitemapNewsNode ParseNewsNode(XElement node, string url, XNamespace ns)
     {
         var publicationName = node.Element(ns + "publication")?.Element(ns + "name")?.Value ??
                               throw new SitemapXmlDeserializationException(

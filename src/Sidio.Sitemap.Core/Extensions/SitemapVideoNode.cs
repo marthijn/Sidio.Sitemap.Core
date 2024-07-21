@@ -11,7 +11,7 @@ public sealed record SitemapVideoNode : ISitemapNode
     /// <param name="url">The URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.</param>
     /// <param name="videos">One or more videos.</param>
     /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
-    public SitemapVideoNode(string? url, IEnumerable<VideoContent> videos)
+    public SitemapVideoNode(string url, IEnumerable<VideoContent> videos)
     {
         if (string.IsNullOrWhiteSpace(url))
         {
@@ -23,7 +23,7 @@ public sealed record SitemapVideoNode : ISitemapNode
             throw new ArgumentNullException(nameof(videos));
         }
 
-        Url = url!;
+        Url = url;
         Videos = videos.ToList();
 
         if (Videos.Count == 0)
@@ -38,7 +38,7 @@ public sealed record SitemapVideoNode : ISitemapNode
     /// <param name="url">The URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.</param>
     /// <param name="videoContent">A video.</param>
     /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
-    public SitemapVideoNode(string? url, VideoContent videoContent)
+    public SitemapVideoNode(string url, VideoContent videoContent)
         : this(url, new[] { videoContent })
     {
         if (videoContent == null)

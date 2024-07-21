@@ -41,7 +41,7 @@ internal static class XmlWriterExtensions
 
     internal static string? EscapeValue(string? value)
     {
-        return string.IsNullOrEmpty(value) ? value : value!
+        return value == null || string.IsNullOrEmpty(value) ? value : value
                    .Replace("&", "&amp;")
                    .Replace("<", "&lt;")
                    .Replace(">", "&gt;")

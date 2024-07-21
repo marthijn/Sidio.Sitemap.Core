@@ -77,12 +77,12 @@ internal sealed class UrlValidator
     private static string? EnsureRelativeUrl(string? url)
     {
         // fix for this issue on Ubuntu: https://github.com/dotnet/runtime/issues/22718
-        if (string.IsNullOrWhiteSpace(url))
+        if (url == null || string.IsNullOrWhiteSpace(url))
         {
             return url;
         }
 
-        if (url!.StartsWith("/", StringComparison.Ordinal))
+        if (url.StartsWith("/", StringComparison.Ordinal))
         {
             return url.Length > 1 ? url.Substring(1) : string.Empty;
         }

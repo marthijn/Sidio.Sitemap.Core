@@ -32,7 +32,7 @@ public sealed record VideoContent
     /// <param name="contentUrl">A URL pointing to the actual video media file.</param>
     /// <param name="playerUrl">A URL pointing to a player for a specific video. Usually this is the information in the src attribute of an embed-tag.</param>
     /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
-    public VideoContent(string? thumbnailUrl, string title, string description, string? contentUrl, string? playerUrl)
+    public VideoContent(string thumbnailUrl, string title, string description, string? contentUrl, string? playerUrl)
     {
         if (string.IsNullOrWhiteSpace(thumbnailUrl))
         {
@@ -59,7 +59,7 @@ public sealed record VideoContent
             throw new ArgumentException($"Either a {nameof(contentUrl)} or a {nameof(playerUrl)} is required.");
         }
 
-        ThumbnailUrl = thumbnailUrl!;
+        ThumbnailUrl = thumbnailUrl;
         Title = title;
         Description = description;
         ContentUrl = contentUrl;
