@@ -28,8 +28,7 @@ public sealed class Sitemap
             throw new ArgumentNullException(nameof(nodes));
         }
 
-        _nodes.AddRange(nodes);
-        ValidateNumberOfNodes();
+        _ = Add(nodes);
     }
 
     /// <summary>
@@ -40,32 +39,42 @@ public sealed class Sitemap
     /// <summary>
     /// Adds the specified nodes to the sitemap.
     /// </summary>
+    /// <remarks>Nodes that are null will be ignored.</remarks>
     /// <param name="nodes">The nodes.</param>
     /// <exception cref="InvalidOperationException">Thrown when the number of nodes exceeds the maximum number of nodes.</exception>
-    public void Add(params ISitemapNode[] nodes)
+    public int Add(params ISitemapNode?[] nodes)
     {
         if (nodes == null)
         {
             throw new ArgumentNullException(nameof(nodes));
         }
 
-        Add(nodes.AsEnumerable());
+        return Add(nodes.AsEnumerable());
     }
 
     /// <summary>
     /// Adds the specified nodes to the sitemap.
     /// </summary>
+    /// <remarks>Nodes that are null will be ignored.</remarks>
     /// <param name="nodes">The nodes.</param>
     /// <exception cref="InvalidOperationException">Thrown when the number of nodes exceeds the maximum number of nodes.</exception>
-    public void Add(IEnumerable<ISitemapNode> nodes)
+    public int Add(IEnumerable<ISitemapNode?> nodes)
     {
         if (nodes == null)
         {
             throw new ArgumentNullException(nameof(nodes));
         }
 
-        _nodes.AddRange(nodes);
+        var nonNullableNodes = nodes.Where(x => x != null).Cast<ISitemapNode>().ToArray();
+
+        if (nonNullableNodes.Length > 0)
+        {
+            _nodes.AddRange(nonNullableNodes);
+        }
+
         ValidateNumberOfNodes();
+
+        return nonNullableNodes.Length;
     }
 
     private void ValidateNumberOfNodes()

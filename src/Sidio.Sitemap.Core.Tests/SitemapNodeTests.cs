@@ -52,4 +52,34 @@ public sealed class SitemapNodeTests
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentException>().WithMessage("*priority*");
     }
+
+    [Fact]
+    public void Create_WhenUrlIsValid_SitemapNodeCreated()
+    {
+        // arrange
+        const string Url = "https://example.com";
+        var dateTime = DateTime.UtcNow;
+        var changeFrequency = _fixture.Create<ChangeFrequency>();
+        const decimal Priority = 0.5m;
+
+        // act
+        var node = SitemapNode.Create(Url, dateTime, changeFrequency, Priority);
+
+        // assert
+        node.Should().NotBeNull();
+        node!.Url.Should().Be(Url);
+        node.LastModified.Should().Be(dateTime);
+        node.ChangeFrequency.Should().Be(changeFrequency);
+        node.Priority.Should().Be(Priority);
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsNull_SitemapNodeNotCreated()
+    {
+        // arrange & act
+        var node = SitemapIndexNode.Create(null);
+
+        // assert
+        node.Should().BeNull();
+    }
 }

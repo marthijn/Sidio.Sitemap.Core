@@ -19,12 +19,12 @@ public sealed class SitemapIndexNodeTests
     }
 
     [Fact]
-    public void Create_WhenUrlIsNull_SitemapIndexNodeCreated()
+    public void Create_WhenUrlIsNull_SitemapIndexNodeNotCreated()
     {
         // arrange & act
         var node = SitemapIndexNode.Create(null);
 
-        // Assert
+        // assert
         node.Should().BeNull();
     }
 }

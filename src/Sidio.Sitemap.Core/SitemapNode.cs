@@ -59,4 +59,31 @@ public sealed record SitemapNode : ISitemapNode
             _priority = value;
         }
     }
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="SitemapNode"/> class.
+    /// When the URL is null or empty, null is returned.
+    /// </summary>
+    /// <param name="url">The URL of the page. This URL must begin with the protocol (such as http) and end with a trailing slash, if your web server requires it. This value must be less than 2,048 characters.</param>
+    /// <param name="lastModified">The date of last modification of the page.</param>
+    /// <param name="changeFrequency">How frequently the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page.</param>
+    /// <param name="priority">The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.</param>
+    /// <returns>A <see cref="SitemapNode"/>.</returns>
+    public static SitemapNode? Create(
+        string? url,
+        DateTime? lastModified = null,
+        ChangeFrequency? changeFrequency = null,
+        decimal? priority = null)
+    {
+#if NETSTANDARD2_0
+        if (url == null || string.IsNullOrWhiteSpace(url))
+#else
+        if (string.IsNullOrWhiteSpace(url))
+#endif
+        {
+            return null;
+        }
+
+        return new(url, lastModified, changeFrequency, priority);
+    }
 }
