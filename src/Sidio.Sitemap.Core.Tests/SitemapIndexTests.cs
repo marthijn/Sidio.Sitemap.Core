@@ -25,10 +25,26 @@ public sealed class SitemapIndexTests
         var nodes = _fixture.CreateMany<SitemapIndexNode>().ToList();
 
         // act
-        sitemapIndex.Add(nodes.ToArray());
+        var result = sitemapIndex.Add(nodes.ToArray());
 
         // assert
         sitemapIndex.Nodes.Should().BeEquivalentTo(nodes);
+        result.Should().Be(nodes.Count);
+    }
+
+    [Fact]
+    public void Add_Array_WithNullableNodes_ShouldContainNodes()
+    {
+        // arrange
+        var sitemapIndex = new SitemapIndex();
+        var nodes = new List<SitemapIndexNode?> {null, null};
+
+        // act
+        var result = sitemapIndex.Add(nodes.ToArray());
+
+        // assert
+        sitemapIndex.Nodes.Should().BeEmpty();
+        result.Should().Be(0);
     }
 
     [Fact]
@@ -39,9 +55,25 @@ public sealed class SitemapIndexTests
         var nodes = _fixture.CreateMany<SitemapIndexNode>().ToList();
 
         // act
-        sitemapIndex.Add(nodes);
+        var result = sitemapIndex.Add(nodes);
 
         // assert
         sitemapIndex.Nodes.Should().BeEquivalentTo(nodes);
+        result.Should().Be(nodes.Count);
+    }
+
+    [Fact]
+    public void Add_Enumerable_WithNullableNodes_ShouldContainNodes()
+    {
+        // arrange
+        var sitemapIndex = new SitemapIndex();
+        var nodes = new List<SitemapIndexNode?> {null, null};
+
+        // act
+        var result = sitemapIndex.Add(nodes);
+
+        // assert
+        sitemapIndex.Nodes.Should().BeEmpty();
+        result.Should().Be(0);
     }
 }

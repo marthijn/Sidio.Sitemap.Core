@@ -18,14 +18,14 @@ public sealed class SitemapIndex
     /// Initializes a new instance of the <see cref="SitemapIndex"/> class.
     /// </summary>
     /// <param name="nodes">The index nodes.</param>
-    public SitemapIndex(IEnumerable<SitemapIndexNode> nodes)
+    public SitemapIndex(IEnumerable<SitemapIndexNode?> nodes)
     {
         if (nodes == null)
         {
             throw new ArgumentNullException(nameof(nodes));
         }
 
-        _nodes.AddRange(nodes);
+        _ = Add(nodes);
     }
 
     /// <summary>
@@ -37,27 +37,38 @@ public sealed class SitemapIndex
     /// Adds the specified nodes to the sitemap index.
     /// </summary>
     /// <param name="nodes">The nodes.</param>
-    public void Add(params SitemapIndexNode[] nodes)
+    /// <remarks>Nodes that are null will be ignored.</remarks>
+    /// <returns>The actual number of nodes added.</returns>
+    public int Add(params SitemapIndexNode?[] nodes)
     {
         if (nodes == null)
         {
             throw new ArgumentNullException(nameof(nodes));
         }
 
-        Add(nodes.AsEnumerable());
+        return Add(nodes.AsEnumerable());
     }
 
     /// <summary>
     /// Adds the specified nodes to the sitemap index.
     /// </summary>
     /// <param name="nodes">The nodes.</param>
-    public void Add(IEnumerable<SitemapIndexNode> nodes)
+    /// <remarks>Nodes that are null will be ignored.</remarks>
+    /// <returns>The actual number of nodes added.</returns>
+    public int Add(IEnumerable<SitemapIndexNode?> nodes)
     {
         if (nodes == null)
         {
             throw new ArgumentNullException(nameof(nodes));
         }
 
-        _nodes.AddRange(nodes);
+        var nonNullableNodes = nodes.Where(x => x != null).Cast<SitemapIndexNode>().ToArray();
+
+        if (nonNullableNodes.Length > 0)
+        {
+            _nodes.AddRange(nonNullableNodes);
+        }
+
+        return nonNullableNodes.Length;
     }
 }
