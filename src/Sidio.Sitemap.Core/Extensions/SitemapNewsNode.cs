@@ -12,6 +12,7 @@ public sealed record SitemapNewsNode : ISitemapNode
     /// <param name="title">The title.</param>
     /// <param name="publication">The publication details</param>
     /// <param name="publicationDate">The publication date.</param>
+    /// <exception cref="ArgumentException">Thrown when an argument has an invalid value (in case of a string that is null or empty).</exception>
     public SitemapNewsNode(string url, string title, Publication publication, DateTimeOffset publicationDate)
     {
         if (string.IsNullOrWhiteSpace(url))
@@ -38,6 +39,7 @@ public sealed record SitemapNewsNode : ISitemapNode
     /// <param name="name">The name of the news publication.</param>
     /// <param name="language">The language.</param>
     /// <param name="publicationDate">The publication date.</param>
+    /// <exception cref="ArgumentException">Thrown when an argument has an invalid value (in case of a string that is null or empty).</exception>
     public SitemapNewsNode(string url, string title, string name, string language, DateTimeOffset publicationDate)
         : this(url, title, new Publication(name, language), publicationDate)
     {
@@ -60,4 +62,58 @@ public sealed record SitemapNewsNode : ISitemapNode
     /// Gets the publication date.
     /// </summary>
     public DateTimeOffset PublicationDate { get; }
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="SitemapNewsNode"/> class.
+    /// When the URL is null or empty, null is returned.
+    /// </summary>
+    /// <param name="url">The url.</param>
+    /// <param name="title">The title.</param>
+    /// <param name="publication">The publication details</param>
+    /// <param name="publicationDate">The publication date.</param>
+    /// <returns>A <see cref="SitemapNewsNode"/>.</returns>
+#if NET6_0_OR_GREATER
+    [return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull(nameof(url))]
+#endif
+    public static SitemapNewsNode? Create(
+        string? url,
+        string title,
+        Publication publication,
+        DateTimeOffset publicationDate)
+    {
+        if (url == null)
+        {
+            return null;
+        }
+
+        return new(url, title, publication, publicationDate);
+    }
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="SitemapNewsNode"/> class.
+    /// When the URL is null or empty, null is returned.
+    /// </summary>
+    /// <param name="url">The url.</param>
+    /// <param name="title">The title.</param>
+    /// <param name="name">The name of the news publication.</param>
+    /// <param name="language">The language.</param>
+    /// <param name="publicationDate">The publication date.</param>
+    /// <returns>A <see cref="SitemapNewsNode"/>.</returns>
+#if NET6_0_OR_GREATER
+    [return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull(nameof(url))]
+#endif
+    public static SitemapNewsNode? Create(
+        string? url,
+        string title,
+        string name,
+        string language,
+        DateTimeOffset publicationDate)
+    {
+        if (url == null)
+        {
+            return null;
+        }
+
+        return new(url, title, name, language, publicationDate);
+    }
 }

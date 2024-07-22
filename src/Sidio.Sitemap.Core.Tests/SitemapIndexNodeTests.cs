@@ -14,7 +14,7 @@ public sealed class SitemapIndexNodeTests
 
         // assert
         node.Should().NotBeNull();
-        node!.Url.Should().Be(Url);
+        node.Url.Should().Be(Url);
         node.LastModified.Should().Be(dateTime);
     }
 

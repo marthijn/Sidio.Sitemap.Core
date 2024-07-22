@@ -10,11 +10,12 @@ public sealed record SitemapIndexNode
     /// </summary>
     /// <param name="url">The location of the sitemap.</param>
     /// <param name="lastModified">Identifies the time that the corresponding Sitemap file was modified.</param>
+    /// <exception cref="ArgumentException">Thrown when an argument has an invalid value (in case of a string that is null or empty).</exception>
     public SitemapIndexNode(string url, DateTime? lastModified = null)
     {
         if (string.IsNullOrWhiteSpace(url))
         {
-            throw new ArgumentNullException(nameof(url));
+            throw new ArgumentException($"{nameof(url)} cannot be null or empty.", nameof(url));
         }
 
         Url = url;
@@ -39,13 +40,12 @@ public sealed record SitemapIndexNode
     /// <param name="url">The location of the sitemap.</param>
     /// <param name="lastModified">Identifies the time that the corresponding Sitemap file was modified.</param>
     /// <returns>A <see cref="SitemapIndexNode"/>.</returns>
+#if NET6_0_OR_GREATER
+    [return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull(nameof(url))]
+#endif
     public static SitemapIndexNode? Create(string? url, DateTime? lastModified = null)
     {
-#if NETSTANDARD2_0
-        if (url == null || string.IsNullOrWhiteSpace(url))
-#else
-        if (string.IsNullOrWhiteSpace(url))
-#endif
+        if (url == null)
         {
             return null;
         }

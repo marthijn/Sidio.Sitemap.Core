@@ -70,4 +70,62 @@ public sealed class SitemapImageNodeTests
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentException>().WithMessage("*image*");
     }
+
+    [Fact]
+    public void Create_WhenUrlIsValidWithSingleImageLocation_NodeCreated()
+    {
+        // arrange
+        const string Url = "http://www.example.com";
+        var imageLocation = _fixture.Create<ImageLocation>();
+
+        // act
+        var node = SitemapImageNode.Create(Url, imageLocation);
+
+        // assert
+        node.Should().NotBeNull();
+        node.Url.Should().Be(Url);
+        node.Images.Should().Contain(imageLocation);
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsNullWithSingleImageLocation_NodeNotCreated()
+    {
+        // arrange
+        var imageLocation = _fixture.Create<ImageLocation>();
+
+        // act
+        var node = SitemapImageNode.Create(null, imageLocation);
+
+        // assert
+        node.Should().BeNull();
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsValidWithMultipleImageLocations_NodeCreated()
+    {
+        // arrange
+        const string Url = "http://www.example.com";
+        var imageLocations = _fixture.CreateMany<ImageLocation>().ToList();
+
+        // act
+        var node = SitemapImageNode.Create(Url, imageLocations);
+
+        // assert
+        node.Should().NotBeNull();
+        node.Url.Should().Be(Url);
+        node.Images.Should().BeEquivalentTo(imageLocations);
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsNullWithMultipleImageLocations_NodeNotCreated()
+    {
+        // arrange
+        var imageLocations = _fixture.CreateMany<ImageLocation>().ToList();
+
+        // act
+        var node = SitemapImageNode.Create(null, imageLocations);
+
+        // assert
+        node.Should().BeNull();
+    }
 }

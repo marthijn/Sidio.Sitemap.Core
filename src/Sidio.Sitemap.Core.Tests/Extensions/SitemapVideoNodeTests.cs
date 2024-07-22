@@ -60,4 +60,88 @@ public sealed class SitemapVideoNodeTests
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentException>().WithMessage("*at least*");
     }
+
+    [Fact]
+    public void Create_WhenUrlIsValidWithSingleVideoContent_NodeCreated()
+    {
+        // arrange
+        const string Url = "http://www.example.com";
+        var videoContent = new VideoContent(
+            _fixture.Create<string>(),
+            _fixture.Create<string>(),
+            _fixture.Create<string>(),
+            _fixture.Create<string>(),
+            _fixture.Create<string>());
+
+        // act
+        var node = SitemapVideoNode.Create(Url, videoContent);
+
+        // assert
+        node.Should().NotBeNull();
+        node.Url.Should().Be(Url);
+        node.Videos.Should().Contain(videoContent);
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsNullWithSingleVideoContent_NodeNotCreated()
+    {
+        // arrange
+        var videoContent = new VideoContent(
+            _fixture.Create<string>(),
+            _fixture.Create<string>(),
+            _fixture.Create<string>(),
+            _fixture.Create<string>(),
+            _fixture.Create<string>());
+
+        // act
+        var node = SitemapVideoNode.Create(null, videoContent);
+
+        // assert
+        node.Should().BeNull();
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsValidWithMultipleVideoContent_NodeCreated()
+    {
+        // arrange
+        const string Url = "http://www.example.com";
+        var videoContent = new List<VideoContent>
+        {
+            new VideoContent(
+                _fixture.Create<string>(),
+                _fixture.Create<string>(),
+                _fixture.Create<string>(),
+                _fixture.Create<string>(),
+                _fixture.Create<string>())
+        };
+
+        // act
+        var node = SitemapVideoNode.Create(Url, videoContent);
+
+        // assert
+        node.Should().NotBeNull();
+        node.Url.Should().Be(Url);
+        node.Videos.Should().BeEquivalentTo(videoContent);
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsNullWithMultipleVideoContent_NodeNotCreated()
+    {
+        // arrange
+        var videoContent = new List<VideoContent>
+        {
+            new VideoContent(
+                _fixture.Create<string>(),
+                _fixture.Create<string>(),
+                _fixture.Create<string>(),
+                _fixture.Create<string>(),
+                _fixture.Create<string>())
+        };
+
+        // act
+        var node = SitemapVideoNode.Create(null, videoContent);
+
+        // assert
+        node.Should().BeNull();
+    }
 }

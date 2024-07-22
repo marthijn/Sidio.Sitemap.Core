@@ -85,4 +85,76 @@ public sealed class SitemapNewsNodeTests
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentException>();
     }
+
+    [Fact]
+    public void Create_WhenUrlIsValidWithLanguage_NodeCreated()
+    {
+        // arrange
+        const string Url = "http://www.example.com";
+        var name = _fixture.Create<string>();
+        var title = _fixture.Create<string>();
+        var language = _fixture.Create<string>();
+        var publicationDate = _fixture.Create<DateTimeOffset>();
+
+        // act
+        var node = SitemapNewsNode.Create(Url, title, name, language, publicationDate);
+
+        // assert
+        node.Should().NotBeNull();
+        node.Url.Should().Be(Url);
+        node.Publication.Should().NotBeNull();
+        node.Title.Should().Be(title);
+        node.PublicationDate.Should().Be(publicationDate);
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsValidWithLanguage_NodeNotCreated()
+    {
+        // arrange
+        var name = _fixture.Create<string>();
+        var title = _fixture.Create<string>();
+        var language = _fixture.Create<string>();
+        var publicationDate = _fixture.Create<DateTimeOffset>();
+
+        // act
+        var node = SitemapNewsNode.Create(null, title, name, language, publicationDate);
+
+        // assert
+        node.Should().BeNull();
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsValidWithPublication_NodeCreated()
+    {
+        // arrange
+        const string Url = "http://www.example.com";
+        var title = _fixture.Create<string>();
+        var publicationDate = _fixture.Create<DateTimeOffset>();
+        var publication = _fixture.Create<Publication>();
+
+        // act
+        var node = SitemapNewsNode.Create(Url, title ,publication, publicationDate);
+
+        // assert
+        node.Should().NotBeNull();
+        node.Url.Should().Be(Url);
+        node.Publication.Should().NotBeNull();
+        node.Title.Should().Be(title);
+        node.PublicationDate.Should().Be(publicationDate);
+    }
+
+    [Fact]
+    public void Create_WhenUrlIsValidWitPublication_NodeNotCreated()
+    {
+        // arrange
+        var title = _fixture.Create<string>();
+        var publicationDate = _fixture.Create<DateTimeOffset>();
+        var publication = _fixture.Create<Publication>();
+
+        // act
+        var node = SitemapNewsNode.Create(null, title ,publication, publicationDate);
+
+        // assert
+        node.Should().BeNull();
+    }
 }

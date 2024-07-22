@@ -35,7 +35,7 @@ public sealed class SitemapNodeTests
         var sitemapNodeAction = () => new SitemapNode(url!);
 
         // assert
-        sitemapNodeAction.Should().ThrowExactly<ArgumentNullException>();
+        sitemapNodeAction.Should().ThrowExactly<ArgumentException>();
     }
 
     [Theory]
@@ -67,7 +67,7 @@ public sealed class SitemapNodeTests
 
         // assert
         node.Should().NotBeNull();
-        node!.Url.Should().Be(Url);
+        node.Url.Should().Be(Url);
         node.LastModified.Should().Be(dateTime);
         node.ChangeFrequency.Should().Be(changeFrequency);
         node.Priority.Should().Be(Priority);

@@ -14,13 +14,13 @@ public sealed record SitemapNode : ISitemapNode
     /// <param name="lastModified">The date of last modification of the page.</param>
     /// <param name="changeFrequency">How frequently the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page.</param>
     /// <param name="priority">The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.</param>
-    /// <exception cref="ArgumentNullException">Thrown when a required argument is null or empty.</exception>
-    /// <exception cref="ArgumentException">Thrown when an argument has an invalid value.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when a required argument is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when an argument has an invalid value (in case of a string that is null or empty).</exception>
     public SitemapNode(string url, DateTime? lastModified = null, ChangeFrequency? changeFrequency = null, decimal? priority = null)
     {
         if (string.IsNullOrWhiteSpace(url))
         {
-            throw new ArgumentNullException(nameof(url));
+            throw new ArgumentException($"{nameof(url)} cannot be null or empty.", nameof(url));
         }
 
         Url = url;
@@ -69,17 +69,16 @@ public sealed record SitemapNode : ISitemapNode
     /// <param name="changeFrequency">How frequently the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page.</param>
     /// <param name="priority">The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.</param>
     /// <returns>A <see cref="SitemapNode"/>.</returns>
+#if NET6_0_OR_GREATER
+    [return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull(nameof(url))]
+#endif
     public static SitemapNode? Create(
         string? url,
         DateTime? lastModified = null,
         ChangeFrequency? changeFrequency = null,
         decimal? priority = null)
     {
-#if NETSTANDARD2_0
-        if (url == null || string.IsNullOrWhiteSpace(url))
-#else
-        if (string.IsNullOrWhiteSpace(url))
-#endif
+        if (url == null)
         {
             return null;
         }
