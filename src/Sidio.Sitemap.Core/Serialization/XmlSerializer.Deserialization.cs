@@ -6,6 +6,8 @@ namespace Sidio.Sitemap.Core.Serialization;
 
 public sealed partial class XmlSerializer
 {
+    private const string XmlStylesheet = "xml-stylesheet";
+
     /// <inheritdoc />
     public Sitemap Deserialize(string xml)
     {
@@ -20,7 +22,7 @@ public sealed partial class XmlSerializer
         XNamespace newsNs = SitemapNamespaceNews;
         XNamespace videoNs = SitemapNamespaceVideo;
 
-        var sitemap = new Sitemap();
+        var sitemap = new Sitemap(GetStylesheet(doc));
         foreach (var element in doc.Root?.Elements(ns + "url") ?? [])
         {
             var loc = element.Element(ns + "loc")?.Value;
@@ -83,7 +85,7 @@ public sealed partial class XmlSerializer
         var doc = XDocument.Parse(xml);
         XNamespace ns = SitemapNamespace;
 
-        var sitemapIndex = new SitemapIndex();
+        var sitemapIndex = new SitemapIndex(GetStylesheet(doc));
         foreach (var element in doc.Root?.Elements(ns + "sitemap") ?? [])
         {
             var loc = element.Element(ns + "loc")?.Value;
@@ -208,5 +210,12 @@ public sealed partial class XmlSerializer
             _ => throw new SitemapXmlDeserializationException(
                 $"Value '{value}' is not a valid boolean value. Expected 'yes' or 'no'.", element),
         };
+    }
+
+    private static string? GetStylesheet(XDocument document)
+    {
+        var pi = document.Nodes().OfType<XProcessingInstruction>().FirstOrDefault(
+            x => x.Target.Equals(XmlStylesheet, StringComparison.OrdinalIgnoreCase));
+        return pi?.Data.GetHref();
     }
 }

@@ -95,6 +95,13 @@ var serializer = services.GetRequiredService<ISitemapSerializer>();
 var sitemap = serializer.Deserialize(xml);
 ```
 
+## Stylesheets
+XSLT stylesheets for sitemaps and sitemap indexes are supported. The stylesheet can be added to the Sitemap or SitemapIndex object:
+```csharp
+var sitemap = new Sitemap(nodes, "my-stylesheet.xslt");
+```
+For more information, see [Sitemap Style](https://www.sitemap.style/).
+
 
 # Benchmarks XmlSerializer sync/async (Sitemap)
 ```

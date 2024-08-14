@@ -15,6 +15,21 @@ public sealed class SitemapIndexTests
 
         // assert
         sitemapIndex.Nodes.Should().BeEquivalentTo(nodes);
+        sitemapIndex.Stylesheet.Should().BeNull();
+    }
+
+    [Fact]
+    public void Construct_WithStylesheet_ShouldHaveStylesheet()
+    {
+        // arrange
+        var styleSheet = _fixture.Create<string>();
+
+        // act
+        var sitemapIndex = new SitemapIndex(styleSheet);
+
+        // assert
+        sitemapIndex.Nodes.Should().BeEmpty();
+        sitemapIndex.Stylesheet.Should().Be(styleSheet);
     }
 
     [Fact]

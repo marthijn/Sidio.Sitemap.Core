@@ -12,16 +12,22 @@ public sealed class Sitemap
     /// <summary>
     /// Initializes a new instance of the <see cref="Sitemap"/> class.
     /// </summary>
-    public Sitemap()
+    /// <param name="stylesheet">The text/xsl stylesheet.</param>
+    public Sitemap(string? stylesheet = null)
     {
+        if (!string.IsNullOrWhiteSpace(stylesheet))
+        {
+            Stylesheet = stylesheet;
+        }
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Sitemap"/> class.
     /// </summary>
     /// <param name="nodes">The sitemap nodes.</param>
+    /// <param name="stylesheet">The text/xsl stylesheet.</param>
     /// <exception cref="InvalidOperationException">Thrown when the number of nodes exceeds the maximum number of nodes.</exception>
-    public Sitemap(IEnumerable<ISitemapNode> nodes)
+    public Sitemap(IEnumerable<ISitemapNode> nodes, string? stylesheet = null)
     {
         if (nodes == null)
         {
@@ -29,12 +35,22 @@ public sealed class Sitemap
         }
 
         _ = Add(nodes);
+
+        if (!string.IsNullOrWhiteSpace(stylesheet))
+        {
+            Stylesheet = stylesheet;
+        }
     }
 
     /// <summary>
     /// Gets the sitemap nodes.
     /// </summary>
     public IReadOnlyList<ISitemapNode> Nodes => _nodes;
+
+    /// <summary>
+    /// Gets the stylesheet.
+    /// </summary>
+    public string? Stylesheet { get; }
 
     /// <summary>
     /// Adds the specified nodes to the sitemap.
