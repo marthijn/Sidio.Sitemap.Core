@@ -4,6 +4,7 @@ Sidio.Sitemap.Core is a lightweight .NET library for generating [sitemaps](https
 
 [![build](https://github.com/marthijn/Sidio.Sitemap.Core/actions/workflows/build.yml/badge.svg)](https://github.com/marthijn/Sidio.Sitemap.Core/actions/workflows/build.yml)
 [![NuGet Version](https://img.shields.io/nuget/v/Sidio.Sitemap.Core)](https://www.nuget.org/packages/Sidio.Sitemap.Core/)
+[![Coverage Status](https://coveralls.io/repos/github/marthijn/Sidio.Sitemap.Core/badge.svg?branch=main)](https://coveralls.io/github/marthijn/Sidio.Sitemap.Core?branch=main)
 
 # Installation
 Add [the package](https://www.nuget.org/packages/Sidio.Sitemap.Core/) to your project.
