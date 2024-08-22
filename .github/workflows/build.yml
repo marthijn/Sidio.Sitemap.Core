@@ -35,10 +35,8 @@ jobs:
         run: dotnet test --configuration Release
           /p:CollectCoverage=true
           /p:CoverletOutputFormat="\"cobertura,json\""
-          /p:CoverletOutput=../coverage/
+          /p:CoverletOutput=coverage/
           /p:IncludeTestAssembly=false
-          /p:MergeWith=../coverage/coverage.json
-          /maxcpucount:1 -m:1
       - name: Upload dotnet test results
         uses: coverallsapp/github-action@v2.3.0
         with:
