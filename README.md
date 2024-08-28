@@ -88,6 +88,13 @@ sitemap.Add(new SitemapVideoNode("https://example.com/page.html", video));
 ```
 [Extension documentation on Google Search Central](https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps)
 
+## Stylesheets
+XSLT stylesheets for sitemaps and sitemap indexes are supported. The stylesheet can be added to the Sitemap or SitemapIndex object:
+```csharp
+var sitemap = new Sitemap(nodes, "my-stylesheet.xslt");
+```
+For more information, see [Sitemap Style](https://www.sitemap.style/).
+
 # Deserialization
 It is possible to load existing XML and deserialize it into a sitemap object:
 ```csharp
@@ -95,7 +102,6 @@ var xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset> ....";
 var serializer = services.GetRequiredService<ISitemapSerializer>();
 var sitemap = serializer.Deserialize(xml);
 ```
-
 
 # Benchmarks XmlSerializer sync/async (Sitemap)
 ```

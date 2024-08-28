@@ -2,6 +2,8 @@
 
 public sealed class SitemapTests
 {
+    private readonly Fixture _fixture = new();
+
     [Fact]
     public void Construct_WithNodes_ShouldContainNodes()
     {
@@ -14,6 +16,7 @@ public sealed class SitemapTests
 
         // assert
         sitemap.Nodes.Should().BeEquivalentTo(nodes);
+        sitemap.Stylesheet.Should().BeNull();
     }
 
     [Fact]
@@ -28,6 +31,20 @@ public sealed class SitemapTests
 
         // assert
         sitemapNodeAction.Should().ThrowExactly<InvalidOperationException>().WithMessage($"*{Sitemap.MaxNodes}*");
+    }
+
+    [Fact]
+    public void Construct_WithStylesheet_ShouldHaveStylesheet()
+    {
+        // arrange
+        var styleSheet = _fixture.Create<string>();
+
+        // act
+        var sitemap = new Sitemap(styleSheet);
+
+        // assert
+        sitemap.Nodes.Should().BeEmpty();
+        sitemap.Stylesheet.Should().Be(styleSheet);
     }
 
     [Fact]

@@ -19,6 +19,31 @@ public sealed partial class XmlSerializerTests
         // assert
         result.Should().NotBeNull();
         result.Nodes.Should().HaveCount(1);
+        result.Stylesheet.Should().BeNull();
+
+        var node = result.Nodes[0] as SitemapNode;
+        node.Should().NotBeNull();
+        node!.Url.Should().Be("http://www.example.com/");
+        node.LastModified.Should().Be(new DateTime(2005, 1, 1));
+        node.ChangeFrequency.Should().Be(ChangeFrequency.Monthly);
+        node.Priority.Should().Be(0.8m);
+    }
+
+    [Fact]
+    public void Deserialize_GivenValidXmlWithStylesheet_ReturnsSitemapObject()
+    {
+        // arrange
+        const string Xml =
+            $"<?xml version=\"1.0\" encoding=\"UTF-8\"?><?xml-stylesheet type=\"text/xsl\" href=\"test.xslt\" ?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://www.example.com/</loc><lastmod>2005-01-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url></urlset>";
+        var serializer = new XmlSerializer();
+
+        // act
+        var result = serializer.Deserialize(Xml);
+
+        // assert
+        result.Should().NotBeNull();
+        result.Nodes.Should().HaveCount(1);
+        result.Stylesheet.Should().Be("test.xslt");
 
         var node = result.Nodes[0] as SitemapNode;
         node.Should().NotBeNull();
@@ -42,6 +67,27 @@ public sealed partial class XmlSerializerTests
         // assert
         result.Should().NotBeNull();
         result.Nodes.Should().HaveCount(2);
+        result.Stylesheet.Should().BeNull();
+
+        result.Nodes.Should().Contain(x => x.Url == "https://www.example.com/sitemap1.xml.gz");
+        result.Nodes.Should().Contain(x => x.Url == "https://www.example.com/sitemap2.xml.gz");
+    }
+
+    [Fact]
+    public void DeserializeIndex_GivenValidXmlWithStylesheet_ReturnsSitemapIndexObject()
+    {
+        // arrange
+        const string Xml =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><?xml-stylesheet type=\"text/xsl\" href=\"test.xslt\" ?><sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><sitemap><loc>https://www.example.com/sitemap1.xml.gz</loc><lastmod>2005-01-01</lastmod></sitemap><sitemap><loc>https://www.example.com/sitemap2.xml.gz</loc></sitemap></sitemapindex>";
+        var serializer = new XmlSerializer();
+
+        // act
+        var result = serializer.DeserializeIndex(Xml);
+
+        // assert
+        result.Should().NotBeNull();
+        result.Nodes.Should().HaveCount(2);
+        result.Stylesheet.Should().Be("test.xslt");
 
         result.Nodes.Should().Contain(x => x.Url == "https://www.example.com/sitemap1.xml.gz");
         result.Nodes.Should().Contain(x => x.Url == "https://www.example.com/sitemap2.xml.gz");
