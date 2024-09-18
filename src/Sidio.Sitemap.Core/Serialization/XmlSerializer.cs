@@ -106,6 +106,12 @@ public sealed partial class XmlSerializer : ISitemapSerializer
     private void SerializeSitemap(XmlWriter writer, Sitemap sitemap)
     {
         writer.WriteStartDocument(false);
+
+        if (!string.IsNullOrWhiteSpace(sitemap.Stylesheet))
+        {
+            writer.WriteProcessingInstruction("xml-stylesheet", $"type=\"text/xsl\" href=\"{sitemap.Stylesheet}\"");
+        }
+
         writer.WriteStartElement(null, "urlset", SitemapNamespace);
         WriteNamespaces(writer, sitemap);
 
@@ -160,6 +166,12 @@ public sealed partial class XmlSerializer : ISitemapSerializer
     private void SerializeSitemapIndex(XmlWriter writer, SitemapIndex sitemapIndex)
     {
         writer.WriteStartDocument(false);
+
+        if (!string.IsNullOrWhiteSpace(sitemapIndex.Stylesheet))
+        {
+            writer.WriteProcessingInstruction("xml-stylesheet", $"type=\"text/xsl\" href=\"{sitemapIndex.Stylesheet}\"");
+        }
+
         writer.WriteStartElement(null, "sitemapindex", SitemapNamespace);
 
         foreach (var n in sitemapIndex.Nodes)

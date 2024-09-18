@@ -10,15 +10,21 @@ public sealed class SitemapIndex
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapIndex"/> class.
     /// </summary>
-    public SitemapIndex()
+    /// <param name="stylesheet">The text/xsl stylesheet.</param>
+    public SitemapIndex(string? stylesheet = null)
     {
+        if (!string.IsNullOrWhiteSpace(stylesheet))
+        {
+            Stylesheet = stylesheet;
+        }
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapIndex"/> class.
     /// </summary>
     /// <param name="nodes">The index nodes.</param>
-    public SitemapIndex(IEnumerable<SitemapIndexNode?> nodes)
+    /// <param name="stylesheet">The text/xsl stylesheet.</param>
+    public SitemapIndex(IEnumerable<SitemapIndexNode?> nodes, string? stylesheet = null)
     {
         if (nodes == null)
         {
@@ -26,12 +32,22 @@ public sealed class SitemapIndex
         }
 
         _ = Add(nodes);
+
+        if (!string.IsNullOrWhiteSpace(stylesheet))
+        {
+            Stylesheet = stylesheet;
+        }
     }
 
     /// <summary>
     /// Gets the sitemap index nodes.
     /// </summary>
     public IReadOnlyList<SitemapIndexNode> Nodes => _nodes;
+
+    /// <summary>
+    /// Gets the stylesheet.
+    /// </summary>
+    public string? Stylesheet { get; }
 
     /// <summary>
     /// Adds the specified nodes to the sitemap index.
