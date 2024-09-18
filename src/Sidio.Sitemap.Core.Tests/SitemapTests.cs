@@ -48,6 +48,63 @@ public sealed class SitemapTests
     }
 
     [Fact]
+    public void Construct_WithNodesAndStylesheet_ShouldHaveStylesheet()
+    {
+        // arrange
+        const string Url = "https://example.com";
+        var nodes = Enumerable.Range(0, 100).Select(_ => new SitemapNode(Url)).ToList();
+        var styleSheet = _fixture.Create<string>();
+
+        // act
+        var sitemap = new Sitemap(nodes, styleSheet);
+
+        // assert
+        sitemap.Nodes.Should().BeEquivalentTo(nodes);
+        sitemap.Stylesheet.Should().Be(styleSheet);
+    }
+
+    [Fact]
+    public void Construct_WhenNodesIsNull_ThrowException()
+    {
+        // arrange
+        List<SitemapNode>? nodes = null;
+
+        // act
+        var action = () => new Sitemap(nodes!);
+
+        // assert
+        action.Should().ThrowExactly<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void Add_NodesIsNull_ThrowException()
+    {
+        // arrange
+        var sitemap = new Sitemap();
+        List<SitemapNode>? nodes = null;
+
+        // act
+        var sitemapNodeAction = () => sitemap.Add(nodes!);
+
+        // assert
+        sitemapNodeAction.Should().ThrowExactly<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void Add_NodesArrayIsNull_ThrowException()
+    {
+        // arrange
+        var sitemap = new Sitemap();
+        ISitemapNode[] nodes = null!;
+
+        // act
+        var sitemapNodeAction = () => sitemap.Add(nodes);
+
+        // assert
+        sitemapNodeAction.Should().ThrowExactly<ArgumentNullException>();
+    }
+
+    [Fact]
     public void AddNodes_Enumerable_WithTooManyNodes_ThrowException()
     {
         // arrange
