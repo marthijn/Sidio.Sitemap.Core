@@ -38,7 +38,7 @@ jobs:
           /p:CoverletOutput=coverage/
           /p:IncludeTestAssembly=false
       - name: Upload dotnet test results
-        uses: coverallsapp/github-action@v2.3.1
+        uses: coverallsapp/github-action@v2.3.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: ${{ github.workspace }}/src/Sidio.Sitemap.Core.Tests/coverage/coverage.net8.0.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.Core.Tests/coverage/coverage.net481.cobertura.xml
