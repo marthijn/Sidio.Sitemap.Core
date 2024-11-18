@@ -1,10 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 using Sidio.Sitemap.Core.Serialization;
 
 namespace Sidio.Sitemap.Core.Benchmarks;
 
 [ExcludeFromCodeCoverage]
+[SimpleJob(RuntimeMoniker.Net80, baseline: true)]
+[SimpleJob(RuntimeMoniker.Net90)]
 public class XmlSerializerBenchmarks
 {
     [Params(10, 100, 40000)]

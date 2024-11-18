@@ -106,22 +106,34 @@ var sitemap = serializer.Deserialize(xml);
 # Benchmarks XmlSerializer sync/async (Sitemap)
 ```
 
-BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3007/23H2/2023Update/SunValley3)
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.22631.4460/23H2/2023Update/SunValley3)
 AMD Ryzen 7 5800H with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
-.NET SDK 8.0.101
-  [Host]     : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
-  DefaultJob : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
-
+.NET SDK 9.0.100
+  [Host]   : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
+  .NET 8.0 : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
+  .NET 9.0 : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
 
 ```
-| Method         | NumberOfNodes | Mean          | Error       | StdDev      |
-|--------------- |-------------- |--------------:|------------:|------------:|
-| **Serialize**      | **10**            |      **4.316 μs** |   **0.0825 μs** |   **0.0772 μs** |
-| SerializeAsync | 10            |      5.367 μs |   0.0769 μs |   0.0681 μs |
-| **Serialize**      | **100**           |     **33.616 μs** |   **0.1583 μs** |   **0.1480 μs** |
-| SerializeAsync | 100           |     41.328 μs |   0.3361 μs |   0.3144 μs |
-| **Serialize**      | **40000**         | **19,396.188 μs** | **380.0968 μs** | **568.9109 μs** |
-| SerializeAsync | 40000         | 20,183.385 μs | 399.3607 μs | 644.8931 μs |
+| Method         | Job      | Runtime  | NumberOfNodes | Mean          | Error       | StdDev      | Ratio | RatioSD |
+|--------------- |--------- |--------- |-------------- |--------------:|------------:|------------:|------:|--------:|
+| Serialize      | .NET 8.0 | .NET 8.0 | 10            |      5.153 us |   0.0971 us |   0.0758 us |  1.00 |    0.02 |
+| Serialize      | .NET 9.0 | .NET 9.0 | 10            |      4.585 us |   0.0894 us |   0.0792 us |  0.89 |    0.02 |
+|                |          |          |               |               |             |             |       |         |
+| SerializeAsync | .NET 8.0 | .NET 8.0 | 10            |      6.312 us |   0.0733 us |   0.0650 us |  1.00 |    0.01 |
+| SerializeAsync | .NET 9.0 | .NET 9.0 | 10            |      5.482 us |   0.0189 us |   0.0167 us |  0.87 |    0.01 |
+|                |          |          |               |               |             |             |       |         |
+| Serialize      | .NET 8.0 | .NET 8.0 | 100           |     41.446 us |   0.4271 us |   0.3995 us |  1.00 |    0.01 |
+| Serialize      | .NET 9.0 | .NET 9.0 | 100           |     38.711 us |   0.3524 us |   0.3124 us |  0.93 |    0.01 |
+|                |          |          |               |               |             |             |       |         |
+| SerializeAsync | .NET 8.0 | .NET 8.0 | 100           |     51.229 us |   0.4338 us |   0.4057 us |  1.00 |    0.01 |
+| SerializeAsync | .NET 9.0 | .NET 9.0 | 100           |     46.347 us |   0.7401 us |   0.6923 us |  0.90 |    0.01 |
+|                |          |          |               |               |             |             |       |         |
+| Serialize      | .NET 8.0 | .NET 8.0 | 40000         | 23,239.956 us | 428.2431 us | 400.5788 us |  1.00 |    0.02 |
+| Serialize      | .NET 9.0 | .NET 9.0 | 40000         | 23,396.317 us | 334.0125 us | 312.4355 us |  1.01 |    0.02 |
+|                |          |          |               |               |             |             |       |         |
+| SerializeAsync | .NET 8.0 | .NET 8.0 | 40000         | 23,490.278 us | 251.5840 us | 223.0227 us |  1.00 |    0.01 |
+| SerializeAsync | .NET 9.0 | .NET 9.0 | 40000         | 23,334.005 us | 253.3734 us | 237.0057 us |  0.99 |    0.01 |
+
 
 # References
 - [Sitemap protocol](https://www.sitemaps.org/protocol.html)
