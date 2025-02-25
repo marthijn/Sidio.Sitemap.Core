@@ -49,13 +49,6 @@ jobs:
         with:
           name: coveragereport
           path: coveragereport/
-      #- name: Upload dotnet test results
-      #  uses: coverallsapp/github-action@v2.3.6
-      #  with:
-      #    github-token: ${{ secrets.GITHUB_TOKEN }}
-      #    files: ${{ github.workspace }}/src/Sidio.Sitemap.Core.Tests/coverage/coverage.net8.0.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.Core.Tests/coverage/coverage.net9.0.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.Core.Tests/coverage/coverage.net481.cobertura.xml
-      #    format: cobertura
-      #  if: ${{ always() }}
       - name: Upload dotnet test results
         uses: coverallsapp/github-action@v2.3.6
         with:
