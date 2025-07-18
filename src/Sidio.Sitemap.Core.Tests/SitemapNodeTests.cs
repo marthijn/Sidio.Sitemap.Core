@@ -82,4 +82,20 @@ public sealed class SitemapNodeTests
         // assert
         node.Should().BeNull();
     }
+
+    [Fact]
+    public void SitemapNode_Equality()
+    {
+        // arrange
+        var url = "https://example.com";
+        var lastModified = DateTime.UtcNow;
+        var changeFrequency = _fixture.Create<ChangeFrequency>();
+        const decimal Priority = 0.5m;
+
+        var node1 = new SitemapNode(url, lastModified, changeFrequency, Priority);
+        var node2 = new SitemapNode(url, lastModified, changeFrequency, Priority);
+
+        // act & assert
+        (node1 == node2).Should().BeTrue();
+    }
 }

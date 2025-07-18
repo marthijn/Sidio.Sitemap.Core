@@ -27,4 +27,18 @@ public sealed class SitemapIndexNodeTests
         // assert
         node.Should().BeNull();
     }
+
+    [Fact]
+    public void SitemapIndexNode_Equality()
+    {
+        // arrange
+        var url = "https://example.com/sitemap.xml";
+        var lastModified = DateTime.UtcNow;
+
+        var node1 = new SitemapIndexNode(url, lastModified);
+        var node2 = new SitemapIndexNode(url, lastModified);
+
+        // act & assert
+        (node1 == node2).Should().BeTrue();
+    }
 }
