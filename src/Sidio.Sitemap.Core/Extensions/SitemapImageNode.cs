@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a node in a sitemap with images.
 /// </summary>
-public sealed record SitemapImageNode : ISitemapNode
+public sealed class SitemapImageNode : ISitemapNode
 {
     private const int MaxImages = 1000;
 

@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a node in a sitemap with news.
 /// </summary>
-public sealed record SitemapNewsNode : ISitemapNode
+public sealed class SitemapNewsNode : ISitemapNode
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapNewsNode"/> class.

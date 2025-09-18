@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a node in a sitemap with videos.
 /// </summary>
-public sealed record SitemapVideoNode : ISitemapNode
+public sealed class SitemapVideoNode : ISitemapNode
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapVideoNode"/> class.

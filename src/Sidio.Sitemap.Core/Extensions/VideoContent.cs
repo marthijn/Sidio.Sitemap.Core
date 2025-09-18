@@ -3,7 +3,7 @@
 /// <summary>
 /// The video content.
 /// </summary>
-public sealed record VideoContent
+public sealed class VideoContent
 {
     private const int DescriptionMaxLength = 2048;
 

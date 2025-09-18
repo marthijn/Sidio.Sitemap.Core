@@ -3,7 +3,7 @@
 /// <summary>
 /// The relationship between the video and the restriction.
 /// </summary>
-public sealed record VideoRestriction
+public sealed class VideoRestriction
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoRestriction"/> class.

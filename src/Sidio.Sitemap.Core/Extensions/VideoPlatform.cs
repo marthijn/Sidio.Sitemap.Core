@@ -3,7 +3,7 @@
 /// <summary>
 /// The relationship between the video and the platform.
 /// </summary>
-public sealed record VideoPlatform
+public sealed class VideoPlatform
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlatform"/> class.
