@@ -81,15 +81,15 @@ public sealed class Sitemap
             throw new ArgumentNullException(nameof(nodes));
         }
 
-        var validNodes = nodes.Where(x => x != null).Cast<ISitemapNode>().ToArray();
-        if (validNodes.Length > 0)
+        var validNodes = nodes.Where(x => x != null).Cast<ISitemapNode>().ToList();
+        if (validNodes.Count > 0)
         {
             _nodes.AddRange(validNodes);
         }
 
         ValidateNumberOfNodes();
 
-        return validNodes.Length;
+        return validNodes.Count;
     }
 
     private void ValidateNumberOfNodes()

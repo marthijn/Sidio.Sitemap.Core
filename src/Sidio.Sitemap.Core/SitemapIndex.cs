@@ -78,13 +78,13 @@ public sealed class SitemapIndex
             throw new ArgumentNullException(nameof(nodes));
         }
 
-        var validNodes = nodes.Where(x => x != null).Cast<SitemapIndexNode>().ToArray();
+        var validNodes = nodes.Where(x => x != null).Cast<SitemapIndexNode>().ToList();
 
-        if (validNodes.Length > 0)
+        if (validNodes.Count > 0)
         {
             _nodes.AddRange(validNodes);
         }
 
-        return validNodes.Length;
+        return validNodes.Count;
     }
 }
