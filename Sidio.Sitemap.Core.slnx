@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/Benchmarks/">
+    <Project Path="src/Sidio.Sitemap.Core.Benchmarks/Sidio.Sitemap.Core.Benchmarks.csproj" />
+  </Folder>
+  <Folder Name="/SolutionFiles/">
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Src/">
+    <Project Path="src/Sidio.Sitemap.Core/Sidio.Sitemap.Core.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="src/Sidio.Sitemap.Core.Tests/Sidio.Sitemap.Core.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Workflows/">
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/dependabot-autoapprove.yml" />
+    <File Path=".github/workflows/release.yml" />
+  </Folder>
+</Solution>
