@@ -11,21 +11,23 @@ namespace Sidio.Sitemap.Core.Serialization;
 /// </summary>
 public sealed partial class XmlSerializer : ISitemapSerializer
 {
-    private readonly UrlValidator _urlValidator;
-
     internal const int MaxSitemapSizeInMegaBytes = 50;
-
     private const string SitemapNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
-
     private const string SitemapNamespaceImage = "http://www.google.com/schemas/sitemap-image/1.1";
-
     private const string SitemapNamespaceNews = "http://www.google.com/schemas/sitemap-news/0.9";
-
     private const string SitemapNamespaceVideo = "http://www.google.com/schemas/sitemap-video/1.1";
-
     private const string SitemapDateFormat = "yyyy-MM-dd";
 
     private static readonly CultureInfo SitemapCulture = new ("en-US");
+    private static readonly XmlWriterSettings Settings = new()
+    {
+        Encoding = new UTF8Encoding(true),
+        Indent = false,
+        OmitXmlDeclaration = false,
+        NewLineHandling = NewLineHandling.None
+    };
+
+    private readonly UrlValidator _urlValidator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="XmlSerializer"/> class.
@@ -47,7 +49,8 @@ public sealed partial class XmlSerializer : ISitemapSerializer
         var result = stringWriter.ToString();
         var size = Encoding.UTF8.GetByteCount(result);
 
-        if (size > MaxSitemapSizeInMegaBytes * 1024 * 1024)
+        const int BytesPerMegaByte = 1024 * 1024;
+        if (size > MaxSitemapSizeInMegaBytes * BytesPerMegaByte)
         {
             throw new InvalidOperationException($"The sitemap is too large. It must be less than {MaxSitemapSizeInMegaBytes} MB but is {size / 1024 / 1024} MB.");
         }
@@ -78,12 +81,6 @@ public sealed partial class XmlSerializer : ISitemapSerializer
     {
         return Task.Run(() => Serialize(sitemapIndex), cancellationToken);
     }
-
-    private static XmlWriterSettings Settings =>
-        new ()
-            {
-                Encoding = new UTF8Encoding(true), Indent = false, OmitXmlDeclaration = false, NewLineHandling = NewLineHandling.None,
-            };
 
     private static void WriteNamespaces(XmlWriter writer, Sitemap sitemap)
     {
