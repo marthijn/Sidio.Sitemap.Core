@@ -122,7 +122,7 @@ public sealed partial class XmlSerializer
 
         writer.WriteElementStringIfNotNull(VideoPrefix, "duration", node.Duration);
         writer.WriteElementStringIfNotNull(VideoPrefix, "expiration_date", node.ExpirationDate?.ToString(ExtensionsDateFormat));
-        writer.WriteElementStringIfNotNull(VideoPrefix, "rating", node.Rating?.ToString("0.0", new CultureInfo("en-US")));
+        writer.WriteElementStringIfNotNull(VideoPrefix, "rating", node.Rating?.ToString("0.0", SitemapCulture));
         writer.WriteElementStringIfNotNull(VideoPrefix, "view_count", node.ViewCount);
 
         if (node.Restriction != null)
