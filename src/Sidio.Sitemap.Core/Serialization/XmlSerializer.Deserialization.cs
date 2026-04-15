@@ -203,7 +203,7 @@ public sealed partial class XmlSerializer
 
     private static bool ParseBool(string value, XElement element)
     {
-        return value.ToLower() switch
+        return value.ToLowerInvariant() switch
         {
             "yes" => true,
             "no" => false,

@@ -25,7 +25,7 @@ public sealed partial class XmlSerializerTests
         // assert
         result.Should().NotBeNullOrEmpty();
         result.Should().Be(
-            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLower()}</changefreq><priority>0.3</priority></url></urlset>");
+            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLowerInvariant()}</changefreq><priority>0.3</priority></url></urlset>");
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public sealed partial class XmlSerializerTests
         // assert
         result.Should().NotBeNullOrEmpty();
         result.Should().Be(
-            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><?xml-stylesheet type=\"text/xsl\" href=\"{stylesheet}\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLower()}</changefreq><priority>0.3</priority></url></urlset>");
+            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><?xml-stylesheet type=\"text/xsl\" href=\"{stylesheet}\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLowerInvariant()}</changefreq><priority>0.3</priority></url></urlset>");
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public sealed partial class XmlSerializerTests
         // assert
         result.Should().NotBeNullOrEmpty();
         result.Should().Be(
-            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLower()}</changefreq><priority>0.3</priority></url></urlset>");
+            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLowerInvariant()}</changefreq><priority>0.3</priority></url></urlset>");
     }
 
     [Fact]
