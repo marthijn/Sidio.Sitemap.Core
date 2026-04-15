@@ -80,7 +80,7 @@ public sealed partial class XmlSerializer
         writer.WriteElementStringEscaped("news", "language", node.Publication.Language);
         writer.WriteEndElement();
 
-        writer.WriteElementStringEscaped("news", "publication_date", node.PublicationDate.ToString(ExtensionsDateFormat));
+        writer.WriteElementStringEscaped("news", "publication_date", node.PublicationDate.ToString(ExtensionsDateFormat, SitemapCulture));
         writer.WriteElementStringEscaped("news", "title", node.Title);
 
         writer.WriteEndElement();
@@ -121,7 +121,7 @@ public sealed partial class XmlSerializer
         }
 
         writer.WriteElementStringIfNotNull(VideoPrefix, "duration", node.Duration);
-        writer.WriteElementStringIfNotNull(VideoPrefix, "expiration_date", node.ExpirationDate?.ToString(ExtensionsDateFormat));
+        writer.WriteElementStringIfNotNull(VideoPrefix, "expiration_date", node.ExpirationDate?.ToString(ExtensionsDateFormat, SitemapCulture));
         writer.WriteElementStringIfNotNull(VideoPrefix, "rating", node.Rating?.ToString("0.0", SitemapCulture));
         writer.WriteElementStringIfNotNull(VideoPrefix, "view_count", node.ViewCount);
 
@@ -133,7 +133,7 @@ public sealed partial class XmlSerializer
             writer.WriteEndElement();
         }
 
-        writer.WriteElementStringIfNotNull(VideoPrefix, "publication_date", node.PublicationDate?.ToString(ExtensionsDateFormat));
+        writer.WriteElementStringIfNotNull(VideoPrefix, "publication_date", node.PublicationDate?.ToString(ExtensionsDateFormat, SitemapCulture));
         writer.WriteElementStringIfNotNull(VideoPrefix, "family_friendly", BoolToSitemapValue(node.FamilyFriendly));
 
         if (node.Platform != null)
