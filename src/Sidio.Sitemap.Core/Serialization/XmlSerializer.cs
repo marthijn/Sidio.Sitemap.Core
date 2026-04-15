@@ -18,7 +18,7 @@ public sealed partial class XmlSerializer : ISitemapSerializer
     private const string SitemapNamespaceVideo = "http://www.google.com/schemas/sitemap-video/1.1";
     private const string SitemapDateFormat = "yyyy-MM-dd";
 
-    private static readonly CultureInfo SitemapCulture = new ("en-US");
+    private static readonly CultureInfo SitemapCulture = CultureInfo.InvariantCulture;
     private static readonly XmlWriterSettings Settings = new()
     {
         Encoding = new UTF8Encoding(true),
