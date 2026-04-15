@@ -18,7 +18,7 @@ public sealed partial class XmlSerializer : ISitemapSerializer
     private const string SitemapNamespaceVideo = "http://www.google.com/schemas/sitemap-video/1.1";
     private const string SitemapDateFormat = "yyyy-MM-dd";
 
-    private static readonly CultureInfo SitemapCulture = new ("en-US");
+    private static readonly CultureInfo SitemapCulture = CultureInfo.InvariantCulture;
     private static readonly XmlWriterSettings Settings = new()
     {
         Encoding = new UTF8Encoding(true),
@@ -144,12 +144,12 @@ public sealed partial class XmlSerializer : ISitemapSerializer
         writer.WriteElementStringEscaped("loc", url.ToString());
         if (node.LastModified.HasValue)
         {
-            writer.WriteElementStringEscaped("lastmod", node.LastModified.Value.ToString(SitemapDateFormat));
+            writer.WriteElementStringEscaped("lastmod", node.LastModified.Value.ToString(SitemapDateFormat, SitemapCulture));
         }
 
         if (node.ChangeFrequency.HasValue)
         {
-            writer.WriteElementStringEscaped("changefreq", node.ChangeFrequency.Value.ToString().ToLower());
+            writer.WriteElementStringEscaped("changefreq", node.ChangeFrequency.Value.ToString().ToLowerInvariant());
         }
 
         if (node.Priority.HasValue)
@@ -187,7 +187,7 @@ public sealed partial class XmlSerializer : ISitemapSerializer
         writer.WriteElementStringEscaped("loc", url.ToString());
         if (node.LastModified.HasValue)
         {
-            writer.WriteElementString("lastmod", node.LastModified.Value.ToString(SitemapDateFormat));
+            writer.WriteElementString("lastmod", node.LastModified.Value.ToString(SitemapDateFormat, SitemapCulture));
         }
 
         writer.WriteEndElement();
