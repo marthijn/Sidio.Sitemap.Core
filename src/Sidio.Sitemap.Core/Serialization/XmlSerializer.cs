@@ -16,6 +16,7 @@ public sealed partial class XmlSerializer : ISitemapSerializer
     private const string SitemapNamespaceImage = "http://www.google.com/schemas/sitemap-image/1.1";
     private const string SitemapNamespaceNews = "http://www.google.com/schemas/sitemap-news/0.9";
     private const string SitemapNamespaceVideo = "http://www.google.com/schemas/sitemap-video/1.1";
+    private const string SitemapNamespaceXhtml = "http://www.w3.org/1999/xhtml";
     private const string SitemapDateFormat = "yyyy-MM-dd";
 
     private static readonly CultureInfo SitemapCulture = CultureInfo.InvariantCulture;
@@ -110,6 +111,7 @@ public sealed partial class XmlSerializer : ISitemapSerializer
         }
 
         writer.WriteStartElement(null, "urlset", SitemapNamespace);
+        writer.WriteAttributeString("xmlns", "xhtml", null, SitemapNamespaceXhtml);
         WriteNamespaces(writer, sitemap);
 
         foreach (var n in sitemap.Nodes)
@@ -155,6 +157,18 @@ public sealed partial class XmlSerializer : ISitemapSerializer
         if (node.Priority.HasValue)
         {
             writer.WriteElementStringEscaped("priority", node.Priority.Value.ToString("F1", SitemapCulture));
+        }
+
+        if (node.AlternateLinks.Length > 0)
+        {
+            foreach (var link in node.AlternateLinks)
+            {
+                writer.WriteStartElement("xhtml", "link", SitemapNamespaceXhtml);
+                writer.WriteAttributeString("rel", link.Rel);
+                writer.WriteAttributeString("hreflang", link.Hreflang);
+                writer.WriteAttributeString("href", link.Href);
+                writer.WriteEndElement();
+            }
         }
 
         writer.WriteEndElement();
