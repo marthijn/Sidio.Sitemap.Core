@@ -24,7 +24,7 @@ _Looking for ASP.NET Core integration, see [Sidio.Sitemap.AspNetCore](https://gi
 var nodes = new List<SitemapNode> { new ("https://example.com/page.html") };
 var sitemap = new Sitemap(nodes);
 var service = new SitemapService(new XmlSerializer());
-var xmlResult = service.Serialize();
+var xmlResult = service.Serialize(sitemap);
 ```
 
 ## Sitemap index
@@ -32,7 +32,7 @@ var xmlResult = service.Serialize();
 var sitemapIndexNodes = new List<SitemapIndexNode> { new("https://example.com/sitemap-1.xml") };
 var sitemapIndex = new SitemapIndex(sitemapIndexNodes);
 var service = new SitemapIndexService(new XmlSerializer());
-var xmlResult = service.Serialize();
+var xmlResult = service.Serialize(sitemapIndex);
 ```
 
 ## Dependency injection
@@ -47,7 +47,7 @@ public class MyClass()
     {
         var nodes = new List<SitemapNode> { new ("https://example.com/page.html") };
         var sitemap = new Sitemap(nodes);
-        var xmlResult = service.Serialize();
+        var xmlResult = service.Serialize(sitemap);
     }
 }    
 ```
