@@ -159,7 +159,7 @@ public sealed partial class XmlSerializer : ISitemapSerializer
             writer.WriteElementStringEscaped("priority", node.Priority.Value.ToString("F1", SitemapCulture));
         }
 
-        if (node.AlternateLinks.Length > 0)
+        if (node.AlternateLinks.Count > 0)
         {
             foreach (var link in node.AlternateLinks)
             {
