@@ -36,7 +36,7 @@ public sealed record SitemapNode : ISitemapNode
     /// Gets or sets a collection of alternate localized URLs for this node.
     /// Used for cross-referencing pages with different languages or regional variants (hreflang).
     /// </summary>
-    public SitemapAlternateLink[] AlternateLinks { get; set; } = [];
+    public IReadOnlyList<SitemapAlternateLink> AlternateLinks { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the date of last modification of the page.
