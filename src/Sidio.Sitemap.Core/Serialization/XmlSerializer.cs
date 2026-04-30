@@ -165,7 +165,7 @@ public sealed partial class XmlSerializer : ISitemapSerializer
             {
                 writer.WriteStartElement("xhtml", "link", SitemapNamespaceXhtml);
                 writer.WriteAttributeString("rel", link.Rel);
-                writer.WriteAttributeString("hreflang", link.Hreflang);
+                writer.WriteAttributeString("hreflang", link.HrefLang);
                 writer.WriteAttributeString("href", link.Href);
                 writer.WriteEndElement();
             }

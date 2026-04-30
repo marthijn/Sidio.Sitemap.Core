@@ -17,7 +17,7 @@
         /// Follows the ISO 639-1 format for languages and ISO 3166-1 Alpha-2 for regions (e.g., "en-us"). 
         /// Use "x-default" for unmatched languages.
         /// </summary>
-        public string? Hreflang { get; set; }
+        public string? HrefLang { get; set; }
 
         /// <summary>
         /// Gets or sets the fully qualified absolute URL of the localized version.
