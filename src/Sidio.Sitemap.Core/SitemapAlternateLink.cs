@@ -32,7 +32,6 @@
             Rel = rel;
         }
 
-
         /// <summary>
         /// Gets or sets the relationship of the linked document. 
         /// For sitemaps, this must always be set to "alternate".
