@@ -27,8 +27,8 @@
                 throw new ArgumentException($"{nameof(href)} cannot be null or empty.", nameof(href));
             }
 
-            HrefLang = hrefLang;
-            Href = href;
+            HrefLang = hrefLang!;
+            Href = href!;
             Rel = rel;
         }
 
@@ -58,7 +58,7 @@
                 return false;
             }
 
-            if (hreflang.Equals("x-default", StringComparison.OrdinalIgnoreCase))
+            if (hreflang!.Equals("x-default", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
