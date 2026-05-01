@@ -121,6 +121,35 @@ public sealed partial class XmlSerializerTests
     }
 
     [Fact]
+    public async Task SerializeAsync_WithMultilingualSitemap_ReturnsXml()
+    {
+        // arrange
+        var sitemap = new Sitemap(
+            new List<SitemapNode>
+            {
+                new SitemapNode("http://example.com")
+                {
+                    AlternateLinks =
+                    [
+                        new SitemapAlternateLink("en", "http://example.com"),
+                        new SitemapAlternateLink("es", "http://example.com/es/"),
+                        new SitemapAlternateLink("x-default", "http://example.com")
+                    ]
+                }
+            });
+
+        var serializer = new XmlSerializer();
+
+        // act
+        var result = await serializer.SerializeAsync(sitemap);
+
+        // assert
+        result.Should().NotBeNullOrEmpty();
+        result.Should().Be(
+            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://example.com/</loc><xhtml:link rel=\"alternate\" hreflang=\"en\" href=\"http://example.com/\" /><xhtml:link rel=\"alternate\" hreflang=\"es\" href=\"http://example.com/es/\" /><xhtml:link rel=\"alternate\" hreflang=\"x-default\" href=\"http://example.com/\" /></url></urlset>");
+    }
+
+    [Fact]
     public void Serialize_WithSitemapIndex_ReturnsXml()
     {
         // arrange
