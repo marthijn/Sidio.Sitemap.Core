@@ -167,10 +167,12 @@ public sealed partial class XmlSerializer : ISitemapSerializer
         {
             foreach (var link in node.AlternateLinks)
             {
+                var linkUrl = _urlValidator.Validate(link.Href);
+
                 writer.WriteStartElement("xhtml", "link", SitemapNamespaceXhtml);
                 writer.WriteAttributeString("rel", link.Rel);
                 writer.WriteAttributeString("hreflang", link.HrefLang);
-                writer.WriteAttributeString("href", link.Href);
+                writer.WriteAttributeString("href", linkUrl.ToString());
                 writer.WriteEndElement();
             }
         }
