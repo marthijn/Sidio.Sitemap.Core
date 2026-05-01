@@ -99,6 +99,11 @@ public sealed partial class XmlSerializer : ISitemapSerializer
         {
             writer.WriteAttributeString("xmlns", "video", null, SitemapNamespaceVideo);
         }
+
+        if (sitemap.HasSitemapNodeWithAlternateLinks())
+        {
+            writer.WriteAttributeString("xmlns", "xhtml", null, SitemapNamespaceXhtml);
+        }
     }
 
     private void SerializeSitemap(XmlWriter writer, Sitemap sitemap)
@@ -111,7 +116,6 @@ public sealed partial class XmlSerializer : ISitemapSerializer
         }
 
         writer.WriteStartElement(null, "urlset", SitemapNamespace);
-        writer.WriteAttributeString("xmlns", "xhtml", null, SitemapNamespaceXhtml);
         WriteNamespaces(writer, sitemap);
 
         foreach (var n in sitemap.Nodes)
