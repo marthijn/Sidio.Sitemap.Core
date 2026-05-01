@@ -8,7 +8,10 @@ public sealed class SitemapAlternateLinkTests
     [InlineData("x-default")]
     public void Construct_WithValidArguments_SitemapNodeConstructed(string hrefLang)
     {
+        // act
         var sitemapAlternateLink = new SitemapAlternateLink(hrefLang, "http://example.com/");
+
+        // assert
         sitemapAlternateLink.Should().NotBeNull();
     }
 
@@ -18,10 +21,9 @@ public sealed class SitemapAlternateLinkTests
     public void Construct_WithInvalidHrefLang_ThrowsArgumentException(string hrefLang)
     {
         // act
-        Action act = () => new SitemapAlternateLink(hrefLang, "http://example.com/");
+        Action act = () => _ = new SitemapAlternateLink(hrefLang, "http://example.com/");
 
         // assert
-        act.Should().Throw<ArgumentException>()
-           .WithMessage("*hreflang*");
+        act.Should().Throw<ArgumentException>().WithMessage("*hreflang*");
     }
 }
