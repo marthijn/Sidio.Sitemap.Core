@@ -4,7 +4,7 @@
 /// Represents an HTML link element for specifying localized versions of a URL (hreflang)
 /// within a sitemap, conforming to the XHTML namespace.
 /// </summary>
-public sealed class SitemapAlternateLink
+public sealed record SitemapAlternateLink
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapAlternateLink"/> class.

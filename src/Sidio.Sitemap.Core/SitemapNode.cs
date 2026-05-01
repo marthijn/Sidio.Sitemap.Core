@@ -5,8 +5,6 @@
 /// </summary>
 public sealed record SitemapNode : ISitemapNode
 {
-    private readonly decimal? _priority;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapNode"/> class.
     /// </summary>
@@ -54,7 +52,7 @@ public sealed record SitemapNode : ISitemapNode
     /// <exception cref="ArgumentException">Thrown when the provided priority has an invalid value.</exception>
     public decimal? Priority
     {
-        get => _priority;
+        get;
         init
         {
             if (value is < 0 or > 1)
@@ -62,7 +60,7 @@ public sealed record SitemapNode : ISitemapNode
                 throw new ArgumentException($"{nameof(Priority)} must be a value between 0.0 and 1.0.", nameof(value));
             }
 
-            _priority = value;
+            field = value;
         }
     }
 
