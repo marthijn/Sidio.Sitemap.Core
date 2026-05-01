@@ -15,11 +15,6 @@
         /// <exception cref="ArgumentException">Thrown when <paramref name="hrefLang"/> or <paramref name="href"/> is null, empty, or consists only of white-space characters.</exception>
         public SitemapAlternateLink(string? hrefLang, string? href, string rel = "alternate")
         {
-            if (string.IsNullOrWhiteSpace(hrefLang))
-            {
-                throw new ArgumentException($"{nameof(hrefLang)} cannot be null or empty.", nameof(hrefLang));
-            }
-
             if (!IsValidHreflang(hrefLang))
             {
                 throw new ArgumentException(
