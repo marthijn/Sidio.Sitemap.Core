@@ -114,34 +114,44 @@ var sitemap = serializer.Deserialize(xml);
 # Benchmarks XmlSerializer sync/async (Sitemap)
 ```
 
-BenchmarkDotNet v0.14.0, Windows 11 (10.0.22631.4460/23H2/2023Update/SunValley3)
-AMD Ryzen 7 5800H with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
-.NET SDK 9.0.100
-  [Host]   : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
-  .NET 8.0 : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
-  .NET 9.0 : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
+BenchmarkDotNet v0.15.8, Windows 11 (10.0.26200.9445/25H2/2025Update/HudsonValley2)
+AMD Ryzen 7 5800H with Radeon Graphics 3.20GHz, 1 CPU, 16 logical and 8 physical cores                                                                                                                                                                                           
+.NET SDK 10.0.302                                                                                                                                                                                                                                                                
+  [Host]    : .NET 10.0.12 (10.0.12, 10.0.1226.42308), X64 RyuJIT x86-64-v3                                                                                                                                                                                                      
+  .NET 10.0 : .NET 10.0.12 (10.0.12, 10.0.1226.42308), X64 RyuJIT x86-64-v3                                                                                                                                                                                                      
+  .NET 8.0  : .NET 8.0.31 (8.0.31, 8.0.3126.42015), X64 RyuJIT x86-64-v3                                                                                                                                                                                                         
+  .NET 9.0  : .NET 9.0.18 (9.0.18, 9.0.1826.31522), X64 RyuJIT x86-64-v3 
 
 ```
-| Method         | Job      | Runtime  | NumberOfNodes | Mean          | Error       | StdDev      | Ratio | RatioSD |
-|--------------- |--------- |--------- |-------------- |--------------:|------------:|------------:|------:|--------:|
-| Serialize      | .NET 8.0 | .NET 8.0 | 10            |      5.153 us |   0.0971 us |   0.0758 us |  1.00 |    0.02 |
-| Serialize      | .NET 9.0 | .NET 9.0 | 10            |      4.585 us |   0.0894 us |   0.0792 us |  0.89 |    0.02 |
-|                |          |          |               |               |             |             |       |         |
-| SerializeAsync | .NET 8.0 | .NET 8.0 | 10            |      6.312 us |   0.0733 us |   0.0650 us |  1.00 |    0.01 |
-| SerializeAsync | .NET 9.0 | .NET 9.0 | 10            |      5.482 us |   0.0189 us |   0.0167 us |  0.87 |    0.01 |
-|                |          |          |               |               |             |             |       |         |
-| Serialize      | .NET 8.0 | .NET 8.0 | 100           |     41.446 us |   0.4271 us |   0.3995 us |  1.00 |    0.01 |
-| Serialize      | .NET 9.0 | .NET 9.0 | 100           |     38.711 us |   0.3524 us |   0.3124 us |  0.93 |    0.01 |
-|                |          |          |               |               |             |             |       |         |
-| SerializeAsync | .NET 8.0 | .NET 8.0 | 100           |     51.229 us |   0.4338 us |   0.4057 us |  1.00 |    0.01 |
-| SerializeAsync | .NET 9.0 | .NET 9.0 | 100           |     46.347 us |   0.7401 us |   0.6923 us |  0.90 |    0.01 |
-|                |          |          |               |               |             |             |       |         |
-| Serialize      | .NET 8.0 | .NET 8.0 | 40000         | 23,239.956 us | 428.2431 us | 400.5788 us |  1.00 |    0.02 |
-| Serialize      | .NET 9.0 | .NET 9.0 | 40000         | 23,396.317 us | 334.0125 us | 312.4355 us |  1.01 |    0.02 |
-|                |          |          |               |               |             |             |       |         |
-| SerializeAsync | .NET 8.0 | .NET 8.0 | 40000         | 23,490.278 us | 251.5840 us | 223.0227 us |  1.00 |    0.01 |
-| SerializeAsync | .NET 9.0 | .NET 9.0 | 40000         | 23,334.005 us | 253.3734 us | 237.0057 us |  0.99 |    0.01 |
+| Method         | Job       | Runtime   | NumberOfNodes | Mean          | Error       | StdDev        | Ratio | RatioSD |
+|--------------- |---------- |---------- |-------------- |--------------:|------------:|--------------:|------:|--------:|
+| Serialize      | .NET 10.0 | .NET 10.0 | 10            |      4.940 us |   0.0981 us |     0.0918 us |  0.84 |    0.04 |                                                                                                                                                       
+| Serialize      | .NET 8.0  | .NET 8.0  | 10            |      5.865 us |   0.1168 us |     0.2360 us |  1.00 |    0.06 |
+| Serialize      | .NET 9.0  | .NET 9.0  | 10            |      5.354 us |   0.0611 us |     0.0571 us |  0.91 |    0.04 |
+|                |           |           |               |               |             |               |       |         |
+| SerializeAsync | .NET 10.0 | .NET 10.0 | 10            |      6.328 us |   0.1233 us |     0.2192 us |  0.80 |    0.03 |
+| SerializeAsync | .NET 8.0  | .NET 8.0  | 10            |      7.930 us |   0.1081 us |     0.1011 us |  1.00 |    0.02 |
+| SerializeAsync | .NET 9.0  | .NET 9.0  | 10            |      6.902 us |   0.1270 us |     0.2051 us |  0.87 |    0.03 |
+|                |           |           |               |               |             |               |       |         |
+| Serialize      | .NET 10.0 | .NET 10.0 | 100           |     37.636 us |   0.3136 us |     0.2619 us |  0.79 |    0.01 |
+| Serialize      | .NET 8.0  | .NET 8.0  | 100           |     47.350 us |   0.4471 us |     0.3964 us |  1.00 |    0.01 |
+| Serialize      | .NET 9.0  | .NET 9.0  | 100           |     41.813 us |   0.4453 us |     0.3948 us |  0.88 |    0.01 |
+|                |           |           |               |               |             |               |       |         |
+| SerializeAsync | .NET 10.0 | .NET 10.0 | 100           |     45.750 us |   0.2481 us |     0.2072 us |  0.82 |    0.01 |
+| SerializeAsync | .NET 8.0  | .NET 8.0  | 100           |     55.988 us |   0.3038 us |     0.2693 us |  1.00 |    0.01 |
+| SerializeAsync | .NET 9.0  | .NET 9.0  | 100           |     51.098 us |   0.3159 us |     0.2638 us |  0.91 |    0.01 |
+|                |           |           |               |               |             |               |       |         |
+| Serialize      | .NET 10.0 | .NET 10.0 | 40000         | 21,965.477 us | 184.3410 us |   163.4135 us |  0.88 |    0.04 |
+| Serialize      | .NET 8.0  | .NET 8.0  | 40000         | 24,991.718 us | 464.2925 us | 1,278.7964 us |  1.00 |    0.07 |
+| Serialize      | .NET 9.0  | .NET 9.0  | 40000         | 23,005.318 us | 344.1842 us |   305.1103 us |  0.92 |    0.05 |
+|                |           |           |               |               |             |               |       |         |
+| SerializeAsync | .NET 10.0 | .NET 10.0 | 40000         | 22,025.450 us | 232.3676 us |   194.0375 us |  0.86 |    0.02 |
+| SerializeAsync | .NET 8.0  | .NET 8.0  | 40000         | 25,542.654 us | 498.9985 us |   715.6489 us |  1.00 |    0.04 |
+| SerializeAsync | .NET 9.0  | .NET 9.0  | 40000         | 24,630.967 us | 486.8769 us |   633.0775 us |  0.97 |    0.04 |
 
+```
+dotnet run -c Release -- --job short --runtimes net8.0 net9.0 net10.0   
+```
 
 # References
 - [Sitemap protocol](https://www.sitemaps.org/protocol.html)

@@ -8,6 +8,7 @@ namespace Sidio.Sitemap.Core.Benchmarks;
 [ExcludeFromCodeCoverage]
 [SimpleJob(RuntimeMoniker.Net80, baseline: true)]
 [SimpleJob(RuntimeMoniker.Net90)]
+[SimpleJob(RuntimeMoniker.Net10_0)]
 public class XmlSerializerBenchmarks
 {
     [Params(10, 100, 40000)]
