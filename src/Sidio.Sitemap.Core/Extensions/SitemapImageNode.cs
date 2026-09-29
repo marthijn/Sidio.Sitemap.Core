@@ -67,7 +67,7 @@ public sealed class SitemapImageNode : ISitemapNode, IEquatable<SitemapImageNode
     public string Url { get; }
 
     /// <inheritdoc />
-    public DateTime? LastModified { get; set; }
+    public DateTime? LastModified { get; init; }
 
     /// <summary>
     /// Gets the image locations.
