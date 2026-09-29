@@ -46,4 +46,15 @@ public sealed class VideoUploaderTests
         // assert
         action.Should().ThrowExactly<ArgumentException>();
     }
+
+    [Fact]
+    public void Equality_WithSameValues_ShouldBeTrue()
+    {
+        // arrange
+        var uploader1 = new VideoUploader("Uploader", "https://example.com/uploader");
+        var uploader2 = new VideoUploader("Uploader", "https://example.com/uploader");
+
+        // act & assert
+        (uploader1 == uploader2).Should().BeTrue();
+    }
 }

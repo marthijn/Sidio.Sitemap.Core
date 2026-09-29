@@ -8,8 +8,9 @@ public sealed class IntegrationTests
     public void Sitemap_Serialize_Deserialize()
     {
         // arrange
+        var lastModified = new DateTime(2026, 01, 01, 0, 0, 0, DateTimeKind.Utc);
         var sitemap = new Sitemap(
-            new[] {new SitemapNode("https://example.com/", DateTime.UtcNow, ChangeFrequency.Daily, 0.5m)});
+            new[] {new SitemapNode("https://example.com/", lastModified, ChangeFrequency.Daily, 0.5m)});
         var serializer = new XmlSerializer();
         var xml = serializer.Serialize(sitemap);
 

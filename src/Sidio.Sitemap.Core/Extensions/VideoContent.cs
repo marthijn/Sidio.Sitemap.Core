@@ -3,7 +3,7 @@
 /// <summary>
 /// The video content.
 /// </summary>
-public sealed class VideoContent
+public sealed class VideoContent : IEquatable<VideoContent>
 {
     private const int DescriptionMaxLength = 2048;
 
@@ -16,12 +16,6 @@ public sealed class VideoContent
     private const decimal RatingMaxValue = 5.0m;
 
     private const int MaxTags = 32;
-
-    private readonly int? _duration;
-
-    private readonly decimal? _rating;
-
-    private readonly IReadOnlyCollection<string> _tags = new List<string>();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoContent"/> class.
@@ -96,15 +90,16 @@ public sealed class VideoContent
     /// </summary>
     public int? Duration
     {
-        get => _duration;
+        get;
         init
         {
             if (value is < DurationMinValue or > DurationMaxValue)
             {
-                throw new ArgumentException($"{nameof(Duration)} must be between {DurationMinValue} and {DurationMaxValue} seconds.");
+                throw new ArgumentException(
+                    $"{nameof(Duration)} must be between {DurationMinValue} and {DurationMaxValue} seconds.");
             }
 
-            _duration = value;
+            field = value;
         }
     }
 
@@ -118,7 +113,7 @@ public sealed class VideoContent
     /// </summary>
     public decimal? Rating
     {
-        get => _rating;
+        get;
         init
         {
             if (value is < RatingMinValue or > RatingMaxValue)
@@ -126,7 +121,7 @@ public sealed class VideoContent
                 throw new ArgumentException($"{nameof(Rating)} must be between {RatingMinValue} and {RatingMaxValue}.");
             }
 
-            _rating = value;
+            field = value;
         }
     }
 
@@ -175,7 +170,7 @@ public sealed class VideoContent
     /// </summary>
     public IReadOnlyCollection<string> Tags
     {
-        get => _tags;
+        get;
         init
         {
             if (value.Count > MaxTags)
@@ -183,7 +178,79 @@ public sealed class VideoContent
                 throw new ArgumentException($"{nameof(Tags)} cannot contain more than {MaxTags} tags.");
             }
 
-            _tags = value;
+            field = value;
+        }
+    } = new List<string>();
+
+    /// <inheritdoc />
+    public bool Equals(VideoContent? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return string.Equals(ThumbnailUrl, other.ThumbnailUrl, StringComparison.Ordinal) &&
+               string.Equals(Title, other.Title, StringComparison.Ordinal) &&
+               string.Equals(Description, other.Description, StringComparison.Ordinal) &&
+               string.Equals(ContentUrl, other.ContentUrl, StringComparison.Ordinal) &&
+               string.Equals(PlayerUrl, other.PlayerUrl, StringComparison.Ordinal) &&
+               Duration == other.Duration &&
+               ExpirationDate == other.ExpirationDate &&
+               Rating == other.Rating &&
+               ViewCount == other.ViewCount &&
+               PublicationDate == other.PublicationDate &&
+               FamilyFriendly == other.FamilyFriendly &&
+               Equals(Restriction, other.Restriction) &&
+               Equals(Platform, other.Platform) &&
+               RequiresSubscription == other.RequiresSubscription &&
+               Equals(Uploader, other.Uploader) &&
+               Live == other.Live &&
+               EqualityHelpers.UnorderedEquals(Tags, other.Tags);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => Equals(obj as VideoContent);
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = 17;
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(ThumbnailUrl);
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Title);
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Description);
+            hashCode = (hashCode * 31) + (ContentUrl == null ? 0 : StringComparer.Ordinal.GetHashCode(ContentUrl));
+            hashCode = (hashCode * 31) + (PlayerUrl == null ? 0 : StringComparer.Ordinal.GetHashCode(PlayerUrl));
+            hashCode = (hashCode * 31) + Duration.GetHashCode();
+            hashCode = (hashCode * 31) + ExpirationDate.GetHashCode();
+            hashCode = (hashCode * 31) + Rating.GetHashCode();
+            hashCode = (hashCode * 31) + ViewCount.GetHashCode();
+            hashCode = (hashCode * 31) + PublicationDate.GetHashCode();
+            hashCode = (hashCode * 31) + FamilyFriendly.GetHashCode();
+            hashCode = (hashCode * 31) + (Restriction?.GetHashCode() ?? 0);
+            hashCode = (hashCode * 31) + (Platform?.GetHashCode() ?? 0);
+            hashCode = (hashCode * 31) + RequiresSubscription.GetHashCode();
+            hashCode = (hashCode * 31) + (Uploader?.GetHashCode() ?? 0);
+            hashCode = (hashCode * 31) + Live.GetHashCode();
+            hashCode = (hashCode * 31) + EqualityHelpers.GetUnorderedHashCode(Tags);
+            return hashCode;
         }
     }
+
+    /// <summary>
+    /// Determines whether two specified <see cref="VideoContent"/> objects have the same value.
+    /// </summary>
+    public static bool operator ==(VideoContent? left, VideoContent? right) => Equals(left, right);
+
+    /// <summary>
+    /// Determines whether two specified <see cref="VideoContent"/> objects have different values.
+    /// </summary>
+    public static bool operator !=(VideoContent? left, VideoContent? right) => !Equals(left, right);
 }
