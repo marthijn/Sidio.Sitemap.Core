@@ -88,7 +88,8 @@ public sealed class SitemapImageNode : ISitemapNode, IEquatable<SitemapImageNode
         }
 
         return string.Equals(Url, other.Url, StringComparison.Ordinal) &&
-               EqualityHelpers.UnorderedEquals(Images, other.Images);
+               EqualityHelpers.UnorderedEquals(Images, other.Images) &&
+               LastModified == other.LastModified;
     }
 
     /// <inheritdoc />
@@ -102,6 +103,7 @@ public sealed class SitemapImageNode : ISitemapNode, IEquatable<SitemapImageNode
             var hashCode = 17;
             hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Url);
             hashCode = (hashCode * 31) + EqualityHelpers.GetUnorderedHashCode(Images);
+            hashCode = (hashCode * 31) + LastModified.GetHashCode();
             return hashCode;
         }
     }
