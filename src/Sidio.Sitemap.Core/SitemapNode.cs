@@ -31,23 +31,23 @@ public sealed class SitemapNode : ISitemapNode, IEquatable<SitemapNode>
     public string Url { get; }
 
     /// <summary>
-    /// Gets or sets a collection of alternate localized URLs for this node.
+    /// Gets a collection of alternate localized URLs for this node.
     /// Used for cross-referencing pages with different languages or regional variants (hreflang).
     /// </summary>
     public IReadOnlyList<SitemapAlternateLink> AlternateLinks { get; init; } = [];
 
     /// <summary>
-    /// Gets or sets the date of last modification of the page.
+    /// Gets the date of last modification of the page.
     /// </summary>
     public DateTime? LastModified { get; init; }
 
     /// <summary>
-    /// Gets or sets the frequency the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page.
+    /// Gets the frequency the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page.
     /// </summary>
     public ChangeFrequency? ChangeFrequency { get; init; }
 
     /// <summary>
-    /// Gets or sets the priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
+    /// Gets the priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
     /// </summary>
     /// <exception cref="ArgumentException">Thrown when the provided priority has an invalid value.</exception>
     public decimal? Priority

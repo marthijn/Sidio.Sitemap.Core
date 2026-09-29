@@ -33,20 +33,20 @@ public sealed class SitemapAlternateLink : IEquatable<SitemapAlternateLink>
     }
 
     /// <summary>
-    /// Gets or sets the relationship of the linked document.
+    /// Gets the relationship of the linked document.
     /// For sitemaps, this must always be set to "alternate".
     /// </summary>
     public string Rel { get; }
 
     /// <summary>
-    /// Gets or sets the language and optional region code of the variant.
+    /// Gets the language and optional region code of the variant.
     /// Follows the ISO 639-1 format for languages and ISO 3166-1 Alpha-2 for regions (e.g., "en-us").
     /// Use "x-default" for unmatched languages.
     /// </summary>
     public string HrefLang { get; }
 
     /// <summary>
-    /// Gets or sets the fully qualified absolute URL of the localized version.
+    /// Gets the fully qualified absolute URL of the localized version.
     /// </summary>
     public string Href { get; }
 
