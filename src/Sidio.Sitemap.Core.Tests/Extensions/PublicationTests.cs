@@ -36,4 +36,15 @@ public sealed class PublicationTests
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentException>();
     }
+
+    [Fact]
+    public void Equality_WithSameValues_ShouldBeTrue()
+    {
+        // arrange
+        var publication1 = new Publication("Example News", "en");
+        var publication2 = new Publication("Example News", "en");
+
+        // act & assert
+        (publication1 == publication2).Should().BeTrue();
+    }
 }

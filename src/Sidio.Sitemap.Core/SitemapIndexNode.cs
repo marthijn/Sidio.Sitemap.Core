@@ -1,9 +1,9 @@
 ﻿namespace Sidio.Sitemap.Core;
 
 /// <summary>
-/// This record represents a sitemap index node.
+/// This class represents a sitemap index node.
 /// </summary>
-public sealed record SitemapIndexNode
+public sealed class SitemapIndexNode : IEquatable<SitemapIndexNode>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapIndexNode"/> class.
@@ -29,9 +29,51 @@ public sealed record SitemapIndexNode
     public string Url { get; }
 
     /// <summary>
-    /// Gets or sets the time that the corresponding Sitemap file was modified. It does not correspond to the time that any of the pages listed in that Sitemap were changed.
+    /// Gets the time that the corresponding Sitemap file was modified. It does not correspond to the time that any of the pages listed in that Sitemap were changed.
     /// </summary>
-    public DateTime? LastModified { get; set; }
+    public DateTime? LastModified { get; init; }
+
+    /// <inheritdoc />
+    public bool Equals(SitemapIndexNode? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return string.Equals(Url, other.Url, StringComparison.Ordinal) &&
+               LastModified == other.LastModified;
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => Equals(obj as SitemapIndexNode);
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = 17;
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Url);
+            hashCode = (hashCode * 31) + LastModified.GetHashCode();
+            return hashCode;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapIndexNode"/> objects have the same value.
+    /// </summary>
+    public static bool operator ==(SitemapIndexNode? left, SitemapIndexNode? right) => Equals(left, right);
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapIndexNode"/> objects have different values.
+    /// </summary>
+    public static bool operator !=(SitemapIndexNode? left, SitemapIndexNode? right) => !Equals(left, right);
 
     /// <summary>
     /// Creates a new instance of the <see cref="SitemapIndexNode"/> class.

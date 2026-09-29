@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a node in a sitemap with news.
 /// </summary>
-public sealed class SitemapNewsNode : ISitemapNode
+public sealed class SitemapNewsNode : ISitemapNode, IEquatable<SitemapNewsNode>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapNewsNode"/> class.
@@ -62,6 +62,52 @@ public sealed class SitemapNewsNode : ISitemapNode
     /// Gets the publication date.
     /// </summary>
     public DateTimeOffset PublicationDate { get; }
+
+    /// <inheritdoc />
+    public bool Equals(SitemapNewsNode? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return string.Equals(Url, other.Url, StringComparison.Ordinal) &&
+               string.Equals(Title, other.Title, StringComparison.Ordinal) &&
+               Equals(Publication, other.Publication) &&
+               PublicationDate.Equals(other.PublicationDate);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => Equals(obj as SitemapNewsNode);
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = 17;
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Url);
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Title);
+            hashCode = (hashCode * 31) + Publication.GetHashCode();
+            hashCode = (hashCode * 31) + PublicationDate.GetHashCode();
+            return hashCode;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapNewsNode"/> objects have the same value.
+    /// </summary>
+    public static bool operator ==(SitemapNewsNode? left, SitemapNewsNode? right) => Equals(left, right);
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapNewsNode"/> objects have different values.
+    /// </summary>
+    public static bool operator !=(SitemapNewsNode? left, SitemapNewsNode? right) => !Equals(left, right);
 
     /// <summary>
     /// Creates a new instance of the <see cref="SitemapNewsNode"/> class.

@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a node in a sitemap.
 /// </summary>
-public sealed record SitemapNode : ISitemapNode
+public sealed class SitemapNode : ISitemapNode, IEquatable<SitemapNode>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapNode"/> class.
@@ -34,17 +34,17 @@ public sealed record SitemapNode : ISitemapNode
     /// Gets or sets a collection of alternate localized URLs for this node.
     /// Used for cross-referencing pages with different languages or regional variants (hreflang).
     /// </summary>
-    public IReadOnlyList<SitemapAlternateLink> AlternateLinks { get; set; } = [];
+    public IReadOnlyList<SitemapAlternateLink> AlternateLinks { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the date of last modification of the page.
     /// </summary>
-    public DateTime? LastModified { get; set; }
+    public DateTime? LastModified { get; init; }
 
     /// <summary>
     /// Gets or sets the frequency the page is likely to change. This value provides general information to search engines and may not correlate exactly to how often they crawl the page.
     /// </summary>
-    public ChangeFrequency? ChangeFrequency { get; set; }
+    public ChangeFrequency? ChangeFrequency { get; init; }
 
     /// <summary>
     /// Gets or sets the priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
@@ -59,10 +59,57 @@ public sealed record SitemapNode : ISitemapNode
             {
                 throw new ArgumentException($"{nameof(Priority)} must be a value between 0.0 and 1.0.", nameof(value));
             }
-
             field = value;
         }
     }
+
+    /// <inheritdoc />
+    public bool Equals(SitemapNode? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return string.Equals(Url, other.Url, StringComparison.Ordinal) &&
+               LastModified == other.LastModified &&
+               ChangeFrequency == other.ChangeFrequency &&
+               Priority == other.Priority &&
+               EqualityHelpers.UnorderedEquals(AlternateLinks, other.AlternateLinks);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => Equals(obj as SitemapNode);
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = 17;
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Url);
+            hashCode = (hashCode * 31) + LastModified.GetHashCode();
+            hashCode = (hashCode * 31) + ChangeFrequency.GetHashCode();
+            hashCode = (hashCode * 31) + Priority.GetHashCode();
+            hashCode = (hashCode * 31) + EqualityHelpers.GetUnorderedHashCode(AlternateLinks);
+            return hashCode;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapNode"/> objects have the same value.
+    /// </summary>
+    public static bool operator ==(SitemapNode? left, SitemapNode? right) => Equals(left, right);
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapNode"/> objects have different values.
+    /// </summary>
+    public static bool operator !=(SitemapNode? left, SitemapNode? right) => !Equals(left, right);
 
     /// <summary>
     /// Creates a new instance of the <see cref="SitemapNode"/> class.

@@ -29,4 +29,15 @@ public sealed class ImageLocationTests
         // assert
         sitemapNodeAction.Should().ThrowExactly<ArgumentException>();
     }
+
+    [Fact]
+    public void Equality_WithSameValues_ShouldBeTrue()
+    {
+        // arrange
+        var location1 = new ImageLocation("http://www.example.com/image.jpg");
+        var location2 = new ImageLocation("http://www.example.com/image.jpg");
+
+        // act & assert
+        (location1 == location2).Should().BeTrue();
+    }
 }

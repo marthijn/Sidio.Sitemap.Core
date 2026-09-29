@@ -128,4 +128,19 @@ public sealed class SitemapImageNodeTests
         // assert
         node.Should().BeNull();
     }
+
+    [Fact]
+    public void Equality_WithSameImagesDifferentOrder_ShouldBeTrue()
+    {
+        // arrange
+        const string Url = "http://www.example.com";
+        var image1 = new ImageLocation("http://www.example.com/image1.jpg");
+        var image2 = new ImageLocation("http://www.example.com/image2.jpg");
+
+        var node1 = new SitemapImageNode(Url, new[] { image1, image2 });
+        var node2 = new SitemapImageNode(Url, new[] { image2, image1 });
+
+        // act & assert
+        (node1 == node2).Should().BeTrue();
+    }
 }
