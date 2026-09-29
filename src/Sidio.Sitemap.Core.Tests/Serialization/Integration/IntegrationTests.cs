@@ -9,7 +9,7 @@ public sealed class IntegrationTests
     {
         // arrange
         var sitemap = new Sitemap(
-            new[] {new SitemapNode("https://example.com/", DateTime.UtcNow, ChangeFrequency.Daily, 0.5m)});
+            new[] {new SitemapNode("https://example.com/", DateTime.UtcNow.Date, ChangeFrequency.Daily, 0.5m)});
         var serializer = new XmlSerializer();
         var xml = serializer.Serialize(sitemap);
 

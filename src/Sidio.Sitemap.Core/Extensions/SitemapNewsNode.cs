@@ -63,6 +63,9 @@ public sealed class SitemapNewsNode : ISitemapNode
     /// </summary>
     public DateTimeOffset PublicationDate { get; }
 
+    /// <inheritdoc />
+    public DateTime? LastModified { get; set; }
+
     /// <summary>
     /// Creates a new instance of the <see cref="SitemapNewsNode"/> class.
     /// When the URL is null or empty, null is returned.

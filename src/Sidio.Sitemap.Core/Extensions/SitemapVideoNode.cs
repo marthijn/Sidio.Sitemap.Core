@@ -55,6 +55,9 @@ public sealed class SitemapVideoNode : ISitemapNode
     /// </summary>
     public IReadOnlyCollection<VideoContent> Videos { get; }
 
+    /// <inheritdoc />
+    public DateTime? LastModified { get; set; }
+
     /// <summary>
     /// Creates a new instance of the <see cref="SitemapVideoNode"/> class.
     /// When the URL is null or empty, null is returned.

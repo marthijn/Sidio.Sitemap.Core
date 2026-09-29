@@ -66,6 +66,9 @@ public sealed class SitemapImageNode : ISitemapNode
     /// <inheritdoc />
     public string Url { get; }
 
+    /// <inheritdoc />
+    public DateTime? LastModified { get; set; }
+
     /// <summary>
     /// Gets the image locations.
     /// </summary>
