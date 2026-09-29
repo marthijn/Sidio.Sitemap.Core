@@ -17,12 +17,6 @@ public sealed class VideoContent : IEquatable<VideoContent>
 
     private const int MaxTags = 32;
 
-    private readonly int? _duration;
-
-    private readonly decimal? _rating;
-
-    private readonly IReadOnlyCollection<string> _tags = new List<string>();
-
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoContent"/> class.
     /// </summary>
@@ -96,15 +90,16 @@ public sealed class VideoContent : IEquatable<VideoContent>
     /// </summary>
     public int? Duration
     {
-        get => _duration;
+        get;
         init
         {
             if (value is < DurationMinValue or > DurationMaxValue)
             {
-                throw new ArgumentException($"{nameof(Duration)} must be between {DurationMinValue} and {DurationMaxValue} seconds.");
+                throw new ArgumentException(
+                    $"{nameof(Duration)} must be between {DurationMinValue} and {DurationMaxValue} seconds.");
             }
 
-            _duration = value;
+            field = value;
         }
     }
 
@@ -118,7 +113,7 @@ public sealed class VideoContent : IEquatable<VideoContent>
     /// </summary>
     public decimal? Rating
     {
-        get => _rating;
+        get;
         init
         {
             if (value is < RatingMinValue or > RatingMaxValue)
@@ -126,7 +121,7 @@ public sealed class VideoContent : IEquatable<VideoContent>
                 throw new ArgumentException($"{nameof(Rating)} must be between {RatingMinValue} and {RatingMaxValue}.");
             }
 
-            _rating = value;
+            field = value;
         }
     }
 
@@ -175,7 +170,7 @@ public sealed class VideoContent : IEquatable<VideoContent>
     /// </summary>
     public IReadOnlyCollection<string> Tags
     {
-        get => _tags;
+        get;
         init
         {
             if (value.Count > MaxTags)
@@ -183,9 +178,9 @@ public sealed class VideoContent : IEquatable<VideoContent>
                 throw new ArgumentException($"{nameof(Tags)} cannot contain more than {MaxTags} tags.");
             }
 
-            _tags = value;
+            field = value;
         }
-    }
+    } = new List<string>();
 
     /// <inheritdoc />
     public bool Equals(VideoContent? other)
