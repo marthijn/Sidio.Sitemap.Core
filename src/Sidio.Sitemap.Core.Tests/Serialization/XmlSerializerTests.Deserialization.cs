@@ -23,7 +23,7 @@ public sealed partial class XmlSerializerTests
 
         var node = result.Nodes[0] as SitemapNode;
         node.Should().NotBeNull();
-        node!.Url.Should().Be("http://www.example.com/");
+        node.Url.Should().Be("http://www.example.com/");
         node.LastModified.Should().Be(new DateTime(2005, 1, 1));
         node.ChangeFrequency.Should().Be(ChangeFrequency.Monthly);
         node.Priority.Should().Be(0.8m);
@@ -47,7 +47,7 @@ public sealed partial class XmlSerializerTests
 
         var node = result.Nodes[0] as SitemapNode;
         node.Should().NotBeNull();
-        node!.Url.Should().Be("http://www.example.com/");
+        node.Url.Should().Be("http://www.example.com/");
         node.LastModified.Should().Be(new DateTime(2005, 1, 1));
         node.ChangeFrequency.Should().Be(ChangeFrequency.Monthly);
         node.Priority.Should().Be(0.8m);
@@ -110,7 +110,7 @@ public sealed partial class XmlSerializerTests
 
         var node = result.Nodes[0] as SitemapNode;
         node.Should().NotBeNull();
-        node!.Url.Should().Be("http://www.example.com/");
+        node.Url.Should().Be("http://www.example.com/");
         node.LastModified.Should().Be(new DateTime(2005, 1, 1));
         node.ChangeFrequency.Should().Be(ChangeFrequency.Monthly);
         node.Priority.Should().Be(0.8m);
@@ -152,7 +152,7 @@ public sealed partial class XmlSerializerTests
 
         var imageNode = result.Nodes.Single(x => x.Url == "https://example.com/sample1.html") as SitemapImageNode;
         imageNode.Should().NotBeNull();
-        imageNode!.Images.Should().HaveCount(2);
+        imageNode.Images.Should().HaveCount(2);
     }
 
     [Fact]
@@ -172,7 +172,7 @@ public sealed partial class XmlSerializerTests
 
         var newsNode = result.Nodes[0] as SitemapNewsNode;
         newsNode.Should().NotBeNull();
-        newsNode!.Url.Should().Be("http://www.example.org/business/article55.html");
+        newsNode.Url.Should().Be("http://www.example.org/business/article55.html");
         newsNode.Title.Should().Be("Companies A, B in Merger Talks");
         newsNode.PublicationDate.Should().Be(new DateTime(2008, 12, 23));
         newsNode.Publication.Language.Should().Be("en");

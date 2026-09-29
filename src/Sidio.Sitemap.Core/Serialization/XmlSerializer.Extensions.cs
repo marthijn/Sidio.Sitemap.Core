@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using System.Xml;
 using Sidio.Sitemap.Core.Extensions;
 

@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a node in a sitemap with images.
 /// </summary>
-public sealed class SitemapImageNode : ISitemapNode
+public sealed class SitemapImageNode : ISitemapNode, IEquatable<SitemapImageNode>
 {
     private const int MaxImages = 1000;
 
@@ -73,6 +73,48 @@ public sealed class SitemapImageNode : ISitemapNode
     /// Gets the image locations.
     /// </summary>
     public IReadOnlyCollection<ImageLocation> Images { get; }
+
+    /// <inheritdoc />
+    public bool Equals(SitemapImageNode? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return string.Equals(Url, other.Url, StringComparison.Ordinal) &&
+               EqualityHelpers.UnorderedEquals(Images, other.Images);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => Equals(obj as SitemapImageNode);
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = 17;
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Url);
+            hashCode = (hashCode * 31) + EqualityHelpers.GetUnorderedHashCode(Images);
+            return hashCode;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapImageNode"/> objects have the same value.
+    /// </summary>
+    public static bool operator ==(SitemapImageNode? left, SitemapImageNode? right) => Equals(left, right);
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapImageNode"/> objects have different values.
+    /// </summary>
+    public static bool operator !=(SitemapImageNode? left, SitemapImageNode? right) => !Equals(left, right);
 
     /// <summary>
     /// Creates a new instance of the <see cref="SitemapImageNode"/> class.

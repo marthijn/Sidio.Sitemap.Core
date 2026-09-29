@@ -91,11 +91,41 @@ public sealed class SitemapNodeTests
         var lastModified = DateTime.UtcNow;
         var changeFrequency = _fixture.Create<ChangeFrequency>();
         const decimal Priority = 0.5m;
+        var alternateLink1 = new SitemapAlternateLink("en", "https://example.com");
+        var alternateLink2 = new SitemapAlternateLink("nl", "https://example.com/nl");
 
-        var node1 = new SitemapNode(url, lastModified, changeFrequency, Priority);
-        var node2 = new SitemapNode(url, lastModified, changeFrequency, Priority);
+        var node1 = new SitemapNode(url, lastModified, changeFrequency, Priority)
+        {
+            AlternateLinks = new[] { alternateLink1, alternateLink2 }
+        };
+        var node2 = new SitemapNode(url, lastModified, changeFrequency, Priority)
+        {
+            AlternateLinks = new[] { alternateLink2, alternateLink1 }
+        };
 
         // act & assert
         (node1 == node2).Should().BeTrue();
+    }
+
+    [Fact]
+    public void SitemapNode_Equality_WithDifferentAlternateLinks_ShouldBeFalse()
+    {
+        // arrange
+        var url = "https://example.com";
+        var lastModified = DateTime.UtcNow;
+        var changeFrequency = _fixture.Create<ChangeFrequency>();
+        const decimal Priority = 0.5m;
+
+        var node1 = new SitemapNode(url, lastModified, changeFrequency, Priority)
+        {
+            AlternateLinks = new[] { new SitemapAlternateLink("en", "https://example.com") }
+        };
+        var node2 = new SitemapNode(url, lastModified, changeFrequency, Priority)
+        {
+            AlternateLinks = new[] { new SitemapAlternateLink("nl", "https://example.com/nl") }
+        };
+
+        // act & assert
+        (node1 == node2).Should().BeFalse();
     }
 }

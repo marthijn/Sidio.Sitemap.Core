@@ -213,4 +213,29 @@ public sealed class SitemapTests
         result.Should().Be(0);
         sitemap.Nodes.Should().BeEmpty();
     }
+
+    [Fact]
+    public void Equality_WithSameNodesDifferentOrder_ShouldBeTrue()
+    {
+        // arrange
+        var node1 = new SitemapNode("https://example.com");
+        var node2 = new Sidio.Sitemap.Core.Extensions.SitemapImageNode("https://example.com/page", "https://example.com/image.jpg");
+
+        var sitemap1 = new Sitemap(new ISitemapNode[] { node1, node2 }, "style.xsl");
+        var sitemap2 = new Sitemap(new ISitemapNode[] { node2, node1 }, "style.xsl");
+
+        // act & assert
+        (sitemap1 == sitemap2).Should().BeTrue();
+    }
+
+    [Fact]
+    public void Equality_WithDifferentNodes_ShouldBeFalse()
+    {
+        // arrange
+        var sitemap1 = new Sitemap(new ISitemapNode[] { new SitemapNode("https://example.com") }, "style.xsl");
+        var sitemap2 = new Sitemap(new ISitemapNode[] { new SitemapNode("https://example.com/other") }, "style.xsl");
+
+        // act & assert
+        (sitemap1 == sitemap2).Should().BeFalse();
+    }
 }

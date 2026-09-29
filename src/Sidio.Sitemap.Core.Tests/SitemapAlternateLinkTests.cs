@@ -26,4 +26,15 @@ public sealed class SitemapAlternateLinkTests
         // assert
         act.Should().Throw<ArgumentException>().WithMessage("*hreflang*");
     }
+
+    [Fact]
+    public void Equality_WithSameValues_ShouldBeTrue()
+    {
+        // arrange
+        var link1 = new SitemapAlternateLink("en", "http://example.com/", "test1");
+        var link2 = new SitemapAlternateLink("en", "http://example.com/", "test1");
+
+        // act & assert
+        (link1 == link2).Should().BeTrue();
+    }
 }

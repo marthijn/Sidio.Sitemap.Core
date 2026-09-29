@@ -91,4 +91,30 @@ public sealed class SitemapIndexTests
         sitemapIndex.Nodes.Should().BeEmpty();
         result.Should().Be(0);
     }
+
+    [Fact]
+    public void Equality_WithSameNodesDifferentOrder_ShouldBeTrue()
+    {
+        // arrange
+        var node1 = new SitemapIndexNode("https://example.com/sitemap-1.xml", DateTime.UtcNow);
+        var node2 = new SitemapIndexNode("https://example.com/sitemap-2.xml", DateTime.UtcNow.AddMinutes(1));
+
+        var sitemapIndex1 = new SitemapIndex(new[] { node1, node2 }, "style.xsl");
+        var sitemapIndex2 = new SitemapIndex(new[] { node2, node1 }, "style.xsl");
+
+        // act & assert
+        (sitemapIndex1 == sitemapIndex2).Should().BeTrue();
+    }
+
+    [Fact]
+    public void Equality_WithDifferentStylesheet_ShouldBeFalse()
+    {
+        // arrange
+        var node = new SitemapIndexNode("https://example.com/sitemap-1.xml", DateTime.UtcNow);
+        var sitemapIndex1 = new SitemapIndex(new[] { node }, "style1.xsl");
+        var sitemapIndex2 = new SitemapIndex(new[] { node }, "style2.xsl");
+
+        // act & assert
+        (sitemapIndex1 == sitemapIndex2).Should().BeFalse();
+    }
 }

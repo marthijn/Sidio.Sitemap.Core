@@ -4,7 +4,7 @@
 /// Represents an HTML link element for specifying localized versions of a URL (hreflang)
 /// within a sitemap, conforming to the XHTML namespace.
 /// </summary>
-public sealed record SitemapAlternateLink
+public sealed class SitemapAlternateLink : IEquatable<SitemapAlternateLink>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapAlternateLink"/> class.
@@ -33,31 +33,82 @@ public sealed record SitemapAlternateLink
     }
 
     /// <summary>
-    /// Gets or sets the relationship of the linked document.
+    /// Gets the relationship of the linked document.
     /// For sitemaps, this must always be set to "alternate".
     /// </summary>
     public string Rel { get; }
 
     /// <summary>
-    /// Gets or sets the language and optional region code of the variant.
+    /// Gets the language and optional region code of the variant.
     /// Follows the ISO 639-1 format for languages and ISO 3166-1 Alpha-2 for regions (e.g., "en-us").
     /// Use "x-default" for unmatched languages.
     /// </summary>
     public string HrefLang { get; }
 
     /// <summary>
-    /// Gets or sets the fully qualified absolute URL of the localized version.
+    /// Gets the fully qualified absolute URL of the localized version.
     /// </summary>
     public string Href { get; }
 
+    /// <inheritdoc />
+    public bool Equals(SitemapAlternateLink? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return string.Equals(Rel, other.Rel, StringComparison.Ordinal) &&
+               string.Equals(HrefLang, other.HrefLang, StringComparison.Ordinal) &&
+               string.Equals(Href, other.Href, StringComparison.Ordinal);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => Equals(obj as SitemapAlternateLink);
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = 17;
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Rel);
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(HrefLang);
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Href);
+            return hashCode;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether two <see cref="SitemapAlternateLink"/> instances are equal.
+    /// </summary>
+    public static bool operator ==(SitemapAlternateLink? left, SitemapAlternateLink? right) => Equals(left, right);
+
+    /// <summary>
+    /// Determines whether two <see cref="SitemapAlternateLink"/> instances are not equal.
+    /// </summary>
+    public static bool operator !=(SitemapAlternateLink? left, SitemapAlternateLink? right) => !Equals(left, right);
+
     private static bool IsValidHreflang(string? hreflang)
     {
+#if NETSTANDARD2_0
+        if (hreflang == null)
+        {
+            return false;
+        }
+#endif
+
         if (string.IsNullOrWhiteSpace(hreflang))
         {
             return false;
         }
 
-        if (hreflang!.Equals("x-default", StringComparison.OrdinalIgnoreCase))
+        if (hreflang.Equals("x-default", StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }

@@ -157,4 +157,18 @@ public sealed class SitemapNewsNodeTests
         // assert
         node.Should().BeNull();
     }
+
+    [Fact]
+    public void Equality_WithSameValues_ShouldBeTrue()
+    {
+        // arrange
+        var publicationDate = DateTimeOffset.UtcNow;
+        var publication = new Publication("Example News", "en");
+
+        var node1 = new SitemapNewsNode("http://www.example.com", "Title", publication, publicationDate);
+        var node2 = new SitemapNewsNode("http://www.example.com", "Title", new Publication("Example News", "en"), publicationDate);
+
+        // act & assert
+        (node1 == node2).Should().BeTrue();
+    }
 }

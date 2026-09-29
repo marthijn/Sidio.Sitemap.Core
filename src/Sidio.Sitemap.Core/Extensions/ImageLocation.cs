@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the location of an image in a <see cref="SitemapImageNode"/>.
 /// </summary>
-public sealed record ImageLocation
+public sealed class ImageLocation : IEquatable<ImageLocation>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ImageLocation"/> class.
@@ -23,4 +23,36 @@ public sealed record ImageLocation
     /// Gets the image URL.
     /// </summary>
     public string Url { get; }
+
+    /// <inheritdoc />
+    public bool Equals(ImageLocation? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return string.Equals(Url, other.Url, StringComparison.Ordinal);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => Equals(obj as ImageLocation);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => StringComparer.Ordinal.GetHashCode(Url);
+
+    /// <summary>
+    /// Determines whether two specified <see cref="ImageLocation"/> objects have the same value.
+    /// </summary>
+    public static bool operator ==(ImageLocation? left, ImageLocation? right) => Equals(left, right);
+
+    /// <summary>
+    /// Determines whether two specified <see cref="ImageLocation"/> objects have different values.
+    /// </summary>
+    public static bool operator !=(ImageLocation? left, ImageLocation? right) => !Equals(left, right);
 }

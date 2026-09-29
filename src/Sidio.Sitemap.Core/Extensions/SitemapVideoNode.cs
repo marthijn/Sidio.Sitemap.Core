@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a node in a sitemap with videos.
 /// </summary>
-public sealed class SitemapVideoNode : ISitemapNode
+public sealed class SitemapVideoNode : ISitemapNode, IEquatable<SitemapVideoNode>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SitemapVideoNode"/> class.
@@ -56,7 +56,49 @@ public sealed class SitemapVideoNode : ISitemapNode
     public IReadOnlyCollection<VideoContent> Videos { get; }
 
     /// <inheritdoc />
-    public DateTime? LastModified { get; set; }
+    public DateTime? LastModified { get; init; }
+
+    /// <inheritdoc />
+    public bool Equals(SitemapVideoNode? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return string.Equals(Url, other.Url, StringComparison.Ordinal) &&
+               EqualityHelpers.UnorderedEquals(Videos, other.Videos);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => Equals(obj as SitemapVideoNode);
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = 17;
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Url);
+            hashCode = (hashCode * 31) + EqualityHelpers.GetUnorderedHashCode(Videos);
+            return hashCode;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapVideoNode"/> objects have the same value.
+    /// </summary>
+    public static bool operator ==(SitemapVideoNode? left, SitemapVideoNode? right) => Equals(left, right);
+
+    /// <summary>
+    /// Determines whether two specified <see cref="SitemapVideoNode"/> objects have different values.
+    /// </summary>
+    public static bool operator !=(SitemapVideoNode? left, SitemapVideoNode? right) => !Equals(left, right);
 
     /// <summary>
     /// Creates a new instance of the <see cref="SitemapVideoNode"/> class.

@@ -3,7 +3,7 @@
 /// <summary>
 /// The relationship between the video and the restriction.
 /// </summary>
-public sealed class VideoRestriction
+public sealed class VideoRestriction : IEquatable<VideoRestriction>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoRestriction"/> class.
@@ -31,4 +31,46 @@ public sealed class VideoRestriction
     /// Gets the relationship.
     /// </summary>
     public Relationship Relationship { get; }
+
+    /// <inheritdoc />
+    public bool Equals(VideoRestriction? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return string.Equals(Restriction, other.Restriction, StringComparison.Ordinal) &&
+               Relationship == other.Relationship;
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => Equals(obj as VideoRestriction);
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = 17;
+            hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Restriction);
+            hashCode = (hashCode * 31) + (int)Relationship;
+            return hashCode;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether two specified <see cref="VideoRestriction"/> objects have the same value.
+    /// </summary>
+    public static bool operator ==(VideoRestriction? left, VideoRestriction? right) => Equals(left, right);
+
+    /// <summary>
+    /// Determines whether two specified <see cref="VideoRestriction"/> objects have different values.
+    /// </summary>
+    public static bool operator !=(VideoRestriction? left, VideoRestriction? right) => !Equals(left, right);
 }

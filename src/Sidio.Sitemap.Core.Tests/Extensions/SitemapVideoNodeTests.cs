@@ -144,4 +144,19 @@ public sealed class SitemapVideoNodeTests
         // assert
         node.Should().BeNull();
     }
+
+    [Fact]
+    public void Equality_WithSameVideosDifferentOrder_ShouldBeTrue()
+    {
+        // arrange
+        const string Url = "http://www.example.com";
+        var video1 = new VideoContent("https://example.com/thumb1.jpg", "video1", "description1", "https://example.com/video1.mp4", null);
+        var video2 = new VideoContent("https://example.com/thumb2.jpg", "video2", "description2", "https://example.com/video2.mp4", null);
+
+        var node1 = new SitemapVideoNode(Url, new[] { video1, video2 });
+        var node2 = new SitemapVideoNode(Url, new[] { video2, video1 });
+
+        // act & assert
+        (node1 == node2).Should().BeTrue();
+    }
 }
