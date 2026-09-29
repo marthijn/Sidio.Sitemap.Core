@@ -27,6 +27,7 @@ public sealed partial class XmlSerializer
         {
             var loc = element.Element(ns + "loc")?.Value;
             var lastmod = element.Element(ns + "lastmod")?.Value;
+            DateTime? lastModified = lastmod != null ? DateTime.Parse(lastmod) : null;
             var changefreq = element.Element(ns + "changefreq")?.Value;
             var priority = element.Element(ns + "priority")?.Value;
 
@@ -44,22 +45,35 @@ public sealed partial class XmlSerializer
 
             if (images.Count != 0)
             {
-                sitemap.Add(new SitemapImageNode(loc ?? throw new SitemapXmlDeserializationException("Location cannot be empty.", element), images));
+                sitemap.Add(new SitemapImageNode(loc ?? throw new SitemapXmlDeserializationException("Location cannot be empty.", element), images)
+                {
+                    LastModified = lastModified,
+                });
             }
             else if (news != null)
             {
-                sitemap.Add(ParseNewsNode(news, loc ?? throw new SitemapXmlDeserializationException("Location cannot be empty.", element), newsNs));
+                sitemap.Add(
+                    ParseNewsNode(
+                        news,
+                        loc ?? throw new SitemapXmlDeserializationException("Location cannot be empty.", element),
+                        lastModified,
+                        newsNs));
             }
             else if (videos.Count != 0)
             {
-                sitemap.Add(ParseVideoNode(videos, loc ?? throw new SitemapXmlDeserializationException("Location cannot be empty.", element), videoNs));
+                sitemap.Add(
+                    ParseVideoNode(
+                        videos,
+                        loc ?? throw new SitemapXmlDeserializationException("Location cannot be empty.", element),
+                        lastModified,
+                        videoNs));
             }
             else
             {
                 sitemap.Add(
                     new SitemapNode(
                         loc ?? throw new SitemapXmlDeserializationException("URL is required for sitemap node.", element),
-                        lastmod != null ? DateTime.Parse(lastmod) : null,
+                        lastModified,
                         changefreq != null ? Enum.Parse(typeof(ChangeFrequency), changefreq, true) as ChangeFrequency? : null,
                         priority != null ? decimal.Parse(priority, SitemapCulture) : null));
             }
@@ -106,10 +120,13 @@ public sealed partial class XmlSerializer
         return Task.Run(() => DeserializeIndex(xml), cancellationToken);
     }
 
-    private static SitemapVideoNode ParseVideoNode(IEnumerable<XElement> nodes, string url, XNamespace ns)
+    private static SitemapVideoNode ParseVideoNode(IEnumerable<XElement> nodes, string url, DateTime? lastModified, XNamespace ns)
     {
         var parsedNodes = nodes.Select(x => ParseVideoContent(x, ns));
-        return new SitemapVideoNode(url, parsedNodes);
+        return new SitemapVideoNode(url, parsedNodes)
+        {
+            LastModified = lastModified,
+        };
     }
 
     private static VideoContent ParseVideoContent(XElement node, XNamespace ns)
@@ -180,7 +197,7 @@ public sealed partial class XmlSerializer
         };
     }
 
-    private static SitemapNewsNode ParseNewsNode(XElement node, string url, XNamespace ns)
+    private static SitemapNewsNode ParseNewsNode(XElement node, string url, DateTime? lastModified, XNamespace ns)
     {
         var publicationName = node.Element(ns + "publication")?.Element(ns + "name")?.Value ??
                               throw new SitemapXmlDeserializationException(
@@ -198,7 +215,10 @@ public sealed partial class XmlSerializer
             url,
             title,
             new Publication(publicationName, publicationLanguage),
-            DateTimeOffset.Parse(publicationDate));
+            DateTimeOffset.Parse(publicationDate))
+        {
+            LastModified = lastModified,
+        };
     }
 
     private static bool ParseBool(string value, XElement element)
