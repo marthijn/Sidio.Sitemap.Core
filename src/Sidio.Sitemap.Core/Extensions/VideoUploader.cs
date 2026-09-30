@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core.Extensions;
 
 /// <summary>
 /// The video uploader.
@@ -60,6 +62,7 @@ public sealed class VideoUploader : IEquatable<VideoUploader>
     public override bool Equals(object? obj) => Equals(obj as VideoUploader);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

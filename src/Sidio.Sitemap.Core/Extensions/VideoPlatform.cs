@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core.Extensions;
 
 /// <summary>
 /// The relationship between the video and the platform.
@@ -46,6 +48,7 @@ public sealed class VideoPlatform : IEquatable<VideoPlatform>
     public override bool Equals(object? obj) => Equals(obj as VideoPlatform);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

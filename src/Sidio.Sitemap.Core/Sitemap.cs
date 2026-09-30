@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core;
 
 /// <summary>
 /// This class represents a sitemap.
@@ -121,6 +123,7 @@ public sealed class Sitemap : IEquatable<Sitemap>
     public override bool Equals(object? obj) => Equals(obj as Sitemap);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

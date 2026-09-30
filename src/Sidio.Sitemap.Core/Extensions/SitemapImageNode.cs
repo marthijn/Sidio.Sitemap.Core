@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core.Extensions;
 
 /// <summary>
 /// Represents a node in a sitemap with images.
@@ -92,6 +94,7 @@ public sealed class SitemapImageNode : ISitemapNode, IEquatable<SitemapImageNode
     public override bool Equals(object? obj) => Equals(obj as SitemapImageNode);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

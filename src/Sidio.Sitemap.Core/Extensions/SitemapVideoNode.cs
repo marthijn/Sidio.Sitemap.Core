@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core.Extensions;
 
 /// <summary>
 /// Represents a node in a sitemap with videos.
@@ -76,6 +78,7 @@ public sealed class SitemapVideoNode : ISitemapNode, IEquatable<SitemapVideoNode
     public override bool Equals(object? obj) => Equals(obj as SitemapVideoNode);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

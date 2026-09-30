@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core.Extensions;
 
 /// <summary>
 /// Represents the location of an image in a <see cref="SitemapImageNode"/>.
@@ -44,6 +46,7 @@ public sealed class ImageLocation : IEquatable<ImageLocation>
     public override bool Equals(object? obj) => Equals(obj as ImageLocation);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode() => StringComparer.Ordinal.GetHashCode(Url);
 
     /// <summary>

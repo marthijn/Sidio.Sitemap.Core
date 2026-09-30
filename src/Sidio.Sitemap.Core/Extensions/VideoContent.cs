@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core.Extensions;
 
 /// <summary>
 /// The video content.
@@ -218,6 +220,7 @@ public sealed class VideoContent : IEquatable<VideoContent>
     public override bool Equals(object? obj) => Equals(obj as VideoContent);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core.Extensions;
 
 /// <summary>
 /// The relationship between the video and the restriction.
@@ -53,6 +55,7 @@ public sealed class VideoRestriction : IEquatable<VideoRestriction>
     public override bool Equals(object? obj) => Equals(obj as VideoRestriction);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

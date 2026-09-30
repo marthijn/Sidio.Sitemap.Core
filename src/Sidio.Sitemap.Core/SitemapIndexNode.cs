@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core;
 
 /// <summary>
 /// This class represents a sitemap index node.
@@ -54,6 +56,7 @@ public sealed class SitemapIndexNode : IEquatable<SitemapIndexNode>
     public override bool Equals(object? obj) => Equals(obj as SitemapIndexNode);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

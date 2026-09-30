@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core.Extensions;
 
 /// <summary>
 /// The publication details of a news entry.
@@ -58,6 +60,7 @@ public sealed class Publication : IEquatable<Publication>
     public override bool Equals(object? obj) => Equals(obj as Publication);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

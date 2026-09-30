@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core;
 
 /// <summary>
 /// Represents an HTML link element for specifying localized versions of a URL (hreflang)
@@ -72,6 +74,7 @@ public sealed class SitemapAlternateLink : IEquatable<SitemapAlternateLink>
     public override bool Equals(object? obj) => Equals(obj as SitemapAlternateLink);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked

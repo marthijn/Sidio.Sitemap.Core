@@ -1,4 +1,6 @@
-﻿namespace Sidio.Sitemap.Core;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sidio.Sitemap.Core;
 
 /// <summary>
 /// The sitemap index.
@@ -109,6 +111,7 @@ public sealed class SitemapIndex : IEquatable<SitemapIndex>
     public override bool Equals(object? obj) => Equals(obj as SitemapIndex);
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         unchecked
