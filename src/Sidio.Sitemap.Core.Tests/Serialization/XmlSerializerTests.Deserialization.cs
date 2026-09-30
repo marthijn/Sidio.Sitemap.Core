@@ -140,7 +140,7 @@ public sealed partial class XmlSerializerTests
     {
         // arrange
         const string Xml =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\"><url><loc>https://example.com/sample1.html</loc><image:image><image:loc>https://example.com/image.jpg</image:loc></image:image><image:image><image:loc>https://example.com/photo.jpg</image:loc></image:image></url><url><loc>https://example.com/sample2.html</loc><image:image><image:loc>https://example.com/picture.jpg</image:loc></image:image></url></urlset>";
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\"><url><loc>https://example.com/sample1.html</loc><lastmod>2026-01-01</lastmod><image:image><image:loc>https://example.com/image.jpg</image:loc></image:image><image:image><image:loc>https://example.com/photo.jpg</image:loc></image:image></url><url><loc>https://example.com/sample2.html</loc><image:image><image:loc>https://example.com/picture.jpg</image:loc></image:image></url></urlset>";
         var serializer = new XmlSerializer();
 
         // act
@@ -152,6 +152,7 @@ public sealed partial class XmlSerializerTests
 
         var imageNode = result.Nodes.Single(x => x.Url == "https://example.com/sample1.html") as SitemapImageNode;
         imageNode.Should().NotBeNull();
+        imageNode.LastModified.Should().Be(new DateTime(2026, 1, 1));
         imageNode.Images.Should().HaveCount(2);
     }
 
