@@ -58,6 +58,9 @@ public sealed class SitemapVideoNode : ISitemapNode, IEquatable<SitemapVideoNode
     public IReadOnlyCollection<VideoContent> Videos { get; }
 
     /// <inheritdoc />
+    public DateTime? LastModified { get; init; }
+
+    /// <inheritdoc />
     public bool Equals(SitemapVideoNode? other)
     {
         if (ReferenceEquals(null, other))
@@ -71,7 +74,8 @@ public sealed class SitemapVideoNode : ISitemapNode, IEquatable<SitemapVideoNode
         }
 
         return string.Equals(Url, other.Url, StringComparison.Ordinal) &&
-               EqualityHelpers.UnorderedEquals(Videos, other.Videos);
+               EqualityHelpers.UnorderedEquals(Videos, other.Videos) &&
+               LastModified == other.LastModified;
     }
 
     /// <inheritdoc />
@@ -86,6 +90,7 @@ public sealed class SitemapVideoNode : ISitemapNode, IEquatable<SitemapVideoNode
             var hashCode = 17;
             hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Url);
             hashCode = (hashCode * 31) + EqualityHelpers.GetUnorderedHashCode(Videos);
+            hashCode = (hashCode * 31) + LastModified.GetHashCode();
             return hashCode;
         }
     }

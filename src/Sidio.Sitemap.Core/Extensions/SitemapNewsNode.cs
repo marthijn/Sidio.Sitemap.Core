@@ -66,6 +66,9 @@ public sealed class SitemapNewsNode : ISitemapNode, IEquatable<SitemapNewsNode>
     public DateTimeOffset PublicationDate { get; }
 
     /// <inheritdoc />
+    public DateTime? LastModified { get; init; }
+
+    /// <inheritdoc />
     public bool Equals(SitemapNewsNode? other)
     {
         if (ReferenceEquals(null, other))
@@ -81,7 +84,8 @@ public sealed class SitemapNewsNode : ISitemapNode, IEquatable<SitemapNewsNode>
         return string.Equals(Url, other.Url, StringComparison.Ordinal) &&
                string.Equals(Title, other.Title, StringComparison.Ordinal) &&
                Equals(Publication, other.Publication) &&
-               PublicationDate.Equals(other.PublicationDate);
+               PublicationDate.Equals(other.PublicationDate) &&
+               LastModified == other.LastModified;
     }
 
     /// <inheritdoc />
@@ -98,6 +102,7 @@ public sealed class SitemapNewsNode : ISitemapNode, IEquatable<SitemapNewsNode>
             hashCode = (hashCode * 31) + StringComparer.Ordinal.GetHashCode(Title);
             hashCode = (hashCode * 31) + Publication.GetHashCode();
             hashCode = (hashCode * 31) + PublicationDate.GetHashCode();
+            hashCode = (hashCode * 31) + LastModified.GetHashCode();
             return hashCode;
         }
     }

@@ -54,6 +54,10 @@ public sealed partial class XmlSerializer
         var url = _urlValidator.Validate(node.Url);
         writer.WriteStartElement("url");
         writer.WriteElementStringEscaped("loc", url.ToString());
+        if (node.LastModified.HasValue)
+        {
+            writer.WriteElementStringEscaped("lastmod", node.LastModified.Value.ToString(SitemapDateFormat, SitemapCulture));
+        }
 
         foreach(var imageLocationNode in node.Images)
         {
@@ -71,6 +75,10 @@ public sealed partial class XmlSerializer
         var url = _urlValidator.Validate(node.Url);
         writer.WriteStartElement("url");
         writer.WriteElementStringEscaped("loc", url.ToString());
+        if (node.LastModified.HasValue)
+        {
+            writer.WriteElementStringEscaped("lastmod", node.LastModified.Value.ToString(SitemapDateFormat, SitemapCulture));
+        }
 
         writer.WriteStartElement("news", "news", null);
 
@@ -92,6 +100,10 @@ public sealed partial class XmlSerializer
         var url = _urlValidator.Validate(node.Url);
         writer.WriteStartElement("url");
         writer.WriteElementStringEscaped("loc", url.ToString());
+        if (node.LastModified.HasValue)
+        {
+            writer.WriteElementStringEscaped("lastmod", node.LastModified.Value.ToString(SitemapDateFormat, SitemapCulture));
+        }
 
         foreach (var n in node.Videos)
         {

@@ -14,7 +14,10 @@ public sealed partial class XmlSerializerTests
         var now = DateTime.UtcNow;
         var changeFrequency = _fixture.Create<ChangeFrequency>();
         sitemap.Add(new SitemapNode(Url, now, changeFrequency, 0.32m));
-        sitemap.Add(new SitemapImageNode(Url, new ImageLocation(Url)));
+        sitemap.Add(new SitemapImageNode(Url, new ImageLocation(Url))
+        {
+            LastModified = now,
+        });
         var serializer = new XmlSerializer();
 
         var expectedUrl = EscapeUrl(Url);
@@ -25,7 +28,7 @@ public sealed partial class XmlSerializerTests
         // assert
         result.Should().NotBeNullOrEmpty();
         result.Should().Be(
-            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLowerInvariant()}</changefreq><priority>0.3</priority></url><url><loc>{expectedUrl}</loc><image:image><image:loc>{expectedUrl}</image:loc></image:image></url></urlset>");
+            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLowerInvariant()}</changefreq><priority>0.3</priority></url><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><image:image><image:loc>{expectedUrl}</image:loc></image:image></url></urlset>");
     }
 
     [Fact]
@@ -43,7 +46,10 @@ public sealed partial class XmlSerializerTests
         var publicationDate = _fixture.Create<DateTimeOffset>();
 
         sitemap.Add(new SitemapNode(Url, now, changeFrequency, 0.32m));
-        sitemap.Add(new SitemapNewsNode(Url, title, name, language, publicationDate));
+        sitemap.Add(new SitemapNewsNode(Url, title, name, language, publicationDate)
+        {
+            LastModified = now,
+        });
         var serializer = new XmlSerializer();
 
         var expectedUrl = EscapeUrl(Url);
@@ -54,7 +60,7 @@ public sealed partial class XmlSerializerTests
         // assert
         result.Should().NotBeNullOrEmpty();
         result.Should().Be(
-            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns:news=\"http://www.google.com/schemas/sitemap-news/0.9\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLowerInvariant()}</changefreq><priority>0.3</priority></url><url><loc>{expectedUrl}</loc><news:news><news:publication><news:name>{name}</news:name><news:language>{language}</news:language></news:publication><news:publication_date>{publicationDate:yyyy-MM-ddTHH:mm:ssK}</news:publication_date><news:title>{title}</news:title></news:news></url></urlset>");
+            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns:news=\"http://www.google.com/schemas/sitemap-news/0.9\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>{changeFrequency.ToString().ToLowerInvariant()}</changefreq><priority>0.3</priority></url><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><news:news><news:publication><news:name>{name}</news:name><news:language>{language}</news:language></news:publication><news:publication_date>{publicationDate:yyyy-MM-ddTHH:mm:ssK}</news:publication_date><news:title>{title}</news:title></news:news></url></urlset>");
     }
 
     [Fact]
@@ -97,7 +103,10 @@ public sealed partial class XmlSerializerTests
                         };
 
         sitemap.Add(new SitemapNode(Url, now, changeFrequency, 0.32m));
-        sitemap.Add(new SitemapVideoNode(Url, video));
+        sitemap.Add(new SitemapVideoNode(Url, video)
+        {
+            LastModified = now,
+        });
         var serializer = new XmlSerializer();
 
         var expectedUrl = EscapeUrl(Url);
@@ -108,7 +117,7 @@ public sealed partial class XmlSerializerTests
         // assert
         result.Should().NotBeNullOrEmpty();
         result.Should().Be(
-            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns:video=\"http://www.google.com/schemas/sitemap-video/1.1\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>hourly</changefreq><priority>0.3</priority></url><url><loc>{expectedUrl}</loc><video:video><video:thumbnail_loc>{expectedUrl}</video:thumbnail_loc><video:title>{title}</video:title><video:description>{description}</video:description><video:content_loc>{expectedUrl}</video:content_loc><video:player_loc>{expectedUrl}</video:player_loc><video:duration>{duration}</video:duration><video:expiration_date>{video.ExpirationDate:yyyy-MM-ddTHH:mm:ssK}</video:expiration_date><video:rating>1.1</video:rating><video:view_count>{viewCount}</video:view_count><video:restriction relationship=\"deny\">{videoRestriction.Restriction}</video:restriction><video:publication_date>{video.PublicationDate:yyyy-MM-ddTHH:mm:ssK}</video:publication_date><video:family_friendly>{BoolToSitemap(familyFriendly)}</video:family_friendly><video:platform relationship=\"allow\">web</video:platform><video:requires_subscription>{BoolToSitemap(requiresSubscription)}</video:requires_subscription><video:uploader info=\"{expectedUrl}\">{uploader.Name}</video:uploader><video:live>{BoolToSitemap(live)}</video:live><video:tag>{tags.First()}</video:tag></video:video></url></urlset>");
+            $"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><urlset xmlns:video=\"http://www.google.com/schemas/sitemap-video/1.1\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><changefreq>hourly</changefreq><priority>0.3</priority></url><url><loc>{expectedUrl}</loc><lastmod>{now:yyyy-MM-dd}</lastmod><video:video><video:thumbnail_loc>{expectedUrl}</video:thumbnail_loc><video:title>{title}</video:title><video:description>{description}</video:description><video:content_loc>{expectedUrl}</video:content_loc><video:player_loc>{expectedUrl}</video:player_loc><video:duration>{duration}</video:duration><video:expiration_date>{video.ExpirationDate:yyyy-MM-ddTHH:mm:ssK}</video:expiration_date><video:rating>1.1</video:rating><video:view_count>{viewCount}</video:view_count><video:restriction relationship=\"deny\">{videoRestriction.Restriction}</video:restriction><video:publication_date>{video.PublicationDate:yyyy-MM-ddTHH:mm:ssK}</video:publication_date><video:family_friendly>{BoolToSitemap(familyFriendly)}</video:family_friendly><video:platform relationship=\"allow\">web</video:platform><video:requires_subscription>{BoolToSitemap(requiresSubscription)}</video:requires_subscription><video:uploader info=\"{expectedUrl}\">{uploader.Name}</video:uploader><video:live>{BoolToSitemap(live)}</video:live><video:tag>{tags.First()}</video:tag></video:video></url></urlset>");
     }
 
     private static string BoolToSitemap(bool value) => value ? "yes" : "no";
