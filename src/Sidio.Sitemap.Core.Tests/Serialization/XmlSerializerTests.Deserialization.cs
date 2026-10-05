@@ -223,7 +223,7 @@ public sealed partial class XmlSerializerTests
     {
         // arrange
         const string Xml =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://www.example.com/</loc><lastmod>2005-01-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url><xhtml:link rel=\"alternate\" hreflang=\"fr\" href=\"https://www.example.com/fr\" /></urlset>";
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://www.example.com/</loc><lastmod>2005-01-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel=\"alternate\" hreflang=\"fr\" href=\"https://www.example.com/fr\" /></url></urlset>";
 
         var serializer = new XmlSerializer();
 
@@ -240,7 +240,7 @@ public sealed partial class XmlSerializerTests
         node.LastModified.Should().Be(new DateTime(2005, 1, 1));
         node.ChangeFrequency.Should().Be(ChangeFrequency.Monthly);
         node.Priority.Should().Be(0.8m);
-        node.AlternateLinks.Single().Should().Be("http://www.example.com/fr");
+        node.AlternateLinks.Single().Should().Be(new SitemapAlternateLink("fr", "https://www.example.com/fr"));
 
     }
 }
