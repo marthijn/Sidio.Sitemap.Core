@@ -218,4 +218,30 @@ public sealed partial class XmlSerializerTests
         firstVideoNode.Uploader.Info.Should().Be("https://www.example.com/users/grillymcgrillerson");
         firstVideoNode.Live.Should().BeFalse();
     }
+
+    [Fact]
+    public void Deserialize_GivenValidSitemapWithAlternativeLinksXml_ReturnsSitemapObject()
+    {
+        // arrange
+        const string Xml =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://www.example.com/</loc><lastmod>2005-01-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><xhtml:link rel=\"alternate\" hreflang=\"fr\" href=\"https://www.example.com/fr\" /></url></urlset>";
+
+        var serializer = new XmlSerializer();
+
+        // act
+        var result = serializer.Deserialize(Xml);
+
+        // assert
+        result.Should().NotBeNull();
+        result.Nodes.Should().HaveCount(1);
+
+        var node = result.Nodes[0] as SitemapNode;
+        node.Should().NotBeNull();
+        node.Url.Should().Be("http://www.example.com/");
+        node.LastModified.Should().Be(new DateTime(2005, 1, 1));
+        node.ChangeFrequency.Should().Be(ChangeFrequency.Monthly);
+        node.Priority.Should().Be(0.8m);
+        node.AlternateLinks.Single().Should().Be(new SitemapAlternateLink("fr", "https://www.example.com/fr"));
+
+    }
 }

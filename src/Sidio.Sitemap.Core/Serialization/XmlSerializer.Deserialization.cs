@@ -21,6 +21,7 @@ public sealed partial class XmlSerializer
         XNamespace imageNs = SitemapNamespaceImage;
         XNamespace newsNs = SitemapNamespaceNews;
         XNamespace videoNs = SitemapNamespaceVideo;
+        XNamespace xhtmlNs = SitemapNamespaceXhtml;
 
         var sitemap = new Sitemap(GetStylesheet(doc));
         foreach (var element in doc.Root?.Elements(ns + "url") ?? [])
@@ -30,6 +31,16 @@ public sealed partial class XmlSerializer
             DateTime? lastModified = lastmod != null ? DateTime.Parse(lastmod) : null;
             var changefreq = element.Element(ns + "changefreq")?.Value;
             var priority = element.Element(ns + "priority")?.Value;
+
+            var alternativeLinks = element.Elements(xhtmlNs + "link")
+                .Where(link => link.Attribute("hreflang") != null
+                            && link.Attribute("href") != null
+                            && link.Attribute("rel") != null)
+                .Select(link => new SitemapAlternateLink(
+                    link.Attribute("hreflang")!.Value,
+                    link.Attribute("href")!.Value,
+                    link.Attribute("rel")!.Value))
+                .ToList();
 
             // image extensions
             var images = element.Elements(imageNs + "image").Select(
@@ -75,7 +86,8 @@ public sealed partial class XmlSerializer
                         loc ?? throw new SitemapXmlDeserializationException("URL is required for sitemap node.", element),
                         lastModified,
                         changefreq != null ? Enum.Parse(typeof(ChangeFrequency), changefreq, true) as ChangeFrequency? : null,
-                        priority != null ? decimal.Parse(priority, SitemapCulture) : null));
+                        priority != null ? decimal.Parse(priority, SitemapCulture) : null)
+                    { AlternateLinks = alternativeLinks });
             }
         }
 
